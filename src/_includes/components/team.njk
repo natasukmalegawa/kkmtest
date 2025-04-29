@@ -1,0 +1,20 @@
+<section id="team" class="team-section section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Tim Kami</h2>
+    </div>
+    
+    <div class="team-grid">
+      {% for member in team %}
+      <div class="team-card reveal-element">
+        <div class="team-photo">
+          <img src="{{ member.photo }}" alt="{{ member.name }}">
+        </div>
+        <h3 class="team-name">{{ member.name }}</h3>
+        <p class="team-position">{{ member.position }}</p>
+        <p class="team-bio">{{ member.bio }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
