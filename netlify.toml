@@ -12,4 +12,4 @@
   [headers.values]
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
-    Content-Security-Policy = "default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' https://identity.netlify.com https://unpkg.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' https://api.netlify.com;"
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data: https:; script-src 'self' https://identity.netlify.com https://unpkg.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' https://api.netlify.com;"
