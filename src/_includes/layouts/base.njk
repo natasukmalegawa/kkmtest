@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if title %}{{ title }} | {% endif %}{{ metadata.title }}</title>
+  <meta name="description" content="{% if description %}{{ description }}{% else %}{{ metadata.description }}{% endif %}">
+  
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  
+  <!-- Apple-like Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+</head>
+<body>
+  <div class="site-container">
+    {% include "components/header.njk" %}
+    
+    <main id="main-content">
+      {{ content | safe }}
+    </main>
+    
+    {% include "components/footer.njk" %}
+  </div>
+  
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/animations.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>
