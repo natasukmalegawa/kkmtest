@@ -23,6 +23,7 @@
     "sass": "^1.69.5",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
-    "postcss-cli": "^10.1.0"
+    "postcss-cli": "^10.1.0",
+    "@netlify/plugin-netlify-cms": "^6.5.1"
   }
 }
