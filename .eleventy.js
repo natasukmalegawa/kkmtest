@@ -40,11 +40,17 @@ module.exports = function(eleventyConfig) {
   }).use(markdownItAnchor);
   eleventyConfig.setLibrary("md", markdownLibrary);
 
+  // Tambahkan helper global di sini
+  eleventyConfig.addGlobalData("helpers", {
+    currentYear: () => new Date().getFullYear()
+  });
+
   return {
     dir: {
       input: "src",
       output: "_site"
     },
+    
     templateFormats: ["md", "njk", "html"],
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
