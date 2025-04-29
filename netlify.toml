@@ -2,9 +2,6 @@
   publish = "_site"
   command = "npm run build"
 
-[[plugins]]
-  package = "@netlify/plugin-netlify-cms"
-
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"
