@@ -11,6 +11,8 @@ const nextConfig = {
       },
     ],
   },
+  // This is crucial to prevent Sanity Studio build errors
+  transpilePackages: ['@sanity'],
 }
 
 module.exports = nextConfig
