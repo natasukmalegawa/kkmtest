@@ -2,16 +2,22 @@ import { Card } from '@/components/ui/Card'
 import { Program } from '@/types'
 
 type ProgramsProps = {
+  smallTitle?: string
   title: string
   subtitle: string
   programs: Program[]
 }
 
-export function Programs({ title, subtitle, programs }: ProgramsProps) {
+export function Programs({ smallTitle, title, subtitle, programs }: ProgramsProps) {
   return (
     <section className="py-20 md:py-24 bg-apple-light dark:bg-black">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
+          {smallTitle && (
+            <p className="text-apple-blue dark:text-blue-400 text-sm font-medium mb-2 tracking-wide uppercase">
+              {smallTitle}
+            </p>
+          )}
           <h2 className="text-3xl md:text-4xl font-semibold mb-4">
             {title}
           </h2>
