@@ -24,5 +24,5 @@ Website ini dibuat untuk Departemen Karir dan Karya BEM KM UNY. Website ini meng
 
 1. Clone repository ini:
 ```bash
-git clone https://github.com/username/karir-karya-bem-uny.git
+git clone https://github.com/nathannael71/kkmtest.git
 cd karir-karya-bem-uny
