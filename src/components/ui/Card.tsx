@@ -20,40 +20,40 @@ type CardProps = {
 
 export function Card({ title, description, icon, image, status, variant }: CardProps) {
   return (
-    <div className={`
-      rounded-ios overflow-hidden card-hover
-      ${variant === 'about' 
-        ? 'bg-white dark:bg-apple-dark shadow-ios dark:shadow-ios-dark p-6' 
-        : 'bg-gradient-to-br from-gray-900 to-gray-800 text-white p-0'
-      }
-    `}>
+    <>
       {variant === 'about' && (
-        <>
-          <div className="mb-4">
+        <div className="rounded-[24px] overflow-hidden morphism card-hover bg-white/80 dark:bg-gray-900/50 backdrop-blur-lg shadow-ios dark:shadow-ios-dark p-6 relative h-full flex flex-col justify-between transition-all">
+          {/* Icon circle at top-left */}
+          <div className="absolute top-6 left-6">
             {icon ? (
-              <Image
-                src={urlForImage(icon).url()}
-                alt={title}
-                width={40}
-                height={40}
-                className="object-contain"
-              />
+              <div className="rounded-full bg-blue-100 dark:bg-blue-900/50 p-3 flex items-center justify-center w-12 h-12">
+                <Image
+                  src={urlForImage(icon).url()}
+                  alt={title}
+                  width={24}
+                  height={24}
+                  className="object-contain"
+                />
+              </div>
             ) : (
-              <div className="w-10 h-10 rounded-full bg-apple-blue flex items-center justify-center text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+              <div className="rounded-full bg-blue-100 dark:bg-blue-900/50 p-3 flex items-center justify-center w-12 h-12">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-apple-blue">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
             )}
           </div>
           
-          <h3 className="text-xl font-medium mb-2">{title}</h3>
-          <p className="text-apple-gray dark:text-gray-400">{description}</p>
-        </>
+          {/* Content at the bottom */}
+          <div className="mt-auto">
+            <h3 className="text-xl font-medium mb-2 mt-10">{title}</h3>
+            <p className="text-apple-gray dark:text-gray-400 text-sm">{description}</p>
+          </div>
+        </div>
       )}
       
       {variant === 'program' && (
-        <>
+        <div className="rounded-ios overflow-hidden card-hover bg-gradient-to-br from-gray-900 to-gray-800 text-white p-0">
           <div className="relative h-40">
             {image ? (
               <Image
@@ -79,8 +79,8 @@ export function Card({ title, description, icon, image, status, variant }: CardP
             <h3 className="text-xl font-medium mb-2">{title}</h3>
             <p className="text-gray-300">{description}</p>
           </div>
-        </>
+        </div>
       )}
-    </div>
+    </>
   )
 }
