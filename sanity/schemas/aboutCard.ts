@@ -25,8 +25,16 @@ export default {
       name: 'iconBgColor',
       title: 'Icon Background Color',
       type: 'string',
-      description: 'Color code for icon background (e.g. #f0f9ff for light blue)',
-      initialValue: '#f0f9ff', // default light blue
+      options: {
+        list: [
+          {title: 'Blue', value: 'bg-blue-100'},
+          {title: 'Orange', value: 'bg-orange-100'},
+          {title: 'Green', value: 'bg-green-100'},
+          {title: 'Purple', value: 'bg-purple-100'},
+          {title: 'Yellow', value: 'bg-yellow-100'},
+          {title: 'Pink', value: 'bg-pink-100'},
+        ]
+      }
     },
     {
       name: 'order',
