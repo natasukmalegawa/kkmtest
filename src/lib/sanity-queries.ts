@@ -4,15 +4,19 @@ import { AboutCard, Navigation, Program, TeamMember, FooterColumn } from '@/type
 
 // Site settings
 export async function getSiteSettings() {
-  return client.fetch(groq`*[_type == "siteSettings"][0]{
+  return client.fetch<SiteSettings>(groq`*[_type == "siteSettings"][0]{
     title,
     description,
+    aboutSmallTitle,
     aboutTitle,
     aboutSubtitle,
+    programsSmallTitle,
     programsTitle,
     programsSubtitle,
+    teamSmallTitle,
     teamTitle,
-    teamSubtitle
+    teamSubtitle,
+    copyright
   }`)
 }
 
