@@ -1,15 +1,15 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Card } from '@/components/ui/Card'
-import { AboutCard } from '@/types'
+import { AboutCard } from '@/components/ui/AboutCard'  // Update import
+import { AboutCard as AboutCardType } from '@/types'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 type AboutProps = {
   smallTitle?: string
   title: string
   subtitle: string
-  cards: AboutCard[]
+  cards: AboutCardType[]
 }
 
 export function About({ smallTitle, title, subtitle, cards }: AboutProps) {
@@ -106,11 +106,10 @@ export function About({ smallTitle, title, subtitle, cards }: AboutProps) {
               <>
                 {cards.map((card, index) => (
                   <div key={index} className="flex-shrink-0 w-[200px] snap-start">
-                    <Card 
+                    <AboutCard 
                       title={card.title}
                       description={card.description}
                       icon={card.icon}
-                      variant="about"
                       iconBgColor={getIconBgColor(index)}
                     />
                   </div>
