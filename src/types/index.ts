@@ -67,3 +67,4 @@ title?: string
   teamTitle?: string
   teamSubtitle?: string
   copyright?: string
+}
