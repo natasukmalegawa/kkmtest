@@ -12,13 +12,13 @@ type AboutCardProps = {
   iconBgColor?: string
 }
 
-export function AboutCard({ title, description, icon, iconBgColor = 'bg-blue-100' }: AboutCardProps) {
+export function AboutCard({ title, description, icon, iconBgColor = 'bg-blue-500' }: AboutCardProps) {
   return (
-    <div className="w-full aspect-square rounded-3xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-lg p-6 flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl">
+    <div className="bg-white/70 dark:bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-lg transition-all duration-300 transform hover:-translate-y-2 border border-white/20 h-[220px] w-full">
       {/* Icon */}
       {icon ? (
-        <div className={`rounded-full ${iconBgColor} dark:bg-opacity-30 p-2 w-12 h-12 flex items-center justify-center mb-4`}>
-          <div className="relative w-6 h-6">
+        <div className={`${iconBgColor} rounded-full w-16 h-16 flex items-center justify-center mb-6`}>
+          <div className="relative w-8 h-8">
             <Image
               src={urlForImage(icon).url()}
               alt={title}
@@ -28,17 +28,17 @@ export function AboutCard({ title, description, icon, iconBgColor = 'bg-blue-100
           </div>
         </div>
       ) : (
-        <div className="rounded-full bg-blue-100 dark:bg-blue-900/30 p-2 w-12 h-12 flex items-center justify-center mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 text-blue-500 dark:text-blue-400">
+        <div className="bg-blue-500 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-8 h-8 text-white">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
         </div>
       )}
       
       {/* Content */}
-      <div className="overflow-hidden flex-1 flex flex-col">
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-1 line-clamp-1">{title}</h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed line-clamp-5">{description}</p>
+      <div className="overflow-hidden">
+        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 line-clamp-1">{title}</h3>
+        <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">{description}</p>
       </div>
     </div>
   )
