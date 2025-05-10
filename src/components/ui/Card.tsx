@@ -26,14 +26,11 @@ export function Card({ title, description, icon, image, status, variant }: CardP
           {/* Icon circle at top-left */}
           <div className="absolute top-6 left-6">
             {icon ? (
-              <div className="rounded-full bg-blue-100 dark:bg-blue-900/50 p-3 flex items-center justify-center w-12 h-12">
-                <Image
-                  src={urlForImage(icon).url()}
-                  alt={title}
-                  width={24}
-                  height={24}
-                  className="object-contain"
-                />
+              className="rounded-full p-3 flex items-center justify-center w-12 h-12"
+                style={{ 
+                backgroundColor: iconBgColor || 'rgb(219 234 254)', // Tailwind blue-100
+                }}
+             >
               </div>
             ) : (
               <div className="rounded-full bg-blue-100 dark:bg-blue-900/50 p-3 flex items-center justify-center w-12 h-12">
