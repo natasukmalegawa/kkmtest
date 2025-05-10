@@ -13,6 +13,13 @@ export default {
       title: 'Site Description',
       type: 'text',
     },
+    // About Section
+    {
+      name: 'aboutSmallTitle',
+      title: 'About Section Small Title',
+      type: 'string',
+      description: 'Small title displayed above the main About title',
+    },
     {
       name: 'aboutTitle',
       title: 'About Section Title',
@@ -23,6 +30,13 @@ export default {
       title: 'About Section Subtitle',
       type: 'text',
     },
+    // Programs Section
+    {
+      name: 'programsSmallTitle',
+      title: 'Programs Section Small Title',
+      type: 'string',
+      description: 'Small title displayed above the main Programs title',
+    },
     {
       name: 'programsTitle',
       title: 'Programs Section Title',
@@ -32,6 +46,13 @@ export default {
       name: 'programsSubtitle',
       title: 'Programs Section Subtitle',
       type: 'text',
+    },
+    // Team Section
+    {
+      name: 'teamSmallTitle',
+      title: 'Team Section Small Title',
+      type: 'string',
+      description: 'Small title displayed above the main Team title',
     },
     {
       name: 'teamTitle',
