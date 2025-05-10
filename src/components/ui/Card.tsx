@@ -25,21 +25,29 @@ export function Card({ title, description, icon, image, status, variant }: CardP
         <div className="rounded-[24px] overflow-hidden morphism card-hover bg-white/80 dark:bg-gray-900/50 backdrop-blur-lg shadow-ios dark:shadow-ios-dark p-6 relative h-full flex flex-col justify-between transition-all">
           {/* Icon circle at top-left */}
           <div className="absolute top-6 left-6">
-            {icon ? (
-              className="rounded-full p-3 flex items-center justify-center w-12 h-12"
-                style={{ 
-                backgroundColor: iconBgColor || 'rgb(219 234 254)', // Tailwind blue-100
-                }}
-             >
-              </div>
-            ) : (
-              <div className="rounded-full bg-blue-100 dark:bg-blue-900/50 p-3 flex items-center justify-center w-12 h-12">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-apple-blue">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-            )}
-          </div>
+  {icon ? (
+    <div 
+      className="rounded-full p-3 flex items-center justify-center w-12 h-12"
+      style={{ 
+        backgroundColor: iconBgColor || 'rgb(219 234 254)',
+      }}
+    >
+      <Image
+        src={urlForImage(icon).url()}
+        alt={title}
+        width={24}
+        height={24}
+        className="object-contain"
+      />
+    </div>
+  ) : (
+    <div className="rounded-full bg-blue-100 dark:bg-blue-900/50 p-3 flex items-center justify-center w-12 h-12">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-apple-blue">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    </div>
+  )}
+</div>
           
           {/* Content at the bottom */}
           <div className="mt-auto">
