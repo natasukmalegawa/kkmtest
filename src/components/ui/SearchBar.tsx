@@ -16,20 +16,17 @@ export function SearchBar() {
   }
   
   return (
-    <div className="relative">
+    <div className="relative h-8">
       <div className={`
-        flex items-center overflow-hidden transition-all duration-300 ease-in-out
-        ${isExpanded 
-          ? 'w-36 md:w-48 bg-gray-100 dark:bg-gray-800 rounded-full' 
-          : 'w-6 h-6'
-        }
+        flex items-center overflow-hidden transition-all duration-200 bg-gray-200/80 dark:bg-gray-800/80 rounded-full h-8
+        ${isExpanded ? 'w-32 md:w-40' : 'w-8'}
       `}>
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center justify-center text-gray-600 dark:text-gray-300 w-6 h-6"
+          className="flex items-center justify-center h-8 w-8 text-gray-600 dark:text-gray-400"
           aria-label="Search"
         >
-          <FaSearch className="h-4 w-4" />
+          <FaSearch className="h-3.5 w-3.5" />
         </button>
         
         {isExpanded && (
@@ -39,7 +36,7 @@ export function SearchBar() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cari konten..."
-              className="w-full h-8 pl-1 pr-3 text-sm bg-transparent border-0 focus:outline-none focus:ring-0"
+              className="w-full h-full text-xs bg-transparent border-0 focus:outline-none focus:ring-0 pl-0 pr-2"
               autoFocus
             />
           </form>
