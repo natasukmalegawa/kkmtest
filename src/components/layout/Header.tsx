@@ -74,27 +74,27 @@ export function Header() {
           </nav>
           
           {/* Right section with search, theme, language, and mobile menu */}
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3">
             <SearchBar />
             
             {/* Language toggle */}
-            <div className="hidden md:flex bg-gray-100 dark:bg-gray-800 rounded-full p-0.5">
+            <div className="hidden md:flex bg-gray-200/80 dark:bg-gray-800/80 rounded-full p-0.5 h-8">
               <button 
                 onClick={() => setActiveLang('ID')} 
-                className={`px-2 py-1 text-xs font-medium rounded-full transition-ios ${
+                className={`px-2 flex items-center justify-center text-xs font-medium rounded-full transition-all duration-200 ${
                   activeLang === 'ID' 
-                    ? 'bg-white dark:bg-gray-700 shadow-sm' 
-                    : 'text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white'
+                    ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-white' 
+                    : 'text-gray-600 dark:text-gray-400'
                 }`}
               >
                 ID
               </button>
               <button 
                 onClick={() => setActiveLang('EN')} 
-                className={`px-2 py-1 text-xs font-medium rounded-full transition-ios ${
+                className={`px-2 flex items-center justify-center text-xs font-medium rounded-full transition-all duration-200 ${
                   activeLang === 'EN' 
-                    ? 'bg-white dark:bg-gray-700 shadow-sm' 
-                    : 'text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white'
+                    ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-white' 
+                    : 'text-gray-600 dark:text-gray-400'
                 }`}
               >
                 EN
@@ -103,26 +103,26 @@ export function Header() {
             
             <ThemeToggle />
             
-            {/* Mobile menu button with smooth animation - tanpa background */}
+            {/* Mobile menu button tanpa background */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden flex items-center justify-center text-gray-600 dark:text-gray-300 w-6 h-6"
+              className="md:hidden flex items-center justify-center text-gray-600 dark:text-gray-400 h-8 w-8"
               aria-label="Toggle menu"
             >
               <div className="relative w-5 h-5">
                 <span 
-                  className={`absolute h-[2px] w-5 bg-current transform transition-transform duration-300 ease-in-out ${
-                    isOpen ? 'rotate-45 translate-y-2' : 'rotate-0'
+                  className={`absolute h-[1.5px] w-5 bg-current transform transition-transform duration-300 ease-in-out ${
+                    isOpen ? 'rotate-45 translate-y-[7px]' : 'rotate-0'
                   }`}
                 ></span>
                 <span 
-                  className={`absolute h-[2px] w-5 bg-current top-2 transition-opacity duration-300 ease-in-out ${
+                  className={`absolute h-[1.5px] w-5 bg-current top-[7px] transition-opacity duration-300 ease-in-out ${
                     isOpen ? 'opacity-0' : 'opacity-100'
                   }`}
                 ></span>
                 <span 
-                  className={`absolute h-[2px] w-5 bg-current top-4 transform transition-transform duration-300 ease-in-out ${
-                    isOpen ? '-rotate-45 -translate-y-2' : 'rotate-0'
+                  className={`absolute h-[1.5px] w-5 bg-current top-[14px] transform transition-transform duration-300 ease-in-out ${
+                    isOpen ? '-rotate-45 -translate-y-[7px]' : 'rotate-0'
                   }`}
                 ></span>
               </div>
@@ -163,25 +163,25 @@ export function Header() {
               )}
             </div>
             
-            {/* Mobile language and theme toggles */}
-            <div className="flex space-x-3 justify-center">
-              <div className="flex bg-gray-100 dark:bg-gray-800 rounded-full p-0.5">
+            {/* Mobile toggles */}
+            <div className="flex flex-wrap gap-3 justify-center">
+              <div className="flex bg-gray-200/80 dark:bg-gray-800/80 rounded-full p-0.5 h-8">
                 <button 
                   onClick={() => setActiveLang('ID')} 
-                  className={`px-3 py-1.5 text-sm font-medium rounded-full transition-ios ${
+                  className={`px-2 flex items-center justify-center text-xs font-medium rounded-full transition-all duration-200 ${
                     activeLang === 'ID' 
-                      ? 'bg-white dark:bg-gray-700 shadow-sm' 
-                      : 'text-gray-600 dark:text-gray-300'
+                      ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-white' 
+                      : 'text-gray-600 dark:text-gray-400'
                   }`}
                 >
                   ID
                 </button>
                 <button 
                   onClick={() => setActiveLang('EN')} 
-                  className={`px-3 py-1.5 text-sm font-medium rounded-full transition-ios ${
+                  className={`px-2 flex items-center justify-center text-xs font-medium rounded-full transition-all duration-200 ${
                     activeLang === 'EN' 
-                      ? 'bg-white dark:bg-gray-700 shadow-sm' 
-                      : 'text-gray-600 dark:text-gray-300'
+                      ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-white' 
+                      : 'text-gray-600 dark:text-gray-400'
                   }`}
                 >
                   EN
