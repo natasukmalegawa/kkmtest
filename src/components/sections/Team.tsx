@@ -15,15 +15,11 @@ type TeamProps = {
 
 export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
   const [activeCard, setActiveCard] = useState<string | null>(null)
-  
+
   const toggleCardInfo = (id: string) => {
-    if (activeCard === id) {
-      setActiveCard(null)
-    } else {
-      setActiveCard(id)
-    }
+    setActiveCard(activeCard === id ? null : id)
   }
-  
+
   return (
     <section className="py-20 md:py-24 bg-white dark:bg-apple-darker">
       <div className="container mx-auto px-4 md:px-6">
@@ -40,8 +36,7 @@ export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
             {subtitle}
           </p>
         </div>
-        
-        {/* Rest of the Team component code remains the same */}
+
         {members.length === 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {[1, 2, 3, 4].map((i) => (
@@ -49,83 +44,73 @@ export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {members.map((member) => (
-              <div 
-                key={member._id}
-                className="rounded-ios overflow-hidden morphism card-hover shadow-ios dark:shadow-ios-dark"
-              >
-                <div className="relative h-64 bg-gradient-to-b from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900">
-                  {member.image && (
-                    <Image
-                      src={urlForImage(member.image).url()}
-                      alt={member.name}
-                      fill
-                      className="object-cover"
-                    />
-                  )}
-                  
-                  {/* Rest of the member card code remains the same */}
-                  <div className="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/50 to-transparent text-white">
-                    {activeCard === member._id ? (
-                      <div className="flex flex-col items-center justify-center space-y-4 h-full">
-                        <div className="flex space-x-4">
-                          {member.instagram && (
-                            <a 
-                              href={member.instagram}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="bg-white text-pink-500 rounded-full p-3 hover:bg-pink-500 hover:text-white transition-ios"
-                            >
-                              <FaInstagram size={20} />
-                            </a>
-                          )}
-                          
-                          {member.email && (
-                            <a 
-                              href={`mailto:${member.email}`}
-                              className="bg-white text-blue-500 rounded-full p-3 hover:bg-blue-500 hover:text-white transition-ios"
-                            >
-                              <FaEnvelope size={20} />
-                            </a>
-                          )}
-                          
-                          {member.linkedin && (
-                            <a 
-                              href={member.linkedin}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="bg-white text-blue-700 rounded-full p-3 hover:bg-blue-700 hover:text-white transition-ios"
-                            >
-                              <FaLinkedin size={20} />
-                            </a>
-                          )}
-                        </div>
-                        
-                        <button
-                          onClick={() => toggleCardInfo(member._id)}
-                          className="text-sm bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full px-4 py-2 transition-ios"
-                        >
-                          Back
-                        </button>
-                      </div>
-                    ) : (
-                      <>
-                        <h3 className="font-medium text-lg">{member.name}</h3>
-                        <p className="text-white/80 text-sm">{member.position}</p>
-                        
-                        <button
-                          onClick={() => toggleCardInfo(member._id)}
-                          className="mt-3 text-sm bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full px-4 py-2 transition-ios inline-block"
-                        >
-                          More Info
-                        </button>
-                      </>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-6xl mx-auto relative">
+            {members.map((member) => {
+              const isActive = activeCard === member._id
+              return (
+                <div
+                  key={member._id}
+                  className={`team-card relative overflow-hidden rounded-2xl shadow-lg transition-all border border-white/20 bg-white/70 dark:bg-white/10 backdrop-blur-lg ${isActive ? 'active' : ''}`}
+                >
+                  <div className="relative overflow-hidden">
+                    {member.image && (
+                      <Image
+                        src={urlForImage(member.image).url()}
+                        alt={member.name}
+                        width={500}
+                        height={500}
+                        className="w-full aspect-square object-cover img-zoom"
+                      />
                     )}
                   </div>
+                  <div className="p-6">
+                    <h3 className="text-lg font-bold heading-apple mb-1 text-apple-darkgray dark:text-white">{member.name}</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">{member.position}</p>
+                    <button
+                      onClick={() => toggleCardInfo(member._id)}
+                      className="team-btn w-full py-2 bg-apple-blue text-white rounded-full btn-apple transition-all"
+                    >
+                      {isActive ? 'Hide' : 'Get in Touch'}
+                    </button>
+
+                    <div
+                      className={`team-social-buttons ${
+                        isActive ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-5 pointer-events-none'
+                      }`}
+                    >
+                      {member.instagram && (
+                        <a
+                          href={member.instagram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-10 h-10 bg-apple-blue rounded-full flex items-center justify-center"
+                        >
+                          <FaInstagram className="text-white" />
+                        </a>
+                      )}
+                      {member.email && (
+                        <a
+                          href={`mailto:${member.email}`}
+                          className="w-10 h-10 bg-apple-blue rounded-full flex items-center justify-center"
+                        >
+                          <FaEnvelope className="text-white" />
+                        </a>
+                      )}
+                      {member.linkedin && (
+                        <a
+                          href={member.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-10 h-10 bg-apple-blue rounded-full flex items-center justify-center"
+                        >
+                          <FaLinkedin className="text-white" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </div>
