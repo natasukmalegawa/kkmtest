@@ -33,3 +33,34 @@ export const previewClient = createClient({
 })
 
 export const getClient = (preview = false) => (preview ? previewClient : client)
+
+// Tambahkan ke file yang sudah ada
+export const previewClient = createClient({
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: false,
+  perspective: 'previewDrafts',
+  token: process.env.SANITY_API_TOKEN,
+  // Optimasi Stega
+  stega: {
+    enabled: process.env.NODE_ENV === 'development',
+    studioUrl: '/studio'
+  }
+})
+
+// Helper function untuk client dengan spesifik tag
+export function getTaggedClient(tag?: string) {
+  return {
+    fetch: <T>(query: string, params = {}) => {
+      return unstable_cache(
+        async () => client.fetch<T>(query, params),
+        [`sanity-query-${tag || 'global'}`],
+        {
+          tags: [tag || 'global'],
+          revalidate: 60 // 1 menit default revalidasi
+        }
+      )()
+    }
+  }
+}
