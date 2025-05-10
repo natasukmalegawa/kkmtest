@@ -23,18 +23,21 @@ export default async function Home() {
       />
       
       <About 
+        smallTitle={siteSettings?.aboutSmallTitle || "About Us"}
         title={siteSettings?.aboutTitle || "We're here to help you take control"} 
         subtitle={siteSettings?.aboutSubtitle || "and turn your dreams into reality"} 
         cards={aboutCards || []}
       />
       
       <Programs 
+        smallTitle={siteSettings?.programsSmallTitle || "Our Features"}
         title={siteSettings?.programsTitle || "Made for You:"} 
         subtitle={siteSettings?.programsSubtitle || "Easy, Fast, and Smart Solutions"} 
         programs={programs || []}
       />
       
       <Team 
+        smallTitle={siteSettings?.teamSmallTitle || "Our People"}
         title={siteSettings?.teamTitle || "Our Team"} 
         subtitle={siteSettings?.teamSubtitle || "Meet the people behind our success"} 
         members={teamMembers || []}
