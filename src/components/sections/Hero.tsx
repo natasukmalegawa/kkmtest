@@ -98,7 +98,7 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides }: Hero
         {heroSlides.map((slide, index) => (
           <div 
             key={index}
-            className={`w-full max-w-3xl transition-all duration-500 absolute ${
+            className={`w-full max-w-3xl px-4 sm:px-6 transition-all duration-500 absolute ${
               index === activeSlide 
                 ? 'opacity-100 transform translate-y-0' 
                 : 'opacity-0 transform translate-y-8 pointer-events-none'
