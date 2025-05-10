@@ -30,7 +30,13 @@ export async function getHero() {
     title,
     subtitle,
     ctaText,
-    backgroundImage
+    backgroundImage,
+    slides[]{
+      title,
+      subtitle,
+      ctaText,
+      backgroundImage
+    }
   }`)
 }
 
