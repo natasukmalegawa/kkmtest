@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/Card'
+import { ProgramCard } from '@/components/ui/ProgramCard'  // Update import
 import { Program } from '@/types'
 
 type ProgramsProps = {
@@ -35,13 +35,12 @@ export function Programs({ smallTitle, title, subtitle, programs }: ProgramsProp
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {programs.map((program, index) => (
-              <Card 
+              <ProgramCard 
                 key={index}
                 title={program.title}
                 description={program.description}
                 image={program.image}
                 status={program.status}
-                variant="program"
               />
             ))}
           </div>
