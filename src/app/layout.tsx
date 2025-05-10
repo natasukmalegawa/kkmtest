@@ -5,8 +5,8 @@ import { Footer } from '@/components/layout/Footer'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 
 export const metadata: Metadata = {
-  title: 'Apple-Inspired Website',
-  description: 'A modern, minimalist website with Apple-inspired design',
+  title: 'Departemen Karir dan Karya Mahasiswa',
+  description: 'Website resmi Departemen Karir dan Karya Mahasiswa BEM KM UNY',
 }
 
 export default function RootLayout({
