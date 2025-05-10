@@ -3,5 +3,9 @@ export default function StudioLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <>{children}</>
+  return (
+    <div className="h-screen w-full">
+      {children}
+    </div>
+  )
 }
