@@ -53,3 +53,17 @@ export type FooterColumn = {
   title: string
   links: FooterLink[]
 }
+
+export type SiteSettings = {
+title?: string
+  description?: string
+  aboutSmallTitle?: string
+  aboutTitle?: string
+  aboutSubtitle?: string
+  programsSmallTitle?: string
+  programsTitle?: string
+  programsSubtitle?: string
+  teamSmallTitle?: string
+  teamTitle?: string
+  teamSubtitle?: string
+  copyright?: string
