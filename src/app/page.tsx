@@ -19,6 +19,7 @@ export default async function Home() {
         subtitle={hero?.subtitle || "Designed to help you achieve more through clean design and innovative technology."} 
         ctaText={hero?.ctaText || "Learn More"}
         backgroundImage={hero?.backgroundImage}
+        slides={hero?.slides}
       />
       
       <About 
