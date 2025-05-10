@@ -140,7 +140,7 @@ export function About({ smallTitle, title, subtitle, cards }: AboutProps) {
                     key={index} 
                     className="flex-shrink-0 snap-center"
                     style={{ width: `${cardWidth}px` }}
-                    ref={el => slideRefs.current[index] = el}
+                    ref={(el) => { slideRefs.current[index] = el }}
                   >
                     <AboutCard 
                       title={card.title}
