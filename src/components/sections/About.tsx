@@ -12,7 +12,7 @@ export function About({ smallTitle, title, subtitle, cards }: AboutProps) {
   return (
     <section id="about-section" className="py-20 md:py-24 bg-white dark:bg-apple-darker">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 px-4 sm:px-6">
           {smallTitle && (
             <p className="text-apple-blue dark:text-blue-400 text-sm font-medium mb-2 tracking-wide uppercase">
               {smallTitle}
