@@ -33,20 +33,3 @@ export const previewClient = createClient({
 })
 
 export const getClient = (preview = false) => (preview ? previewClient : client)
-
-
-// Helper function untuk client dengan spesifik tag
-export function getTaggedClient(tag?: string) {
-  return {
-    fetch: <T>(query: string, params = {}) => {
-      return unstable_cache(
-        async () => client.fetch<T>(query, params),
-        [`sanity-query-${tag || 'global'}`],
-        {
-          tags: [tag || 'global'],
-          revalidate: 60 // 1 menit default revalidasi
-        }
-      )()
-    }
-  }
-}
