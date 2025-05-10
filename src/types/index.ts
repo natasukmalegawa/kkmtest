@@ -15,6 +15,19 @@ export type AboutCard = {
   }
 }
 
+// Dalam src/types/index.ts
+export type AboutCard = {
+  title: string
+  description: string
+  icon?: {
+    asset: {
+      _ref: string
+    }
+  }
+  iconBgColor?: string
+  order?: number
+}
+
 // Program
 export type Program = {
   _id: string
