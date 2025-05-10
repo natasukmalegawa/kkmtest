@@ -4,16 +4,6 @@ export type Navigation = {
   url: string
 }
 
-// About Card
-export type AboutCard = {
-  title: string
-  description: string
-  icon?: {
-    asset: {
-      _ref: string
-    }
-  }
-}
 
 // Dalam src/types/index.ts
 export type AboutCard = {
