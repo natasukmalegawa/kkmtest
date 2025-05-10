@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { AboutCard } from '@/components/ui/AboutCard'  // Update import
+import { AboutCard } from '@/components/ui/AboutCard'
 import { AboutCard as AboutCardType } from '@/types'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 type AboutProps = {
   smallTitle?: string
@@ -13,9 +12,9 @@ type AboutProps = {
 }
 
 export function About({ smallTitle, title, subtitle, cards }: AboutProps) {
-  const carouselRef = useRef<HTMLDivElement>(null)
-  const [showLeftArrow, setShowLeftArrow] = useState(false)
-  const [showRightArrow, setShowRightArrow] = useState(true)
+  const [activeSlide, setActiveSlide] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   
   // Function to determine background color based on index
   const getIconBgColor = (index: number) => {
@@ -23,43 +22,80 @@ export function About({ smallTitle, title, subtitle, cards }: AboutProps) {
     return colors[index % colors.length]
   }
   
-  // Check if arrows should be shown
-  const checkScrollPosition = () => {
-    if (!carouselRef.current) return
-    
-    const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current
-    setShowLeftArrow(scrollLeft > 0)
-    setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10)
-  }
+  // Navigate to slide
+  const goToSlide = (index: number) => {
+    if (carouselRef.current && slideRefs.current[index]) {
+      setActiveSlide(index);
+      
+      const scrollPosition = slideRefs.current[index]?.offsetLeft || 0;
+      carouselRef.current.scrollTo({
+        left: scrollPosition - 16, // Adjust for padding
+        behavior: 'smooth'
+      });
+    }
+  };
   
-  // Scroll carousel
-  const scroll = (direction: 'left' | 'right') => {
-    if (!carouselRef.current) return
+  // Handle scroll events to update active slide
+  const handleScroll = () => {
+    if (!carouselRef.current) return;
     
-    const scrollAmount = 300
-    const newScrollLeft = 
-      direction === 'left' 
-        ? carouselRef.current.scrollLeft - scrollAmount
-        : carouselRef.current.scrollLeft + scrollAmount
+    const scrollPosition = carouselRef.current.scrollLeft;
+    const viewportWidth = carouselRef.current.clientWidth;
+    const centerPosition = scrollPosition + (viewportWidth / 2);
     
-    carouselRef.current.scrollTo({
-      left: newScrollLeft,
-      behavior: 'smooth'
-    })
-  }
+    // Find which slide is closest to the center
+    let closestSlideIndex = 0;
+    let closestDistance = Number.MAX_VALUE;
+    
+    slideRefs.current.forEach((slideRef, index) => {
+      if (!slideRef) return;
+      
+      const slideCenter = slideRef.offsetLeft + (slideRef.clientWidth / 2);
+      const distance = Math.abs(centerPosition - slideCenter);
+      
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestSlideIndex = index;
+      }
+    });
+    
+    if (activeSlide !== closestSlideIndex) {
+      setActiveSlide(closestSlideIndex);
+    }
+  };
   
   // Add scroll event listener
   useEffect(() => {
-    const carousel = carouselRef.current
+    const carousel = carouselRef.current;
     if (carousel) {
-      carousel.addEventListener('scroll', checkScrollPosition)
-      checkScrollPosition()
-      
+      carousel.addEventListener('scroll', handleScroll);
       return () => {
-        carousel.removeEventListener('scroll', checkScrollPosition)
-      }
+        carousel.removeEventListener('scroll', handleScroll);
+      };
     }
-  }, [])
+  }, []);
+  
+  // Responsive card width
+  const getCardWidth = () => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 640 ? window.innerWidth - 64 : 220;
+    }
+    return 220;
+  };
+  
+  const [cardWidth, setCardWidth] = useState(220);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setCardWidth(getCardWidth());
+    };
+    
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   
   return (
     <section id="about-section" className="py-20 md:py-24 bg-gray-50 dark:bg-apple-darker">
@@ -79,33 +115,33 @@ export function About({ smallTitle, title, subtitle, cards }: AboutProps) {
         </div>
         
         <div className="relative max-w-6xl mx-auto">
-          {/* Left scroll button */}
-          {showLeftArrow && (
-            <button 
-              onClick={() => scroll('left')}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10 bg-white dark:bg-gray-800 rounded-full shadow-md p-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-              aria-label="Scroll left"
-            >
-              <FaChevronLeft className="text-gray-600 dark:text-gray-300" />
-            </button>
-          )}
-          
           {/* Carousel container */}
           <div 
             ref={carouselRef}
-            className="flex overflow-x-auto scrollbar-hide gap-5 pb-5 snap-x scroll-pl-4"
+            className="flex overflow-x-auto scrollbar-hide gap-5 pb-8 snap-x"
             style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}
           >
             {cards.length === 0 ? (
               <>
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="flex-shrink-0 w-[200px] h-[200px] bg-gray-100 dark:bg-gray-800 rounded-[20px] animate-pulse snap-start"></div>
+                  <div 
+                    key={i} 
+                    className="flex-shrink-0 animate-pulse snap-center"
+                    style={{ width: `${cardWidth}px` }}
+                  >
+                    <div className="bg-gray-100 dark:bg-gray-800 rounded-[20px] h-[220px]"></div>
+                  </div>
                 ))}
               </>
             ) : (
               <>
                 {cards.map((card, index) => (
-                  <div key={index} className="flex-shrink-0 w-[200px] snap-start">
+                  <div 
+                    key={index} 
+                    className="flex-shrink-0 snap-center"
+                    style={{ width: `${cardWidth}px` }}
+                    ref={el => slideRefs.current[index] = el}
+                  >
                     <AboutCard 
                       title={card.title}
                       description={card.description}
@@ -118,15 +154,22 @@ export function About({ smallTitle, title, subtitle, cards }: AboutProps) {
             )}
           </div>
           
-          {/* Right scroll button */}
-          {showRightArrow && (
-            <button 
-              onClick={() => scroll('right')}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10 bg-white dark:bg-gray-800 rounded-full shadow-md p-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-              aria-label="Scroll right"
-            >
-              <FaChevronRight className="text-gray-600 dark:text-gray-300" />
-            </button>
+          {/* Dot indicators */}
+          {cards.length > 1 && (
+            <div className="flex justify-center space-x-2 mt-4">
+              {cards.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === activeSlide 
+                      ? 'bg-apple-blue w-6' 
+                      : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
           )}
         </div>
         
@@ -138,6 +181,18 @@ export function About({ smallTitle, title, subtitle, cards }: AboutProps) {
           .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
+          }
+          .line-clamp-1 {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
+          }
+          .line-clamp-6 {
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
           }
         `}</style>
       </div>
