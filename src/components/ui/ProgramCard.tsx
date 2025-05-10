@@ -14,31 +14,29 @@ type ProgramCardProps = {
 
 export function ProgramCard({ title, description, image, status }: ProgramCardProps) {
   return (
-    <div className="rounded-ios overflow-hidden card-hover bg-gradient-to-br from-gray-900 to-gray-800 text-white p-0">
-      <div className="relative h-40">
+    <div className="bg-white/70 dark:bg-white/10 backdrop-blur-lg program-card overflow-hidden shadow-lg transition-all duration-300 border border-white/20 rounded-2xl">
+      <div className="relative h-48 overflow-hidden">
         {image ? (
           <Image
             src={urlForImage(image).url()}
             alt={title}
             fill
-            className="object-cover"
+            className="object-cover img-zoom"
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600"></div>
         )}
-        
-        {status && (
-          <div className="absolute top-3 right-3">
-            <span className="inline-block bg-black/60 backdrop-blur-sm text-white text-xs rounded-full px-3 py-1">
-              {status}
-            </span>
-          </div>
-        )}
       </div>
       
       <div className="p-5">
-        <h3 className="text-xl font-medium mb-2">{title}</h3>
-        <p className="text-gray-300">{description}</p>
+        <h3 className="text-lg font-bold heading-apple mb-2 text-apple-darkgray dark:text-white">{title}</h3>
+        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">{description}</p>
+
+        {status && (
+          <span className="bg-purple-100 dark:bg-purple-400/20 text-purple-600 dark:text-purple-200 px-3 py-1 rounded-full text-xs font-medium border border-purple-200 dark:border-purple-400/40">
+            {status}
+          </span>
+        )}
       </div>
     </div>
   )
