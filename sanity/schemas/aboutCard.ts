@@ -22,6 +22,13 @@ export default {
       },
     },
     {
+      name: 'iconBgColor',
+      title: 'Icon Background Color',
+      type: 'string',
+      description: 'Color code for icon background (e.g. #f0f9ff for light blue)',
+      initialValue: '#f0f9ff', // default light blue
+    },
+    {
       name: 'order',
       title: 'Order',
       type: 'number',
