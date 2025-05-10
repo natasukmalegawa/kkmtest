@@ -7,12 +7,13 @@ import { urlForImage } from '@/lib/sanity-image'
 import { TeamMember } from '@/types'
 
 type TeamProps = {
+  smallTitle?: string
   title: string
   subtitle: string
   members: TeamMember[]
 }
 
-export function Team({ title, subtitle, members }: TeamProps) {
+export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
   const [activeCard, setActiveCard] = useState<string | null>(null)
   
   const toggleCardInfo = (id: string) => {
@@ -27,6 +28,11 @@ export function Team({ title, subtitle, members }: TeamProps) {
     <section className="py-20 md:py-24 bg-white dark:bg-apple-darker">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
+          {smallTitle && (
+            <p className="text-apple-blue dark:text-blue-400 text-sm font-medium mb-2 tracking-wide uppercase">
+              {smallTitle}
+            </p>
+          )}
           <h2 className="text-3xl md:text-4xl font-semibold mb-4">
             {title}
           </h2>
@@ -35,6 +41,7 @@ export function Team({ title, subtitle, members }: TeamProps) {
           </p>
         </div>
         
+        {/* Rest of the Team component code remains the same */}
         {members.length === 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {[1, 2, 3, 4].map((i) => (
@@ -58,6 +65,7 @@ export function Team({ title, subtitle, members }: TeamProps) {
                     />
                   )}
                   
+                  {/* Rest of the member card code remains the same */}
                   <div className="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/50 to-transparent text-white">
                     {activeCard === member._id ? (
                       <div className="flex flex-col items-center justify-center space-y-4 h-full">
