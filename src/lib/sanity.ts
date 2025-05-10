@@ -4,6 +4,9 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 const apiVersion = '2023-08-05'
 
+console.log('Project ID:', projectId)
+console.log('Dataset:', dataset)
+
 if (!projectId) {
   console.warn('Sanity project ID is missing. Check your environment variables.')
 }
