@@ -5,7 +5,7 @@ import { schemaTypes } from './sanity/schemas'
 
 export default defineConfig({
   name: 'default',
-  title: 'Apple-Inspired Website',
+  title: 'KKMTEST',
   
   // Penting: URL path ke Sanity Studio
   basePath: '/studio',
