@@ -106,7 +106,7 @@ export function Header() {
             {/* Mobile menu button with smooth animation */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="flex md:hidden items-center justify-center w-9 h-9 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-ios"
+              className="flex md:hidden items-center justify-center w-6 h-6 transition-ios"
               aria-label="Toggle menu"
             >
               <div className="relative w-5 h-5">
