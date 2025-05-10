@@ -43,11 +43,4 @@ export function SearchBar() {
       )}
     </div>
   </div>
-)
-            />
-          </form>
-        )}
-      </div>
-    </div>
   )
-}
