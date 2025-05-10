@@ -74,7 +74,7 @@ export function Header() {
           </nav>
           
           {/* Right section with search, theme, language, and mobile menu */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center gap-5">
             <SearchBar />
             
             {/* Language toggle */}
@@ -103,25 +103,25 @@ export function Header() {
             
             <ThemeToggle />
             
-            {/* Mobile menu button with smooth animation */}
+            {/* Mobile menu button with smooth animation - tanpa background */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="flex md:hidden items-center justify-center w-5 h-5 transition-ios"
+              className="md:hidden flex items-center justify-center text-gray-600 dark:text-gray-300 w-6 h-6"
               aria-label="Toggle menu"
             >
               <div className="relative w-5 h-5">
                 <span 
-                  className={`absolute h-0.5 w-5 bg-current transform transition-transform duration-300 ease-in-out ${
+                  className={`absolute h-[2px] w-5 bg-current transform transition-transform duration-300 ease-in-out ${
                     isOpen ? 'rotate-45 translate-y-2' : 'rotate-0'
                   }`}
                 ></span>
                 <span 
-                  className={`absolute h-0.5 w-5 bg-current top-2 transition-opacity duration-300 ease-in-out ${
+                  className={`absolute h-[2px] w-5 bg-current top-2 transition-opacity duration-300 ease-in-out ${
                     isOpen ? 'opacity-0' : 'opacity-100'
                   }`}
                 ></span>
                 <span 
-                  className={`absolute h-0.5 w-5 bg-current top-4 transform transition-transform duration-300 ease-in-out ${
+                  className={`absolute h-[2px] w-5 bg-current top-4 transform transition-transform duration-300 ease-in-out ${
                     isOpen ? '-rotate-45 -translate-y-2' : 'rotate-0'
                   }`}
                 ></span>
