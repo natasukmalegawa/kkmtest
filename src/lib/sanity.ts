@@ -8,21 +8,28 @@ if (!projectId) {
   console.warn('Sanity project ID is missing. Check your environment variables.')
 }
 
+// Opsi tambahan untuk meningkatkan performa dan menghindari error
 export const client = createClient({
-  projectId: projectId || 'placeholder-project-id',
+  projectId,
   dataset,
   apiVersion,
   useCdn: process.env.NODE_ENV === 'production',
   perspective: 'published',
+  stega: {
+    enabled: false, // Disable stega for better performance
+  },
 })
 
 export const previewClient = createClient({
-  projectId: projectId || 'placeholder-project-id',
+  projectId,
   dataset,
   apiVersion,
   useCdn: false,
   perspective: 'previewDrafts',
   token: process.env.SANITY_API_TOKEN,
+  stega: {
+    enabled: false,
+  },
 })
 
 export const getClient = (preview = false) => (preview ? previewClient : client)
