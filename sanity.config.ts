@@ -6,6 +6,9 @@ import { schemaTypes } from './sanity/schemas'
 export default defineConfig({
   name: 'default',
   title: 'Apple-Inspired Website',
+  
+  // Penting: URL path ke Sanity Studio
+  basePath: '/studio',
 
  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
