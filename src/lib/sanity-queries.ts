@@ -49,7 +49,8 @@ export async function getAboutCards() {
   return client.fetch<AboutCard[]>(groq`*[_type == "aboutCard"] | order(order asc) {
     title,
     description,
-    icon
+    icon,
+    iconBgColor
   }`)
 }
 
