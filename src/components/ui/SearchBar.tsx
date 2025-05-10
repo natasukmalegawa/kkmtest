@@ -16,32 +16,35 @@ export function SearchBar() {
   }
   
   return (
-  <div className="relative">
-    <div className={`
-      flex items-center overflow-hidden transition-all duration-300 ease-in-out 
-      ${isExpanded ? 'w-48 md:w-64 bg-gray-100 dark:bg-gray-800 rounded-full px-2' : 'w-8 h-8'}
-    `}>
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="flex items-center justify-center w-8 h-8 text-apple-gray hover:text-apple-dark dark:hover:text-white"
-        aria-label="Search"
-      >
-        <FaSearch className="w-5 h-5" />
-      </button>
-
-      {isExpanded && (
-        <form onSubmit={handleSearch} className="w-full">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari konten..."
-            className="w-full h-8 pl-2 pr-4 text-sm bg-transparent border-0 focus:outline-none focus:ring-0"
-            autoFocus
-          />
-        </form>
-      )}
+    <div className="relative">
+      <div className={`
+        flex items-center overflow-hidden transition-all duration-300 ease-in-out
+        ${isExpanded 
+          ? 'w-36 md:w-48 bg-gray-100 dark:bg-gray-800 rounded-full' 
+          : 'w-6 h-6'
+        }
+      `}>
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="flex items-center justify-center text-gray-600 dark:text-gray-300 w-6 h-6"
+          aria-label="Search"
+        >
+          <FaSearch className="h-4 w-4" />
+        </button>
+        
+        {isExpanded && (
+          <form onSubmit={handleSearch} className="w-full">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cari konten..."
+              className="w-full h-8 pl-1 pr-3 text-sm bg-transparent border-0 focus:outline-none focus:ring-0"
+              autoFocus
+            />
+          </form>
+        )}
+      </div>
     </div>
-  </div>
   )
 }
