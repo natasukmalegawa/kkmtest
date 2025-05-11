@@ -16,7 +16,6 @@ export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
   const [cardWidth, setCardWidth] = useState(280)
   const [activeSlide, setActiveSlide] = useState(0)
 
-  // Menggunakan useRef dengan benar untuk carousel dan slide refs
   const carouselRef = useRef<HTMLDivElement>(null)
   const slideRefs = useRef<(HTMLDivElement | null)[]>([])
 
@@ -26,7 +25,12 @@ export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
 
   useEffect(() => {
     const updateWidth = () => {
-      setCardWidth(window.innerWidth < 640 ? window.innerWidth - 64 : 280)
+      const windowWidth = window.innerWidth
+      if (windowWidth < 640) {
+        setCardWidth(windowWidth * 0.85) // gunakan 85% dari lebar layar agar lebih kecil dan tidak melar
+      } else {
+        setCardWidth(280)
+      }
     }
     updateWidth()
     window.addEventListener('resize', updateWidth)
