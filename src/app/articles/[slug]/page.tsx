@@ -38,10 +38,8 @@ export default async function ArticlePage({ params }: Props) {
   // Fetch related articles - ensure they're sorted by date and not the current article
   const relatedArticles = await getRelatedArticles(article._id, 3)
   
-  // Format the article URL for sharing
-  const articleUrl = typeof window !== 'undefined' 
-    ? window.location.href 
-    : `https://yourwebsite.com/articles/${params.slug}`;
+  // Format the article URL for sharing - server-safe way
+const articleUrl = `https://kkmtest.vercel.app/articles/${params.slug}`;
   
   return (
     <div className="pt-24 pb-16 bg-white dark:bg-black">
