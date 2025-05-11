@@ -13,9 +13,10 @@ type TeamProps = {
 
 export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
   const [activeCard, setActiveCard] = useState<string | null>(null)
-  const [cardWidth, setCardWidth] = useState(280) // default card width
+  const [cardWidth, setCardWidth] = useState(280)
   const [activeSlide, setActiveSlide] = useState(0)
-  
+
+  // Menggunakan useRef dengan benar untuk carousel dan slide refs
   const carouselRef = useRef<HTMLDivElement>(null)
   const slideRefs = useRef<(HTMLDivElement | null)[]>([])
 
@@ -25,7 +26,7 @@ export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
 
   useEffect(() => {
     const updateWidth = () => {
-      setCardWidth(window.innerWidth < 640 ? window.innerWidth - 64 : 280) // Adjust card width based on screen size
+      setCardWidth(window.innerWidth < 640 ? window.innerWidth - 64 : 280)
     }
     updateWidth()
     window.addEventListener('resize', updateWidth)
@@ -112,7 +113,7 @@ export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
               className="flex-shrink-0 snap-center"
               style={{ width: `${cardWidth}px` }}
               ref={(el) => {
-                slideRefs.current[index] = el // We directly assign to the ref here
+                slideRefs.current[index] = el
               }}
             >
               <TeamCard
@@ -142,15 +143,31 @@ export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
           </div>
         )}
 
-        <style jsx global>{`
-          .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-          }
-          .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-        `}</style>
+        {/* Get in Touch with social icons */}
+        <div className="flex justify-center space-x-4 mt-10">
+          <a
+            href="https://www.instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-icon bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300"
+          >
+            <i className="fab fa-instagram"></i>
+          </a>
+          <a
+            href="mailto:someone@example.com"
+            className="social-icon bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300"
+          >
+            <i className="fas fa-envelope"></i>
+          </a>
+          <a
+            href="https://www.linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-icon bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300"
+          >
+            <i className="fab fa-linkedin-in"></i>
+          </a>
+        </div>
       </div>
     </section>
   )
