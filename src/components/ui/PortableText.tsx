@@ -3,13 +3,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { PortableText as SanityPortableText } from '@portabletext/react'
-import type { PortableTextReactComponents } from '@portabletext/react'
+import type { PortableTextMarkComponentProps } from '@portabletext/react'
 import { urlForImage } from '@/lib/sanity-image'
 
 export function PortableText({ value }: { value: any }) {
-  const components: Partial<PortableTextReactComponents> = {
+  const components = {
     types: {
-      image: ({ value }: { value: any }) => {
+      image: ({ value }: any) => {
         if (!value?.asset?._ref) {
           return null
         }
@@ -32,10 +32,11 @@ export function PortableText({ value }: { value: any }) {
       },
     },
     marks: {
-      link: ({ children, value }: { children: React.ReactNode; value: any }) => {
-        const rel = !value.href.startsWith('/') ? 'noreferrer noopener' : undefined
+      link: ({ children, value = {} }: PortableTextMarkComponentProps<any>) => {
+        const href = value?.href || '';
+        const rel = !href.startsWith('/') ? 'noreferrer noopener' : undefined
         return (
-          <Link href={value.href} rel={rel} className="text-apple-blue hover:underline">
+          <Link href={href} rel={rel} className="text-apple-blue hover:underline">
             {children}
           </Link>
         )
