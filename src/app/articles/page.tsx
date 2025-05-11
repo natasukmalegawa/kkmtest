@@ -5,9 +5,10 @@ import { getArticles, getSiteSettings, getCategories } from '@/lib/sanity-querie
 import { urlForImage } from '@/lib/sanity-image'
 import { formatDate } from '@/lib/utils'
 import { AppleButton } from '@/components/ui/AppleButton'
+import { FaChevronLeft } from 'react-icons/fa'
 
 export const metadata: Metadata = {
-  title: 'Articles | Karir dan Karya Mahasiswa',
+  title: 'Articles | Your Brand',
   description: 'Read our latest articles and stories',
 }
 
@@ -51,10 +52,18 @@ export default async function ArticlesPage({
   
   return (
     <div className="pt-24 pb-16">
-      {/* Hero Banner */}
-      <div className="relative bg-gradient-to-r from-blue-700 to-purple-700 dark:from-blue-900 dark:to-purple-900 h-64 md:h-80 mb-12">
-        <div className="absolute inset-0 opacity-20">
-          {featuredArticle?.mainImage && (
+      {/* Back navigation */}
+      <div className="container mx-auto px-4 md:px-6 mb-6">
+        <Link href="/" className="inline-flex items-center text-apple-gray hover:text-apple-blue dark:text-gray-400 dark:hover:text-blue-400 transition-ios font-medium">
+          <FaChevronLeft className="mr-2" size={14} />
+          Back to Home
+        </Link>
+      </div>
+      
+      {/* Hero Banner - Improved style like homepage */}
+      <div className="relative h-64 md:h-80 mb-12 overflow-hidden">
+        {featuredArticle?.mainImage && (
+          <>
             <Image
               src={urlForImage(featuredArticle.mainImage).width(1600).height(800).url()}
               alt="Articles background"
@@ -62,20 +71,23 @@ export default async function ArticlesPage({
               className="object-cover"
               priority
             />
-          )}
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-        <div className="container mx-auto h-full px-4 flex flex-col justify-center items-center text-white relative z-10">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-center">
-            {category ? category : 'Articles'}
-          </h1>
-          <p className="text-lg text-white/90 max-w-2xl text-center">
-            {siteSettings?.articlesSubtitle || "Stay updated with our latest insights, news, and stories"}
-          </p>
+            <div className="absolute inset-0 bg-black/30 dark:bg-black/50"></div>
+          </>
+        )}
+        
+        <div className="container mx-auto px-4 md:px-6 h-full flex flex-col justify-center items-center relative z-10">
+          <div className="max-w-3xl text-center px-4">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+              {category ? category : 'Our Articles'}
+            </h1>
+            <p className="text-lg text-white/90 max-w-2xl mx-auto">
+              {siteSettings?.articlesSubtitle || "Stay updated with our latest insights, news, and stories"}
+            </p>
+          </div>
         </div>
       </div>
       
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 md:px-6">
         {/* Categories */}
         <div className="flex flex-wrap justify-center gap-3 mb-10">
           <Link 
@@ -174,9 +186,9 @@ export default async function ArticlesPage({
               </div>
             )}
             
-            {/* Latest Articles Heading */}
+            {/* Latest Articles Heading - Improved spacing for underline */}
             <div className="text-center mb-10">
-              <h2 className="inline-block text-2xl font-bold relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:bg-apple-blue">
+              <h2 className="inline-block text-2xl font-bold relative pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:bg-apple-blue">
                 Latest Articles
               </h2>
             </div>
