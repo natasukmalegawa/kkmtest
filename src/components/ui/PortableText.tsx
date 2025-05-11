@@ -3,10 +3,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { PortableText as SanityPortableText } from '@portabletext/react'
+import type { PortableTextReactComponents } from '@portabletext/react'
 import { urlForImage } from '@/lib/sanity-image'
 
 export function PortableText({ value }: { value: any }) {
-  const components = {
+  const components: Partial<PortableTextReactComponents> = {
     types: {
       image: ({ value }: { value: any }) => {
         if (!value?.asset?._ref) {
