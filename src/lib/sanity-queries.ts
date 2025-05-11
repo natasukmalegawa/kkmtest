@@ -1,6 +1,6 @@
 import { groq } from 'next-sanity';
 import { client } from './sanity';
-import { Article, Author } from '@/types'
+import { Author } from '@/types'
 import {
   AboutCard,
   Navigation,
