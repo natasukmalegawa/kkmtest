@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Article } from '@/types'
 import { ArticleCard } from '@/components/ui/ArticleCard'
 import { AppleButton } from '@/components/ui/AppleButton'
+import Link from 'next/link'
 
 type ArticlesProps = {
   smallTitle?: string
@@ -17,6 +18,9 @@ export function Articles({ smallTitle, title, subtitle, articles }: ArticlesProp
   const carouselRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   
+  // Limit to 4 articles for homepage
+  const limitedArticles = articles.slice(0, 4);
+  
   // Navigate to slide
   const goToSlide = (index: number) => {
     if (carouselRef.current && slideRefs.current[index]) {
@@ -24,7 +28,7 @@ export function Articles({ smallTitle, title, subtitle, articles }: ArticlesProp
       
       const scrollPosition = slideRefs.current[index]?.offsetLeft || 0;
       carouselRef.current.scrollTo({
-        left: scrollPosition - 16, // Adjust for padding
+        left: scrollPosition - 16,
         behavior: 'smooth'
       });
     }
@@ -74,17 +78,17 @@ export function Articles({ smallTitle, title, subtitle, articles }: ArticlesProp
   const getCardWidth = () => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth < 640) {
-        return window.innerWidth - 64; // Mobile, almost full width
+        return window.innerWidth - 64; // Mobile
       } else if (window.innerWidth < 1024) {
-        return (window.innerWidth - 64) / 2; // Tablet, 2 cards per row
+        return (window.innerWidth - 128) / 2; // Tablet
       } else {
-        return (window.innerWidth - 96) / 3; // Desktop, 3 cards per row
+        return (window.innerWidth - 256) / 4; // Desktop - 4 cards view
       }
     }
-    return 320; // Default fallback
+    return 280; // Default fallback
   };
   
-  const [cardWidth, setCardWidth] = useState(320);
+  const [cardWidth, setCardWidth] = useState(280);
   
   useEffect(() => {
     const handleResize = () => {
@@ -107,10 +111,10 @@ export function Articles({ smallTitle, title, subtitle, articles }: ArticlesProp
               {smallTitle}
             </p>
           )}
-          <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-gray-900 dark:text-white sf-pro-display">
             {title}
           </h2>
-          <p className="text-apple-gray dark:text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-apple-gray dark:text-gray-400 text-lg max-w-2xl mx-auto sf-pro-text">
             {subtitle}
           </p>
         </div>
@@ -122,28 +126,35 @@ export function Articles({ smallTitle, title, subtitle, articles }: ArticlesProp
             className="flex overflow-x-auto scrollbar-hide gap-6 pb-10 snap-x"
             style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}
           >
-            {articles.length === 0 ? (
+            {limitedArticles.length === 0 ? (
               <>
-                {[1, 2, 3].map((i) => (
+                {[1, 2, 3, 4].map((i) => (
                   <div 
                     key={i} 
                     className="flex-shrink-0 animate-pulse snap-center"
                     style={{ width: `${cardWidth}px` }}
                   >
-                    <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl h-[400px]"></div>
+                    <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl h-[360px]"></div>
                   </div>
                 ))}
               </>
             ) : (
               <>
-                {articles.map((article, index) => (
+                {limitedArticles.map((article, index) => (
                   <div 
                     key={article._id} 
                     className="flex-shrink-0 snap-center"
                     style={{ width: `${cardWidth}px` }}
                     ref={(el) => { slideRefs.current[index] = el }}
                   >
-                    <ArticleCard article={article} />
+                    <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm h-full flex flex-col transition-all duration-300 hover:shadow-md">
+                      <Link href={`/articles/${article.slug.current}`} className="group block flex-1">
+                        <ArticleCard 
+                          article={article} 
+                          appleStyle={true} 
+                        />
+                      </Link>
+                    </div>
                   </div>
                 ))}
               </>
@@ -151,9 +162,9 @@ export function Articles({ smallTitle, title, subtitle, articles }: ArticlesProp
           </div>
           
           {/* Dot indicators */}
-          {articles.length > 1 && (
+          {limitedArticles.length > 1 && (
             <div className="flex justify-center space-x-2 mt-4">
-              {articles.map((_, index) => (
+              {limitedArticles.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
@@ -173,7 +184,6 @@ export function Articles({ smallTitle, title, subtitle, articles }: ArticlesProp
           <AppleButton href="/articles">Read All Articles</AppleButton>
         </div>
         
-        {/* Add custom styling to hide scrollbar */}
         <style jsx global>{`
           .scrollbar-hide::-webkit-scrollbar {
             display: none;
@@ -181,6 +191,17 @@ export function Articles({ smallTitle, title, subtitle, articles }: ArticlesProp
           .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
+          }
+          
+          /* Apple font styles */
+          .sf-pro-display {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+            letter-spacing: -0.015em;
+          }
+          
+          .sf-pro-text {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            letter-spacing: -0.01em;
           }
         `}</style>
       </div>
