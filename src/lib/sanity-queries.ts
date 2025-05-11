@@ -78,6 +78,22 @@ export async function getTeamMembers() {
   }`)
 }
 
+// Article Preview
+export const getArticlesQuery = `
+*[_type == "article"] | order(publishedAt desc)[0...6]{
+  _id,
+  title,
+  slug,
+  excerpt,
+  publishedAt,
+  coverImage,
+  author {
+    name,
+    image
+  }
+}
+`
+
 // Footer
 export async function getFooter() {
   return client.fetch(groq`{
