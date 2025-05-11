@@ -15,7 +15,7 @@ export default function TeamCard({ member, isActive, onToggle }: Props) {
   return (
     <div className={`team-card relative overflow-hidden rounded-2xl shadow-lg transition-all border border-white/20 bg-white/70 dark:bg-white/10 backdrop-blur-lg ${isActive ? 'active' : ''}`}>
       <div className="relative overflow-hidden">
-        {member.image && (
+        {member.image ? (
           <Image
             src={urlForImage(member.image).url()}
             alt={member.name}
@@ -23,10 +23,10 @@ export default function TeamCard({ member, isActive, onToggle }: Props) {
             height={500}
             className="w-full aspect-square object-cover img-zoom"
           />
-      ) : (
-  <div className="w-full aspect-square bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
-    No Image
-  </div>
+        ) : (
+          <div className="w-full aspect-square bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
+            No Image
+          </div>
         )}
       </div>
       <div className="p-6">
