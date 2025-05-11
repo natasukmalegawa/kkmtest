@@ -111,7 +111,9 @@ export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
               key={member._id}
               className="flex-shrink-0 snap-center"
               style={{ width: `${cardWidth}px` }}
-              ref={(el) => (slideRefs.current[index] = el)}
+              ref={(el) => {
+                slideRefs.current[index] = el // We directly assign to the ref here
+              }}
             >
               <TeamCard
                 member={member}
