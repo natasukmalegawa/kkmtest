@@ -16,12 +16,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   
   if (!article) {
     return {
-      title: 'Article Not Found | Karir dan Karya Mahasiswa',
+      title: 'Article Not Found | Your Brand',
     }
   }
   
   return {
-    title: `${article.title} | Karir dan Karya Mahasiswa`,
+    title: `${article.title} | Your Brand`,
     description: article.excerpt,
   }
 }
@@ -37,10 +37,10 @@ export default async function ArticlePage({ params }: Props) {
   const relatedArticles = await getRelatedArticles(article._id, 3)
   
   return (
-    <div className="bg-white dark:bg-black min-h-screen pt-24">
+    <div className="pt-24 pb-16">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-          {/* Breadcrumb */}
+          {/* Content remains the same */}
           <div className="mb-6 text-sm text-apple-gray dark:text-gray-400">
             <Link href="/articles" className="hover:underline">Articles</Link>
             <span className="mx-2">/</span>
@@ -55,10 +55,8 @@ export default async function ArticlePage({ params }: Props) {
             <span className="text-apple-gray dark:text-gray-300">{article.title}</span>
           </div>
           
-          {/* Article Header */}
           <h1 className="text-3xl md:text-4xl font-bold mb-4">{article.title}</h1>
           
-          {/* Author and Date */}
           <div className="flex items-center mb-8">
             <div className="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gray-200 dark:bg-gray-700">
               {article.author?.image ? (
@@ -79,7 +77,6 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           </div>
           
-          {/* Featured Image */}
           {article.mainImage && (
             <div className="relative w-full h-80 md:h-96 mb-8 rounded-2xl overflow-hidden">
               <Image
@@ -92,12 +89,10 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           )}
           
-          {/* Article Content */}
           <div className="prose dark:prose-invert prose-lg max-w-none">
             <PortableText value={article.body} />
           </div>
           
-          {/* Tags/Categories */}
           {article.categories && article.categories.length > 0 && (
             <div className="mt-12 flex flex-wrap gap-2">
               {article.categories.map((category) => (
@@ -113,7 +108,6 @@ export default async function ArticlePage({ params }: Props) {
           )}
         </div>
         
-        {/* Related Articles */}
         {relatedArticles.length > 0 && (
           <div className="max-w-6xl mx-auto mt-16">
             <h2 className="text-2xl font-bold mb-8">Related Articles</h2>
@@ -121,7 +115,7 @@ export default async function ArticlePage({ params }: Props) {
               {relatedArticles.map((relatedArticle) => (
                 <Link key={relatedArticle._id} href={`/articles/${relatedArticle.slug.current}`}>
                   <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col">
-                    {/* Article Image */}
+                    {/* Related article content remains the same */}
                     <div className="relative w-full h-40">
                       {relatedArticle.mainImage ? (
                         <Image
@@ -135,7 +129,6 @@ export default async function ArticlePage({ params }: Props) {
                       )}
                     </div>
                     
-                    {/* Article Content */}
                     <div className="p-4 flex-grow">
                       <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">{relatedArticle.title}</h3>
                       <p className="text-xs text-gray-500 dark:text-gray-400">{formatDate(relatedArticle.publishedAt)}</p>
