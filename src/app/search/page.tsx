@@ -6,7 +6,7 @@ import { urlForImage } from '@/lib/sanity-image'
 import { formatDate } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'Search Results | Your Brand',
+  title: 'Search Results | Karir dan Karya Mahasiswa',
   description: 'Search for articles and content',
 }
 
