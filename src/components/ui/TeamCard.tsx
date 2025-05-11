@@ -23,6 +23,10 @@ export default function TeamCard({ member, isActive, onToggle }: Props) {
             height={500}
             className="w-full aspect-square object-cover img-zoom"
           />
+      ) : (
+  <div className="w-full aspect-square bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
+    No Image
+  </div>
         )}
       </div>
       <div className="p-6">
