@@ -113,19 +113,19 @@ export default async function ArticlePage({ params }: Props) {
             <PortableText value={article.body} />
           </div>
 
-          {article.categories?.length > 0 && (
+          {Array.isArray(article.categories) && article.categories.length > 0 && (
             <div className="mt-12 flex flex-wrap gap-2">
-              {article.categories.map((category) => (
-                <Link
-                  key={category._id}
-                  href={`/articles?category=${category.title}`}
-                  className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-apple-gray dark:text-gray-300 rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-700 sf-pro-text"
-                >
-                  {category.title}
-                </Link>
-              ))}
-            </div>
-          )}
+             {article.categories.map((category) => (
+              <Link
+                key={category._id}
+                href={`/categories/${category.title.toLowerCase()}`}
+                className="rounded-full border border-neutral-200 px-4 py-1 text-sm text-neutral-700 transition-colors hover:border-neutral-300 hover:bg-neutral-100"
+              >
+                {category.title}
+              </Link>
+            ))}
+          </div>
+        )}
         </div>
 
         {relatedArticles.length > 0 && (
