@@ -15,6 +15,8 @@ export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
   const [activeCard, setActiveCard] = useState<string | null>(null)
   const [cardWidth, setCardWidth] = useState(280)
   const [activeSlide, setActiveSlide] = useState(0)
+  
+  // Menggunakan useRef dengan benar untuk carousel dan slide refs
   const carouselRef = useRef<HTMLDivElement>(null)
   const slideRefs = useRef<(HTMLDivElement | null)[]>([])
 
@@ -110,7 +112,7 @@ export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
               key={member._id}
               className="flex-shrink-0 snap-center"
               style={{ width: `${cardWidth}px` }}
-              ref={(el) => (slideRefs.current[index] = el)}
+              ref={(el) => (slideRefs.current[index] = el)} // Callback ref untuk slide
             >
               <TeamCard
                 member={member}
