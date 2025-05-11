@@ -8,7 +8,7 @@ import { AppleButton } from '@/components/ui/AppleButton'
 import { FaChevronLeft } from 'react-icons/fa'
 
 export const metadata: Metadata = {
-  title: 'Articles | Karir dan Karya Mahasiswa',
+  title: 'Articles | Your Brand',
   description: 'Read our latest articles and stories',
 }
 
@@ -26,7 +26,7 @@ export default async function ArticlesPage({
   const category = typeof categoryParam === 'string' ? categoryParam : undefined
   
   // Fetch articles and categories
-  const allArticles = await getArticles(100) // Fetch more articles to split them
+  const allArticles = await getArticles(100) // Fetch more articles for filtering
   const categories = await getCategories()
   const siteSettings = await getSiteSettings()
   
@@ -51,7 +51,7 @@ export default async function ArticlesPage({
   const totalPages = Math.ceil(restArticles.length / ARTICLES_PER_PAGE)
   
   return (
-    <div className="pt-24 pb-16">
+    <div className="pt-24 pb-16 bg-white dark:bg-black">
       {/* Back navigation */}
       <div className="container mx-auto px-4 md:px-6 mb-6">
         <Link href="/" className="inline-flex items-center text-apple-gray hover:text-apple-blue dark:text-gray-400 dark:hover:text-blue-400 transition-ios font-medium">
@@ -71,28 +71,28 @@ export default async function ArticlesPage({
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-black/30 dark:bg-black/50"></div>
+            <div className="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-[2px]"></div>
           </>
         )}
         
         <div className="container mx-auto px-4 md:px-6 h-full flex flex-col justify-center items-center relative z-10">
-          <div className="max-w-3xl text-center px-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+          <div className="max-w-3xl text-center px-4 py-8">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white sf-pro-display">
               {category ? category : 'Our Articles'}
             </h1>
-            <p className="text-lg text-white/90 max-w-2xl mx-auto">
+            <p className="text-lg text-white/90 max-w-2xl mx-auto sf-pro-text">
               {siteSettings?.articlesSubtitle || "Stay updated with our latest insights, news, and stories"}
             </p>
           </div>
         </div>
       </div>
       
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         {/* Categories */}
         <div className="flex flex-wrap justify-center gap-3 mb-10">
           <Link 
             href="/articles" 
-            className={`px-4 py-2 rounded-full transition-ios ${
+            className={`px-4 py-2 rounded-full transition-ios sf-pro-text ${
               !category 
                 ? 'bg-apple-blue text-white shadow-sm' 
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
@@ -104,7 +104,7 @@ export default async function ArticlesPage({
             <Link 
               key={cat._id} 
               href={`/articles?category=${cat.title}`}
-              className={`px-4 py-2 rounded-full transition-ios ${
+              className={`px-4 py-2 rounded-full transition-ios sf-pro-text ${
                 category === cat.title 
                   ? 'bg-apple-blue text-white shadow-sm' 
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
@@ -118,7 +118,7 @@ export default async function ArticlesPage({
         {/* No articles case */}
         {filteredArticles.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-lg text-gray-600 dark:text-gray-400">No articles found</p>
+            <p className="text-lg text-gray-600 dark:text-gray-400 sf-pro-text">No articles found</p>
             <div className="mt-8">
               <AppleButton href="/articles">View All Articles</AppleButton>
             </div>
@@ -142,22 +142,22 @@ export default async function ArticlesPage({
                     )}
                     <div className="absolute top-4 left-4">
                       {featuredArticle.categories && featuredArticle.categories[0] && (
-                        <span className="bg-apple-blue text-white px-3 py-1 rounded-full text-xs font-medium">
+                        <span className="bg-apple-blue text-white px-3 py-1 rounded-full text-xs font-medium sf-pro-text">
                           {featuredArticle.categories[0].title}
                         </span>
                       )}
                     </div>
                   </div>
                   <div className="md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
-                    <div className="text-apple-gray dark:text-gray-400 text-sm mb-3">
+                    <div className="text-apple-gray dark:text-gray-400 text-sm mb-3 sf-pro-text">
                       {formatDate(featuredArticle.publishedAt)}
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-4 sf-pro-display">
                       <Link href={`/articles/${featuredArticle.slug.current}`} className="hover:text-apple-blue dark:hover:text-blue-400 transition-ios">
                         {featuredArticle.title}
                       </Link>
                     </h2>
-                    <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-3">
+                    <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-3 sf-pro-text">
                       {featuredArticle.excerpt}
                     </p>
                     <div className="flex items-center mb-4">
@@ -174,7 +174,7 @@ export default async function ArticlesPage({
                           <div className="w-full h-full"></div>
                         )}
                       </div>
-                      <span className="text-sm font-medium">By {featuredArticle.author.name}</span>
+                      <span className="text-sm font-medium sf-pro-text">By {featuredArticle.author.name}</span>
                     </div>
                     <div className="mt-auto">
                       <AppleButton href={`/articles/${featuredArticle.slug.current}`}>
@@ -188,167 +188,67 @@ export default async function ArticlesPage({
             
             {/* Latest Articles Heading - Improved spacing for underline */}
             <div className="text-center mb-10">
-              <h2 className="inline-block text-2xl font-bold relative pb-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:bg-apple-blue">
+              <h2 className="inline-block text-2xl font-bold relative pb-3 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:bg-apple-blue sf-pro-display">
                 Latest Articles
               </h2>
             </div>
             
-            {/* Articles Grid with Mixed Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
-              {paginatedArticles.map((article, index) => {
-                // First 3 articles are bigger
-                if (index < 3) {
-                  return (
-                    <div key={article._id} className="md:col-span-4">
-                      <Link href={`/articles/${article.slug.current}`} className="group">
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-ios h-full flex flex-col">
-                          <div className="relative h-56">
-                            {article.mainImage ? (
-                              <Image
-                                src={urlForImage(article.mainImage).width(600).height(400).url()}
-                                alt={article.title}
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-gray-200 dark:bg-gray-700"></div>
-                            )}
-                            <div className="absolute top-4 left-4">
-                              {article.categories && article.categories[0] && (
-                                <span className="bg-apple-blue text-white px-3 py-1 rounded-full text-xs font-medium">
-                                  {article.categories[0].title}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                          <div className="p-5 flex-grow flex flex-col">
-                            <div className="text-apple-gray dark:text-gray-400 text-sm mb-2">
-                              {formatDate(article.publishedAt)}
-                            </div>
-                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-apple-blue dark:group-hover:text-blue-400 transition-ios">
-                              {article.title}
-                            </h3>
-                            {article.excerpt && (
-                              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{article.excerpt}</p>
-                            )}
-                            <div className="mt-auto flex items-center">
-                              <div className="w-8 h-8 rounded-full overflow-hidden mr-2 bg-gray-200 dark:bg-gray-700">
-                                {article.author?.image ? (
-                                  <Image
-                                    src={urlForImage(article.author.image).width(100).height(100).url()}
-                                    alt={article.author.name}
-                                    width={32}
-                                    height={32}
-                                    className="object-cover"
-                                  />
-                                ) : (
-                                  <div className="w-full h-full"></div>
-                                )}
-                              </div>
-                              <span className="text-xs font-medium">By {article.author.name}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
+            {/* Articles Grid - Redesigned for compact view */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+              {paginatedArticles.map((article, index) => (
+                <Link href={`/articles/${article.slug.current}`} key={article._id} className="group">
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-ios h-full flex flex-col">
+                    <div className="relative h-48">
+                      {article.mainImage ? (
+                        <Image
+                          src={urlForImage(article.mainImage).width(600).height(400).url()}
+                          alt={article.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gray-200 dark:bg-gray-700"></div>
+                      )}
+                      <div className="absolute top-3 left-3">
+                        {article.categories && article.categories[0] && (
+                          <span className="bg-apple-blue text-white px-2 py-0.5 rounded-full text-xs font-medium sf-pro-text">
+                            {article.categories[0].title}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  )
-                }
-                
-                // Horizontal layout for next articles
-                if (index === 3 || index === 4) {
-                  return (
-                    <div key={article._id} className="md:col-span-6">
-                      <Link href={`/articles/${article.slug.current}`} className="group">
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-ios h-full flex flex-col md:flex-row">
-                          <div className="md:w-2/5 relative h-48 md:h-auto">
-                            {article.mainImage ? (
-                              <Image
-                                src={urlForImage(article.mainImage).width(400).height(300).url()}
-                                alt={article.title}
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-gray-200 dark:bg-gray-700"></div>
-                            )}
-                            <div className="absolute top-4 left-4">
-                              {article.categories && article.categories[0] && (
-                                <span className="bg-apple-blue text-white px-3 py-1 rounded-full text-xs font-medium">
-                                  {article.categories[0].title}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                          <div className="md:w-3/5 p-5 flex flex-col">
-                            <div className="text-apple-gray dark:text-gray-400 text-sm mb-2">
-                              {formatDate(article.publishedAt)}
-                            </div>
-                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-apple-blue dark:group-hover:text-blue-400 transition-ios">
-                              {article.title}
-                            </h3>
-                            <div className="mt-auto flex items-center">
-                              <div className="w-6 h-6 rounded-full overflow-hidden mr-2 bg-gray-200 dark:bg-gray-700">
-                                {article.author?.image ? (
-                                  <Image
-                                    src={urlForImage(article.author.image).width(100).height(100).url()}
-                                    alt={article.author.name}
-                                    width={24}
-                                    height={24}
-                                    className="object-cover"
-                                  />
-                                ) : (
-                                  <div className="w-full h-full"></div>
-                                )}
-                              </div>
-                              <span className="text-xs font-medium">By {article.author.name}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    </div>
-                  )
-                }
-                
-                // Smaller grid for the rest
-                return (
-                  <div key={article._id} className="md:col-span-3">
-                    <Link href={`/articles/${article.slug.current}`} className="group">
-                      <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-ios h-full flex flex-col">
-                        <div className="relative h-40">
-                          {article.mainImage ? (
+                    <div className="p-4 flex-grow flex flex-col bg-[#f5f5f7] dark:bg-gray-800">
+                      <div className="text-apple-gray dark:text-gray-400 text-xs mb-1 sf-pro-text">
+                        {formatDate(article.publishedAt)}
+                      </div>
+                      <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-apple-blue dark:group-hover:text-blue-400 transition-ios sf-pro-display">
+                        {article.title}
+                      </h3>
+                      {article.excerpt && (
+                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-3 line-clamp-2 sf-pro-text">
+                          {article.excerpt}
+                        </p>
+                      )}
+                      <div className="mt-auto flex items-center text-xs">
+                        <div className="w-6 h-6 rounded-full overflow-hidden mr-2 bg-gray-200 dark:bg-gray-700">
+                          {article.author?.image ? (
                             <Image
-                              src={urlForImage(article.mainImage).width(400).height(300).url()}
-                              alt={article.title}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-300"
+                              src={urlForImage(article.author.image).width(100).height(100).url()}
+                              alt={article.author.name}
+                              width={24}
+                              height={24}
+                              className="object-cover"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gray-200 dark:bg-gray-700"></div>
+                            <div className="w-full h-full"></div>
                           )}
-                          <div className="absolute top-3 left-3">
-                            {article.categories && article.categories[0] && (
-                              <span className="bg-apple-blue text-white px-2 py-0.5 rounded-full text-xs font-medium">
-                                {article.categories[0].title}
-                              </span>
-                            )}
-                          </div>
                         </div>
-                        <div className="p-4 flex-grow flex flex-col">
-                          <div className="text-apple-gray dark:text-gray-400 text-xs mb-1">
-                            {formatDate(article.publishedAt)}
-                          </div>
-                          <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-apple-blue dark:group-hover:text-blue-400 transition-ios">
-                            {article.title}
-                          </h3>
-                          <div className="mt-auto flex items-center text-xs">
-                            <span>By {article.author.name}</span>
-                          </div>
-                        </div>
+                        <span className="sf-pro-text">By {article.author.name}</span>
                       </div>
-                    </Link>
+                    </div>
                   </div>
-                )
-              })}
+                </Link>
+              ))}
             </div>
             
             {/* Pagination with iOS style */}
@@ -382,7 +282,7 @@ export default async function ArticlesPage({
                         <Link
                           key={index}
                           href={`/articles?page=${pageNumber}${category ? `&category=${category}` : ''}`}
-                          className={`w-10 h-10 flex items-center justify-center rounded-full transition-ios ${
+                          className={`w-10 h-10 flex items-center justify-center rounded-full transition-ios sf-pro-text ${
                             page === pageNumber 
                               ? 'bg-apple-blue text-white' 
                               : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
@@ -429,6 +329,19 @@ export default async function ArticlesPage({
           </>
         )}
       </div>
+      
+      {/* Apple Fonts Styling */}
+      <style jsx global>{`
+        .sf-pro-display {
+          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+          letter-spacing: -0.015em;
+        }
+        
+        .sf-pro-text {
+          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+          letter-spacing: -0.01em;
+        }
+      `}</style>
     </div>
   )
 }
