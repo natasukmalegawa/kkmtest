@@ -2,14 +2,14 @@ import { Hero } from '@/components/sections/Hero'
 import { About } from '@/components/sections/About'
 import { Programs } from '@/components/sections/Programs'
 import { Team } from '@/components/sections/Team'
-import { ArticlesPreview } from '@/components/sections/ArticlesPreview'
+import ArticlesPreview from '@/components/sections/ArticlesPreview'
 import {
   getSiteSettings,
   getHero,
   getAboutCards,
   getPrograms,
   getTeamMembers,
-  getArticles
+  getLatestArticles
 } from '@/lib/sanity-queries'
 
 export default async function Home() {
@@ -18,7 +18,7 @@ export default async function Home() {
   const aboutCards = await getAboutCards()
   const programs = await getPrograms()
   const teamMembers = await getTeamMembers()
-  const articles = await getArticles()
+  const articles = await getLatestArticles()
 
   return (
     <>
