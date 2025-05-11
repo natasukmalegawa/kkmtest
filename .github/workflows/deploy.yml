@@ -1,0 +1,10 @@
+name: Trigger Railway Deploy on Sanity Update
+on:
+  repository_dispatch:
+    types: [sanity-update]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Railway Deploy
+        run: railway up
