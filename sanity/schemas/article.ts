@@ -92,11 +92,11 @@ export default {
       author: 'author.name',
       media: 'mainImage',
     },
-    prepare(selection) {
-      const { author } = selection;
-      return {
-        ...selection,
-        subtitle: author && `by ${author}`,
+  prepare(selection: { author?: string; [key: string]: any }) {
+  const { author } = selection;
+  return {
+    ...selection,
+    subtitle: author && `by ${author}`,
       };
     },
   },
