@@ -9,7 +9,7 @@ import {
   getAboutCards,
   getPrograms,
   getTeamMembers,
-  getLatestArticles
+  getArticleCard,
 } from '@/lib/sanity-queries'
 
 export default async function Home() {
@@ -18,7 +18,7 @@ export default async function Home() {
   const aboutCards = await getAboutCards()
   const programs = await getPrograms()
   const teamMembers = await getTeamMembers()
-  const articles = await getLatestArticles()
+  const articles = await getArticlesCard()
 
   return (
     <>
@@ -51,7 +51,14 @@ export default async function Home() {
         members={teamMembers || []}
       />
 
-      <ArticlesPreview articles={articles || []} />
+      <Articles
+        smallTitle={siteSettings?.articlesSmallTitle || "Latest Updates"}
+        title={siteSettings?.articlesTitle || "From Our Blog"}
+        subtitle={siteSettings?.articlesSubtitle || "Stay updated with our latest insights, news, and stories"}
+        articles={articles || []}
+      />
+    </>
+  )
     </>
   )
 }
