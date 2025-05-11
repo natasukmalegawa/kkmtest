@@ -1,3 +1,5 @@
+import { SanityRule } from '../schemaTypes'
+
 export default {
   name: 'author',
   title: 'Author',
@@ -7,7 +9,7 @@ export default {
       name: 'name',
       title: 'Name',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (Rule: SanityRule) => Rule.required()
     },
     {
       name: 'slug',
@@ -17,7 +19,7 @@ export default {
         source: 'name',
         maxLength: 96,
       },
-      validation: Rule => Rule.required()
+      validation: (Rule: SanityRule) => Rule.required()
     },
     {
       name: 'image',
@@ -40,3 +42,4 @@ export default {
     },
   },
 }
+  
