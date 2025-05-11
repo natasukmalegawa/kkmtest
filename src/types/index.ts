@@ -77,7 +77,6 @@ export type Article = {
   _id: string
   title: string
   slug: string
-  date?: string
   excerpt: string
   publishedAt: string
   image: string
