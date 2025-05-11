@@ -185,6 +185,14 @@ export async function getRelatedArticles(articleId: string, limit = 3) {
   }`, { articleId })
 }
 
+// Get all categories
+export async function getCategories() {
+  return client.fetch<{_id: string, title: string}[]>(groq`*[_type == "category"] | order(title asc) {
+    _id,
+    title
+  }`)
+}
+
 // Search articles
 export async function searchArticles(searchQuery: string, limit = 10) {
   const query = `*[_type == "article" && (
@@ -207,3 +215,4 @@ export async function searchArticles(searchQuery: string, limit = 10) {
   
   return client.fetch<Article[]>(query, { searchQuery: `*${searchQuery}*` })
 }
+
