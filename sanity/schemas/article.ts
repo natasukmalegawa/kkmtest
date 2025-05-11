@@ -1,3 +1,5 @@
+import { SanityRule } from '../schemaTypes'
+
 export default {
   name: 'article',
   title: 'Article',
@@ -7,7 +9,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (Rule: SanityRule) => Rule.required()
     },
     {
       name: 'slug',
@@ -17,14 +19,14 @@ export default {
         source: 'title',
         maxLength: 96,
       },
-      validation: Rule => Rule.required()
+      validation: (Rule: SanityRule) => Rule.required()
     },
     {
       name: 'author',
       title: 'Author',
       type: 'reference',
       to: { type: 'author' },
-      validation: Rule => Rule.required()
+      validation: (Rule: SanityRule) => Rule.required()
     },
     {
       name: 'mainImage',
@@ -33,7 +35,7 @@ export default {
       options: {
         hotspot: true,
       },
-      validation: Rule => Rule.required()
+      validation: (Rule: SanityRule) => Rule.required()
     },
     {
       name: 'categories',
@@ -45,14 +47,14 @@ export default {
       name: 'publishedAt',
       title: 'Published at',
       type: 'datetime',
-      validation: Rule => Rule.required()
+      validation: (Rule: SanityRule) => Rule.required()
     },
     {
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
       description: 'A short summary of the article',
-      validation: Rule => Rule.max(200)
+      validation: (Rule: SanityRule) => Rule.max(200)
     },
     {
       name: 'body',
