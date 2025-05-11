@@ -6,6 +6,7 @@ import { getArticleBySlug, getRelatedArticles } from '@/lib/sanity-queries'
 import { urlForImage } from '@/lib/sanity-image'
 import { formatDate } from '@/lib/utils'
 import { PortableText } from '@/components/ui/PortableText'
+import { FaChevronLeft } from 'react-icons/fa'
 
 type Props = {
   params: { slug: string }
@@ -38,9 +39,17 @@ export default async function ArticlePage({ params }: Props) {
   
   return (
     <div className="pt-24 pb-16">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 md:px-6">
+        {/* Back navigation */}
+        <div className="mb-6">
+          <Link href="/articles" className="inline-flex items-center text-apple-gray hover:text-apple-blue dark:text-gray-400 dark:hover:text-blue-400 transition-ios font-medium">
+            <FaChevronLeft className="mr-2" size={14} />
+            Back to Articles
+          </Link>
+        </div>
+        
         <div className="max-w-4xl mx-auto">
-          {/* Content remains the same */}
+          {/* Breadcrumb */}
           <div className="mb-6 text-sm text-apple-gray dark:text-gray-400">
             <Link href="/articles" className="hover:underline">Articles</Link>
             <span className="mx-2">/</span>
@@ -55,8 +64,10 @@ export default async function ArticlePage({ params }: Props) {
             <span className="text-apple-gray dark:text-gray-300">{article.title}</span>
           </div>
           
+          {/* Article Header */}
           <h1 className="text-3xl md:text-4xl font-bold mb-4">{article.title}</h1>
           
+          {/* Author and Date */}
           <div className="flex items-center mb-8">
             <div className="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gray-200 dark:bg-gray-700">
               {article.author?.image ? (
@@ -77,6 +88,7 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           </div>
           
+          {/* Featured Image */}
           {article.mainImage && (
             <div className="relative w-full h-80 md:h-96 mb-8 rounded-2xl overflow-hidden">
               <Image
@@ -89,10 +101,12 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           )}
           
+          {/* Article Content */}
           <div className="prose dark:prose-invert prose-lg max-w-none">
             <PortableText value={article.body} />
           </div>
           
+          {/* Tags/Categories */}
           {article.categories && article.categories.length > 0 && (
             <div className="mt-12 flex flex-wrap gap-2">
               {article.categories.map((category) => (
@@ -108,15 +122,17 @@ export default async function ArticlePage({ params }: Props) {
           )}
         </div>
         
+        {/* Related Articles */}
         {relatedArticles.length > 0 && (
           <div className="max-w-6xl mx-auto mt-16">
-            <h2 className="text-2xl font-bold mb-8">Related Articles</h2>
+            <h2 className="text-2xl font-bold mb-8 relative pb-2 inline-block after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:bg-apple-blue">
+              Related Articles
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {relatedArticles.map((relatedArticle) => (
                 <Link key={relatedArticle._id} href={`/articles/${relatedArticle.slug.current}`}>
-                  <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col">
-                    {/* Related article content remains the same */}
-                    <div className="relative w-full h-40">
+                  <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-ios h-full flex flex-col">
+                    <div className="relative h-40">
                       {relatedArticle.mainImage ? (
                         <Image
                           src={urlForImage(relatedArticle.mainImage).width(400).height(300).url()}
