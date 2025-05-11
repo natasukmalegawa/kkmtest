@@ -8,7 +8,7 @@ import { AppleButton } from '@/components/ui/AppleButton'
 import { FaChevronLeft } from 'react-icons/fa'
 
 export const metadata: Metadata = {
-  title: 'Articles | Your Brand',
+  title: 'Articles | Karir dan Karya Mahasiswa',
   description: 'Read our latest articles and stories',
 }
 
