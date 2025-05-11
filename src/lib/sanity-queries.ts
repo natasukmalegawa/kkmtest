@@ -193,6 +193,53 @@ export async function getCategories() {
   }`)
 }
 
+// Tambahkan di src/lib/sanity-queries.ts
+
+// Make sure categories are properly fetched in articles
+export async function getArticleBySlug(slug: string) {
+  return client.fetch<Article>(groq`*[_type == "article" && slug.current == $slug][0]{
+    _id,
+    title,
+    slug,
+    excerpt,
+    mainImage,
+    publishedAt,
+    body,
+    "author": author->{
+      _id,
+      name,
+      slug,
+      image,
+      bio
+    },
+    "categories": categories[]->{
+      _id,
+      title
+    }
+  }`, { slug })
+}
+
+// Get related articles - important fix to ensure we get recent articles
+export async function getRelatedArticles(articleId: string, limit = 4) {
+  return client.fetch<Article[]>(groq`*[_type == "article" && _id != $articleId] | order(publishedAt desc)[0...${limit}]{
+    _id,
+    title,
+    slug,
+    mainImage,
+    publishedAt,
+    excerpt,
+    "author": author->{
+      _id,
+      name,
+      image
+    },
+    "categories": categories[]->{
+      _id,
+      title
+    }
+  }`, { articleId })
+}
+
 // Search articles
 export async function searchArticles(searchQuery: string, limit = 10) {
   const query = `*[_type == "article" && (
