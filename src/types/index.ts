@@ -56,7 +56,7 @@ export type FooterColumn = {
   links: FooterLink[]
 }
 
-// Site Settings
+// Update SiteSettings type
 export type SiteSettings = {
   title?: string
   description?: string
@@ -69,17 +69,44 @@ export type SiteSettings = {
   teamSmallTitle?: string
   teamTitle?: string
   teamSubtitle?: string
+  articlesSmallTitle?: string
+  articlesTitle?: string
+  articlesSubtitle?: string
   copyright?: string
 }
 
-// Article
+// Add new types
+export type Author = {
+  _id: string
+  name: string
+  slug: {
+    current: string
+  }
+  image?: {
+    asset: {
+      _ref: string
+    }
+  }
+  bio?: string
+}
+
 export type Article = {
   _id: string
   title: string
-  slug: string
-  excerpt: string
+  slug: {
+    current: string
+  }
+  author: Author
+  mainImage?: {
+    asset: {
+      _ref: string
+    }
+  }
+  categories?: Array<{
+    _id: string
+    title: string
+  }>
   publishedAt: string
-  image: string
-  author: string
-  authorImage: string
+  excerpt?: string
+  body?: any[]
 }
