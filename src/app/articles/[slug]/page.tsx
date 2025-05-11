@@ -6,7 +6,8 @@ import { getArticleBySlug, getRelatedArticles } from '@/lib/sanity-queries'
 import { urlForImage } from '@/lib/sanity-image'
 import { formatDate } from '@/lib/utils'
 import { PortableText } from '@/components/ui/PortableText'
-import { FaChevronLeft } from 'react-icons/fa'
+import { FaChevronLeft, FaTwitter, FaFacebook, FaLinkedin, FaEnvelope, FaLink } from 'react-icons/fa'
+import ShareButtons from '@/components/ui/ShareButtons'
 
 type Props = {
   params: { slug: string }
@@ -17,12 +18,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   
   if (!article) {
     return {
-      title: 'Article Not Found | Karir dan Karya Mahasiswa',
+      title: 'Article Not Found | Your Brand',
     }
   }
   
   return {
-    title: `${article.title} | Karir dan Karya Mahasiswa`,
+    title: `${article.title} | Your Brand`,
     description: article.excerpt,
   }
 }
@@ -34,15 +35,20 @@ export default async function ArticlePage({ params }: Props) {
     notFound()
   }
   
-  // Fetch related articles
+  // Fetch related articles - ensure they're sorted by date and not the current article
   const relatedArticles = await getRelatedArticles(article._id, 3)
   
+  // Format the article URL for sharing
+  const articleUrl = typeof window !== 'undefined' 
+    ? window.location.href 
+    : `https://yourwebsite.com/articles/${params.slug}`;
+  
   return (
-    <div className="pt-24 pb-16">
+    <div className="pt-24 pb-16 bg-white dark:bg-black">
       <div className="container mx-auto px-4 md:px-6">
         {/* Back navigation */}
-        <div className="mb-6">
-          <Link href="/articles" className="inline-flex items-center text-apple-gray hover:text-apple-blue dark:text-gray-400 dark:hover:text-blue-400 transition-ios font-medium">
+        <div className="mb-6 max-w-4xl mx-auto">
+          <Link href="/articles" className="inline-flex items-center text-apple-gray hover:text-apple-blue dark:text-gray-400 dark:hover:text-blue-400 transition-ios font-medium sf-pro-text">
             <FaChevronLeft className="mr-2" size={14} />
             Back to Articles
           </Link>
@@ -50,7 +56,7 @@ export default async function ArticlePage({ params }: Props) {
         
         <div className="max-w-4xl mx-auto">
           {/* Breadcrumb */}
-          <div className="mb-6 text-sm text-apple-gray dark:text-gray-400">
+          <div className="mb-6 text-sm text-apple-gray dark:text-gray-400 sf-pro-text">
             <Link href="/articles" className="hover:underline">Articles</Link>
             <span className="mx-2">/</span>
             {article.categories && article.categories[0] && (
@@ -65,7 +71,9 @@ export default async function ArticlePage({ params }: Props) {
           </div>
           
           {/* Article Header */}
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">{article.title}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white sf-pro-display">
+            {article.title}
+          </h1>
           
           {/* Author and Date */}
           <div className="flex items-center mb-8">
@@ -83,14 +91,14 @@ export default async function ArticlePage({ params }: Props) {
               )}
             </div>
             <div>
-              <p className="text-sm text-gray-900 dark:text-white font-medium">{article.author.name}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{formatDate(article.publishedAt)}</p>
+              <p className="text-sm text-gray-900 dark:text-white font-medium sf-pro-text">{article.author.name}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 sf-pro-text">{formatDate(article.publishedAt)}</p>
             </div>
           </div>
           
-          {/* Featured Image */}
+          {/* Featured Image - More rectangular for mobile */}
           {article.mainImage && (
-            <div className="relative w-full h-80 md:h-96 mb-8 rounded-2xl overflow-hidden">
+            <div className="relative w-full h-56 sm:h-72 md:h-96 mb-8 rounded-2xl overflow-hidden">
               <Image
                 src={urlForImage(article.mainImage).width(1200).height(800).url()}
                 alt={article.title}
@@ -101,8 +109,16 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           )}
           
+          {/* Social Sharing */}
+          <div className="mb-8 flex justify-center">
+            <ShareButtons 
+              url={articleUrl}
+              title={article.title}
+            />
+          </div>
+          
           {/* Article Content */}
-          <div className="prose dark:prose-invert prose-lg max-w-none">
+          <div className="prose dark:prose-invert prose-lg max-w-none sf-pro-text">
             <PortableText value={article.body} />
           </div>
           
@@ -113,7 +129,7 @@ export default async function ArticlePage({ params }: Props) {
                 <Link
                   key={category._id}
                   href={`/articles?category=${category.title}`}
-                  className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-apple-gray dark:text-gray-300 rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-700"
+                  className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-apple-gray dark:text-gray-300 rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-700 sf-pro-text"
                 >
                   {category.title}
                 </Link>
@@ -125,12 +141,12 @@ export default async function ArticlePage({ params }: Props) {
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
           <div className="max-w-6xl mx-auto mt-16">
-            <h2 className="text-2xl font-bold mb-8 relative pb-2 inline-block after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:bg-apple-blue">
+            <h2 className="text-2xl font-bold mb-8 relative pb-3 inline-block after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:bg-apple-blue sf-pro-display">
               Related Articles
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {relatedArticles.map((relatedArticle) => (
-                <Link key={relatedArticle._id} href={`/articles/${relatedArticle.slug.current}`}>
+                <Link key={relatedArticle._id} href={`/articles/${relatedArticle.slug.current}`} className="group">
                   <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-ios h-full flex flex-col">
                     <div className="relative h-40">
                       {relatedArticle.mainImage ? (
@@ -138,16 +154,20 @@ export default async function ArticlePage({ params }: Props) {
                           src={urlForImage(relatedArticle.mainImage).width(400).height(300).url()}
                           alt={relatedArticle.title}
                           fill
-                          className="object-cover"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
                         <div className="w-full h-full bg-gray-200 dark:bg-gray-700"></div>
                       )}
                     </div>
                     
-                    <div className="p-4 flex-grow">
-                      <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">{relatedArticle.title}</h3>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">{formatDate(relatedArticle.publishedAt)}</p>
+                    <div className="p-4 flex-grow flex flex-col bg-[#f5f5f7] dark:bg-gray-800">
+                      <div className="text-apple-gray dark:text-gray-400 text-xs mb-1 sf-pro-text">
+                        {formatDate(relatedArticle.publishedAt)}
+                      </div>
+                      <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-apple-blue dark:group-hover:text-blue-400 transition-ios sf-pro-display">
+                        {relatedArticle.title}
+                      </h3>
                     </div>
                   </div>
                 </Link>
@@ -156,6 +176,30 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         )}
       </div>
+      
+      {/* Apple Fonts Styling */}
+      <style jsx global>{`
+        .sf-pro-display {
+          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+          letter-spacing: -0.015em;
+        }
+        
+        .sf-pro-text {
+          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+          letter-spacing: -0.01em;
+        }
+        
+        /* Improve typography for article content */
+        .prose {
+          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+          letter-spacing: -0.01em;
+        }
+        
+        .prose h2, .prose h3, .prose h4 {
+          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+          letter-spacing: -0.015em;
+        }
+      `}</style>
     </div>
   )
 }
