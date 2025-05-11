@@ -1,6 +1,6 @@
 import { groq } from 'next-sanity'
 import { client } from './sanity'
-import { AboutCard, Navigation, Program, TeamMember, FooterColumn, SiteSettings } from '@/types'
+import { AboutCard, Navigation, Program, TeamMember, Article, FooterColumn, SiteSettings } from '@/types'
 
 // Site settings
 export async function getSiteSettings() {
