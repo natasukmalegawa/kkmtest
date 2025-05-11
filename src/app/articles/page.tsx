@@ -7,6 +7,9 @@ import { formatDate } from '@/lib/utils'
 import { AppleButton } from '@/components/ui/AppleButton'
 import { FaChevronLeft } from 'react-icons/fa'
 
+// Import global styles (akan dibuat terpisah)
+import '@/app/articles/articles-styles.css'
+
 export const metadata: Metadata = {
   title: 'Articles | Your Brand',
   description: 'Read our latest articles and stories',
@@ -329,19 +332,6 @@ export default async function ArticlesPage({
           </>
         )}
       </div>
-      
-      {/* Apple Fonts Styling */}
-      <style jsx global>{`
-        .sf-pro-display {
-          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-          letter-spacing: -0.015em;
-        }
-        
-        .sf-pro-text {
-          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-          letter-spacing: -0.01em;
-        }
-      `}</style>
     </div>
   )
 }
