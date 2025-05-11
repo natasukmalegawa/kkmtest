@@ -1,5 +1,5 @@
-import { groq } from 'next-sanity';
-import { client } from './sanity';
+import { groq } from 'next-sanity'
+import { client } from './sanity'
 import { Author } from '@/types'
 import {
   AboutCard,
@@ -9,9 +9,9 @@ import {
   Article,
   FooterColumn,
   SiteSettings,
-} from '@/types';
+} from '@/types'
 
-// Update getSiteSettings function
+// Site settings
 export async function getSiteSettings() {
   return client.fetch<SiteSettings>(groq`*[_type == "siteSettings"][0]{
     title,
@@ -32,7 +32,7 @@ export async function getSiteSettings() {
   }`)
 }
 
-// Add new query functions
+// Get latest articles
 export async function getArticles(limit = 3) {
   return client.fetch<Article[]>(groq`*[_type == "article"] | order(publishedAt desc)[0...${limit}]{
     _id,
@@ -54,6 +54,7 @@ export async function getArticles(limit = 3) {
   }`)
 }
 
+// Get single author
 export async function getAuthor(id: string) {
   return client.fetch<Author>(groq`*[_type == "author" && _id == $id][0]{
     _id,
@@ -71,10 +72,10 @@ export async function getNavigation() {
       title,
       url
     }`
-  );
+  )
 }
 
-// Hero
+// Hero section
 export async function getHero() {
   return client.fetch(
     groq`*[_type == "hero"][0]{
@@ -89,7 +90,7 @@ export async function getHero() {
         backgroundImage
       }
     }`
-  );
+  )
 }
 
 // About cards
@@ -101,7 +102,7 @@ export async function getAboutCards() {
       icon,
       iconBgColor
     }`
-  );
+  )
 }
 
 // Programs
@@ -114,7 +115,7 @@ export async function getPrograms() {
       image,
       status
     }`
-  );
+  )
 }
 
 // Team members
@@ -129,7 +130,7 @@ export async function getTeamMembers() {
       email,
       linkedin
     }`
-  );
+  )
 }
 
 // Footer
@@ -145,10 +146,8 @@ export async function getFooter() {
       },
       "copyright": *[_type == "siteSettings"][0].copyright
     }`
-  );
+  )
 }
-
-// Existing imports and queries...
 
 // Get article by slug
 export async function getArticleBySlug(slug: string) {
@@ -175,51 +174,6 @@ export async function getArticleBySlug(slug: string) {
 }
 
 // Get related articles
-export async function getRelatedArticles(articleId: string, limit = 3) {
-  return client.fetch<Article[]>(groq`*[_type == "article" && _id != $articleId][0...${limit}]{
-    _id,
-    title,
-    slug,
-    mainImage,
-    publishedAt
-  }`, { articleId })
-}
-
-// Get all categories
-export async function getCategories() {
-  return client.fetch<{_id: string, title: string}[]>(groq`*[_type == "category"] | order(title asc) {
-    _id,
-    title
-  }`)
-}
-
-// Tambahkan di src/lib/sanity-queries.ts
-
-// Make sure categories are properly fetched in articles
-export async function getArticleBySlug(slug: string) {
-  return client.fetch<Article>(groq`*[_type == "article" && slug.current == $slug][0]{
-    _id,
-    title,
-    slug,
-    excerpt,
-    mainImage,
-    publishedAt,
-    body,
-    "author": author->{
-      _id,
-      name,
-      slug,
-      image,
-      bio
-    },
-    "categories": categories[]->{
-      _id,
-      title
-    }
-  }`, { slug })
-}
-
-// Get related articles - important fix to ensure we get recent articles
 export async function getRelatedArticles(articleId: string, limit = 4) {
   return client.fetch<Article[]>(groq`*[_type == "article" && _id != $articleId] | order(publishedAt desc)[0...${limit}]{
     _id,
@@ -238,6 +192,14 @@ export async function getRelatedArticles(articleId: string, limit = 4) {
       title
     }
   }`, { articleId })
+}
+
+// Get all categories
+export async function getCategories() {
+  return client.fetch<{_id: string, title: string}[]>(groq`*[_type == "category"] | order(title asc) {
+    _id,
+    title
+  }`)
 }
 
 // Search articles
@@ -262,4 +224,3 @@ export async function searchArticles(searchQuery: string, limit = 10) {
   
   return client.fetch<Article[]>(query, { searchQuery: `*${searchQuery}*` })
 }
-
