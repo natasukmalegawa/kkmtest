@@ -1,5 +1,6 @@
 import { groq } from 'next-sanity';
 import { client } from './sanity';
+import { Article, Author } from '@/types'
 import {
   AboutCard,
   Navigation,
@@ -10,24 +11,57 @@ import {
   SiteSettings,
 } from '@/types';
 
-// Site settings
+// Update getSiteSettings function
 export async function getSiteSettings() {
-  return client.fetch<SiteSettings>(
-    groq`*[_type == "siteSettings"][0]{
-      title,
-      description,
-      aboutSmallTitle,
-      aboutTitle,
-      aboutSubtitle,
-      programsSmallTitle,
-      programsTitle,
-      programsSubtitle,
-      teamSmallTitle,
-      teamTitle,
-      teamSubtitle,
-      copyright
-    }`
-  );
+  return client.fetch<SiteSettings>(groq`*[_type == "siteSettings"][0]{
+    title,
+    description,
+    aboutSmallTitle,
+    aboutTitle,
+    aboutSubtitle,
+    programsSmallTitle,
+    programsTitle,
+    programsSubtitle,
+    teamSmallTitle,
+    teamTitle,
+    teamSubtitle,
+    articlesSmallTitle,
+    articlesTitle,
+    articlesSubtitle,
+    copyright
+  }`)
+}
+
+// Add new query functions
+export async function getArticles(limit = 3) {
+  return client.fetch<Article[]>(groq`*[_type == "article"] | order(publishedAt desc)[0...${limit}]{
+    _id,
+    title,
+    slug,
+    excerpt,
+    mainImage,
+    publishedAt,
+    "author": author->{
+      _id,
+      name,
+      slug,
+      image
+    },
+    "categories": categories[]->{
+      _id,
+      title
+    }
+  }`)
+}
+
+export async function getAuthor(id: string) {
+  return client.fetch<Author>(groq`*[_type == "author" && _id == $id][0]{
+    _id,
+    name,
+    slug,
+    image,
+    bio
+  }`, { id })
 }
 
 // Navigation
@@ -94,22 +128,6 @@ export async function getTeamMembers() {
       instagram,
       email,
       linkedin
-    }`
-  );
-}
-
-// Articles (latest 6)
-export async function getLatestArticles(): Promise<Article[]> {
-  return client.fetch(
-    groq`*[_type == "article"] | order(publishedAt desc)[0...6] {
-      _id,
-      title,
-      "slug": slug.current,
-      excerpt,
-      publishedAt,
-      "image": coverImage,
-      "author": author->name,
-      "authorImage": author->image.asset->url
     }`
   );
 }
