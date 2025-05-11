@@ -5,6 +5,9 @@ import aboutCard from './aboutCard'
 import program from './program'
 import teamMember from './teamMember'
 import footerColumn from './footerColumn'
+import author from './author'
+import article from './article'
+import category from './category'
 
 export const schemaTypes = [
   siteSettings,
@@ -14,4 +17,7 @@ export const schemaTypes = [
   program,
   teamMember,
   footerColumn,
+  author,
+  article,
+  category,
 ]
