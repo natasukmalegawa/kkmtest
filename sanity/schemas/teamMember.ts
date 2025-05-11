@@ -1,3 +1,5 @@
+import { Rule } from 'sanity'
+
 export default {
   name: 'teamMember',
   title: 'Team Member',
@@ -19,8 +21,8 @@ export default {
       type: 'image',
       options: {
         hotspot: true,
-        validation: Rule => Rule.required(),
       },
+      validation: (Rule: Rule) => Rule.required(), // <- pindahkan ke sini
     },
     {
       name: 'instagram',
