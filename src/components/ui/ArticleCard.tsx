@@ -33,10 +33,14 @@ export default function ArticleCard({ article }: Props) {
             <p className="text-sm font-medium text-apple-darkgray dark:text-white">
               {article.author}
             </p>
-            {article.date && (
-              <p className="text-xs text-gray-600 dark:text-gray-300">
-                {article.date}
-              </p>
+            {article.publishedAt && (
+            <p className="text-xs text-gray-600 dark:text-gray-300">
+            {new Date(article.publishedAt).toLocaleDateString('id-ID', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+             })}
+            </p>
             )}
           </div>
         </div>
