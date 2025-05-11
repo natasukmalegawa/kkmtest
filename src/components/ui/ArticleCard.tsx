@@ -30,14 +30,22 @@ export default function ArticleCard({ article }: Props) {
             />
           </div>
           <div>
-            <p className="text-sm font-medium text-apple-darkgray dark:text-white">{article.author}</p>
-            <p className="text-xs text-gray-600 dark:text-gray-300">{article.date}</p>
+            <p className="text-sm font-medium text-apple-darkgray dark:text-white">
+              {article.author}
+            </p>
+            {article.date && (
+              <p className="text-xs text-gray-600 dark:text-gray-300">
+                {article.date}
+              </p>
+            )}
           </div>
         </div>
         <h3 className="text-lg font-bold heading-apple mb-3 text-apple-darkgray dark:text-white">
           {article.title}
         </h3>
-        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">{article.excerpt}</p>
+        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
+          {article.excerpt}
+        </p>
         <div className="mt-auto">
           <Link
             href={`/articles/${article.slug}`}
