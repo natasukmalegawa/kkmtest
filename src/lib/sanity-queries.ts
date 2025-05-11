@@ -147,3 +147,63 @@ export async function getFooter() {
     }`
   );
 }
+
+// Existing imports and queries...
+
+// Get article by slug
+export async function getArticleBySlug(slug: string) {
+  return client.fetch<Article>(groq`*[_type == "article" && slug.current == $slug][0]{
+    _id,
+    title,
+    slug,
+    excerpt,
+    mainImage,
+    publishedAt,
+    body,
+    "author": author->{
+      _id,
+      name,
+      slug,
+      image,
+      bio
+    },
+    "categories": categories[]->{
+      _id,
+      title
+    }
+  }`, { slug })
+}
+
+// Get related articles
+export async function getRelatedArticles(articleId: string, limit = 3) {
+  return client.fetch<Article[]>(groq`*[_type == "article" && _id != $articleId][0...${limit}]{
+    _id,
+    title,
+    slug,
+    mainImage,
+    publishedAt
+  }`, { articleId })
+}
+
+// Search articles
+export async function searchArticles(searchQuery: string, limit = 10) {
+  const query = `*[_type == "article" && (
+    title match $searchQuery || 
+    excerpt match $searchQuery || 
+    pt::text(body) match $searchQuery
+  )][0...${limit}]{
+    _id,
+    title,
+    slug,
+    excerpt,
+    mainImage,
+    publishedAt,
+    "author": author->{
+      _id,
+      name,
+      image
+    }
+  }`
+  
+  return client.fetch<Article[]>(query, { searchQuery: `*${searchQuery}*` })
+}
