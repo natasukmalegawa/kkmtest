@@ -16,12 +16,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   
   if (!article) {
     return {
-      title: 'Article Not Found | Your Brand',
+      title: 'Article Not Found | Karir dan Karya Mahasiswa',
     }
   }
   
   return {
-    title: `${article.title} | Your Brand`,
+    title: `${article.title} | Karir dan Karya Mahasiswa`,
     description: article.excerpt,
   }
 }
