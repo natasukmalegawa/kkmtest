@@ -70,5 +70,22 @@ export default {
       type: 'string',
       description: 'Copyright text that appears in the footer',
     },
+    // Tambahkan field ini di siteSettings.ts
+    {
+  name: 'articlesSmallTitle',
+  title: 'Articles Section Small Title',
+  type: 'string',
+  description: 'Small title displayed above the main Articles title',
+},
+{
+  name: 'articlesTitle',
+  title: 'Articles Section Title',
+  type: 'string',
+},
+{
+  name: 'articlesSubtitle',
+  title: 'Articles Section Subtitle',
+  type: 'text',
+},
   ],
 }
