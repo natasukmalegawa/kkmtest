@@ -146,32 +146,6 @@ export function Team({ smallTitle, title, subtitle, members }: TeamProps) {
             ))}
           </div>
         )}
-
-        {/* Get in Touch with social icons */}
-        <div className="flex justify-center space-x-4 mt-10">
-          <a
-            href="https://www.instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-icon bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300"
-          >
-            <i className="fab fa-instagram"></i>
-          </a>
-          <a
-            href="mailto:someone@example.com"
-            className="social-icon bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300"
-          >
-            <i className="fas fa-envelope"></i>
-          </a>
-          <a
-            href="https://www.linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-icon bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300"
-          >
-            <i className="fab fa-linkedin-in"></i>
-          </a>
-        </div>
       </div>
     </section>
   )
