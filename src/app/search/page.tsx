@@ -6,7 +6,7 @@ import { urlForImage } from '@/lib/sanity-image'
 import { formatDate } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'Search Results | Karir dan Karya Mahasiswa',
+  title: 'Search Results | Your Brand',
   description: 'Search for articles and content',
 }
 
@@ -22,7 +22,7 @@ export default async function SearchPage({
   const articles = query ? await searchArticles(query) : []
   
   return (
-    <div className="bg-white dark:bg-black min-h-screen pt-24">
+    <div className="pt-24 pb-16">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl font-bold text-center mb-2">Search Results</h1>
@@ -30,7 +30,7 @@ export default async function SearchPage({
             {query ? `Showing results for "${query}"` : 'Enter a search term to find articles'}
           </p>
           
-          {/* Search Results */}
+          {/* Search Results - Content remains the same */}
           {!query ? (
             <div className="text-center py-12">
               <p className="text-lg text-gray-600 dark:text-gray-400">Enter a search term in the search bar above</p>
@@ -45,7 +45,7 @@ export default async function SearchPage({
               {articles.map((article) => (
                 <Link key={article._id} href={`/articles/${article.slug.current}`}>
                   <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col">
-                    {/* Article Image */}
+                    {/* Article card content remains the same */}
                     <div className="relative w-full h-48">
                       {article.mainImage ? (
                         <Image
@@ -59,11 +59,9 @@ export default async function SearchPage({
                       )}
                     </div>
                     
-                    {/* Article Content */}
                     <div className="p-5 flex-grow flex flex-col">
                       <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">{article.title}</h3>
                       
-                      {/* Author and Date */}
                       <div className="flex items-center mb-3">
                         <div className="w-8 h-8 rounded-full overflow-hidden mr-2 bg-gray-200 dark:bg-gray-700">
                           {article.author?.image ? (
@@ -84,7 +82,6 @@ export default async function SearchPage({
                         </div>
                       </div>
                       
-                      {/* Excerpt */}
                       {article.excerpt && (
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">{article.excerpt}</p>
                       )}
