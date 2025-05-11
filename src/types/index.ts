@@ -4,8 +4,7 @@ export type Navigation = {
   url: string
 }
 
-
-// Dalam src/types/index.ts
+// About Card
 export type AboutCard = {
   title: string
   description: string
@@ -57,8 +56,9 @@ export type FooterColumn = {
   links: FooterLink[]
 }
 
+// Site Settings
 export type SiteSettings = {
-title?: string
+  title?: string
   description?: string
   aboutSmallTitle?: string
   aboutTitle?: string
@@ -70,4 +70,16 @@ title?: string
   teamTitle?: string
   teamSubtitle?: string
   copyright?: string
+}
+
+// Article
+export type Article = {
+  _id: string
+  title: string
+  slug: string
+  excerpt: string
+  publishedAt: string
+  image: string
+  author: string
+  authorImage: string
 }
