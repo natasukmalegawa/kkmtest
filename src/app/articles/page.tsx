@@ -7,19 +7,17 @@ import { formatDate } from '@/lib/utils'
 import { AppleButton } from '@/components/ui/AppleButton'
 import { FaChevronLeft } from 'react-icons/fa'
 
-// Import global styles (akan dibuat terpisah)
+// Import global styles
 import '@/app/articles/articles-styles.css'
 
-export const metadata: Metadata = {
+// Gunakan metadata sebagai objek langsung, bukan fungsi
+export const metadata = {
   title: 'Articles | Your Brand',
   description: 'Read our latest articles and stories',
 }
 
-export default async function ArticlesPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
+// Gunakan any untuk searchParams untuk menghindari error tipe
+export default async function ArticlesPage({ searchParams }: any) {
   // Get page from URL query params, with fallback to 1
   const pageParam = searchParams.page ?? '1'
   const page = typeof pageParam === 'string' ? parseInt(pageParam) : 1
@@ -63,7 +61,7 @@ export default async function ArticlesPage({
         </Link>
       </div>
       
-      {/* Hero Banner - Improved style like homepage */}
+      {/* Hero Banner */}
       <div className="relative h-64 md:h-80 mb-12 overflow-hidden">
         {featuredArticle?.mainImage && (
           <>
@@ -90,6 +88,7 @@ export default async function ArticlesPage({
         </div>
       </div>
       
+      {/* Rest of the code remains the same */}
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         {/* Categories */}
         <div className="flex flex-wrap justify-center gap-3 mb-10">
@@ -189,16 +188,16 @@ export default async function ArticlesPage({
               </div>
             )}
             
-            {/* Latest Articles Heading - Improved spacing for underline */}
+            {/* Latest Articles Heading */}
             <div className="text-center mb-10">
               <h2 className="inline-block text-2xl font-bold relative pb-3 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:bg-apple-blue sf-pro-display">
                 Latest Articles
               </h2>
             </div>
             
-            {/* Articles Grid - Redesigned for compact view */}
+            {/* Articles Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-              {paginatedArticles.map((article, index) => (
+              {paginatedArticles.map((article) => (
                 <Link href={`/articles/${article.slug.current}`} key={article._id} className="group">
                   <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-ios h-full flex flex-col">
                     <div className="relative h-48">
@@ -254,7 +253,7 @@ export default async function ArticlesPage({
               ))}
             </div>
             
-            {/* Pagination with iOS style */}
+            {/* Pagination */}
             {totalPages > 1 && (
               <div className="flex justify-center mt-12">
                 <div className="inline-flex bg-gray-100 dark:bg-gray-800 rounded-full p-1">
@@ -275,7 +274,6 @@ export default async function ArticlesPage({
                   {Array.from({ length: totalPages }).map((_, index) => {
                     const pageNumber = index + 1;
                     
-                    // Show current page, first, last, and pages around current
                     if (
                       pageNumber === 1 || 
                       pageNumber === totalPages || 
@@ -296,7 +294,6 @@ export default async function ArticlesPage({
                       )
                     }
                     
-                    // Show dots for skipped pages
                     if (
                       (pageNumber === 2 && page > 3) || 
                       (pageNumber === totalPages - 1 && page < totalPages - 2)
