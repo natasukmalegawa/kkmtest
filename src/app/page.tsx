@@ -55,10 +55,10 @@ export default async function Home() {
       />
 
       <UpcomingPrograms
-       smallTitle={siteSettings?.programsSmallTitle || "Upcoming Programs"}
-       title={siteSettings?.upcomingProgramsTitle || "Join Our Exclusive Programs"} 
-       subtitle={siteSettings?.upcomingProgramsSubtitle || "Expand your knowledge and skills with our carefully designed programs"} 
-       programs={upcomingPrograms || []}
+        smallTitle={siteSettings?.upcomingProgramsSmallTitle || "Upcoming Programs"}
+        title={siteSettings?.upcomingProgramsTitle || "Join Our Exclusive Programs"} 
+        subtitle={siteSettings?.upcomingProgramsSubtitle || "Expand your knowledge and skills with our carefully designed programs"} 
+        programs={upcomingPrograms || []}
       />
     </>
   )
