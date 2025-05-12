@@ -9,9 +9,10 @@ import {
   Article,
   FooterColumn,
   SiteSettings,
+  UpcomingProgram,
 } from '@/types'
 
-// Site settings
+// Update site settings query to include upcoming programs section
 export async function getSiteSettings() {
   return client.fetch<SiteSettings>(groq`*[_type == "siteSettings"][0]{
     title,
@@ -28,8 +29,48 @@ export async function getSiteSettings() {
     articlesSmallTitle,
     articlesTitle,
     articlesSubtitle,
+    upcomingProgramsSmallTitle,
+    upcomingProgramsTitle,
+    upcomingProgramsSubtitle,
     copyright
   }`)
+}
+
+// Get upcoming programs
+export async function getUpcomingPrograms() {
+  return client.fetch<UpcomingProgram[]>(groq`*[_type == "upcomingProgram"] | order(order asc) {
+    _id,
+    title,
+    slug,
+    description,
+    mainImage,
+    status,
+    registrationDate,
+    programDate,
+    location,
+    price,
+    features,
+    registrationLink
+  }`)
+}
+
+// Get upcoming program by slug
+export async function getUpcomingProgramBySlug(slug: string) {
+  return client.fetch<UpcomingProgram>(groq`*[_type == "upcomingProgram" && slug.current == $slug][0]{
+    _id,
+    title,
+    slug,
+    description,
+    mainImage,
+    status,
+    registrationDate,
+    programDate,
+    location,
+    price,
+    fullDescription,
+    features,
+    registrationLink
+  }`, { slug })
 }
 
 // Get latest articles
