@@ -110,3 +110,34 @@ export type Article = {
   excerpt?: string
   body?: any[]
 }
+
+export type UpcomingProgram = {
+  _id: string
+  title: string
+  slug: {
+    current: string
+  }
+  description: string
+  mainImage: {
+    asset: {
+      _ref: string
+    }
+  }
+  status: 'coming-soon' | 'registration-open' | 'in-progress'
+  registrationDate?: string
+  programDate: string
+  location?: string
+  price?: number
+  fullDescription?: any[]
+  features?: string[]
+  order?: number
+  registrationLink?: string
+}
+
+// Update SiteSettings to include upcoming programs section
+export type SiteSettings = {
+  // Existing fields...
+  upcomingProgramsSmallTitle?: string
+  upcomingProgramsTitle?: string
+  upcomingProgramsSubtitle?: string
+}
