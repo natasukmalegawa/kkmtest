@@ -40,13 +40,6 @@ export default async function Home() {
         programs={programs || []}
       />
       
-      <UpcomingPrograms 
-        smallTitle={siteSettings?.upcomingProgramsSmallTitle || "Upcoming Programs"}
-        title={siteSettings?.upcomingProgramsTitle || "Join Our Exclusive Programs"} 
-        subtitle={siteSettings?.upcomingProgramsSubtitle || "Expand your knowledge and skills with our carefully designed programs"} 
-        programs={upcomingPrograms || []}
-      />
-      
       <Team 
         smallTitle={siteSettings?.teamSmallTitle || "Our People"}
         title={siteSettings?.teamTitle || "Our Team"} 
@@ -59,6 +52,13 @@ export default async function Home() {
         title={siteSettings?.articlesTitle || "From Our Blog"}
         subtitle={siteSettings?.articlesSubtitle || "Stay updated with our latest insights, news, and stories"}
         articles={articles || []}
+      />
+
+      <UpcomingPrograms
+       smallTitle={siteSettings?.programsSmallTitle || "Upcoming Programs"}
+       title={siteSettings?.upcomingProgramsTitle || "Join Our Exclusive Programs"} 
+       subtitle={siteSettings?.upcomingProgramsSubtitle || "Expand your knowledge and skills with our carefully designed programs"} 
+       programs={upcomingPrograms || []}
       />
     </>
   )
