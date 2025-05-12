@@ -13,13 +13,17 @@ import '@/app/articles/articles-styles.css'
 
 export const dynamicParams = true
 
-type ArticlePageProps = {
-  params: {
-    slug: string
-  }
+// Definisi props yang benar untuk page dan generateMetadata
+type Params = {
+  slug: string;
 }
 
-export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
+type Props = {
+  params: Params;
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticleBySlug(params.slug)
 
   if (!article) {
@@ -34,7 +38,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   }
 }
 
-export default async function ArticlePage({ params }: ArticlePageProps) {
+export default async function ArticlePage({ params }: Props) {
   const article = await getArticleBySlug(params.slug)
 
   if (!article) {
@@ -121,8 +125,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               {article.categories.map((category) => (
                 <Link
                   key={category._id}
-                  href={`/categories/${category.title.toLowerCase()}`}
-                  className="rounded-full border border-neutral-200 px-4 py-1 text-sm text-neutral-700 transition-colors hover:border-neutral-300 hover:bg-neutral-100"
+                  href={`/articles?category=${category.title}`}
+                  className="rounded-full border border-neutral-200 px-4 py-1 text-sm text-neutral-700 transition-colors hover:border-neutral-300 hover:bg-neutral-100 dark:border-neutral-800 dark:text-neutral-300 dark:hover:border-neutral-700 dark:hover:bg-neutral-900"
                 >
                   {category.title}
                 </Link>
@@ -131,16 +135,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           )}
         </div>
 
-        <div className="mt-8">
-          <ShareButtons url={articleUrl} />
-        </div>
-
         {relatedArticles.length > 0 && (
           <div className="max-w-6xl mx-auto mt-16">
-            <h2 className="text-2xl font-semibold text-apple-gray dark:text-gray-200">
+            <h2 className="text-2xl font-bold mb-8 relative pb-3 inline-block after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:bg-apple-blue sf-pro-display">
               Related Articles
             </h2>
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {relatedArticles.map((relatedArticle) => (
                 <Link key={relatedArticle._id} href={`/articles/${relatedArticle.slug.current}`} className="group">
                   <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-ios h-full flex flex-col">
@@ -156,6 +156,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                         <div className="w-full h-full bg-gray-200 dark:bg-gray-700"></div>
                       )}
                     </div>
+                    
                     <div className="p-4 flex-grow flex flex-col bg-[#f5f5f7] dark:bg-gray-800">
                       <div className="text-apple-gray dark:text-gray-400 text-xs mb-1 sf-pro-text">
                         {formatDate(relatedArticle.publishedAt)}
