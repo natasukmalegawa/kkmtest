@@ -3,14 +3,14 @@
 import { useState, useRef, useEffect } from 'react'
 import { FaTimes, FaLink, FaFacebook, FaTwitter, FaWhatsapp, FaTelegram, FaLinkedin } from 'react-icons/fa'
 
-type ShareModalProps = {
+type UpcomingProgramShareModalProps = {
   isOpen: boolean
   onClose: () => void
   title: string
   url: string
 }
 
-export function ProgramShareModal({ isOpen, onClose, title, url }: ShareModalProps) {
+export function UpcomingProgramShareModal({ isOpen, onClose, title, url }: UpcomingProgramShareModalProps) {
   const [copied, setCopied] = useState(false)
   const modalRef = useRef<HTMLDivElement>(null)
   
