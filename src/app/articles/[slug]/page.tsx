@@ -13,17 +13,15 @@ import '@/app/articles/articles-styles.css'
 
 export const dynamicParams = true
 
-// Definisi props yang benar untuk page dan generateMetadata
-type Params = {
-  slug: string;
+// TypeScript types for Next.js App Router
+type PageProps = {
+  params: { slug: string }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
-type Props = {
-  params: Params;
-  searchParams: { [key: string]: string | string[] | undefined };
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: PageProps
+): Promise<Metadata> {
   const article = await getArticleBySlug(params.slug)
 
   if (!article) {
@@ -38,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ArticlePage({ params }: Props) {
+export default async function ArticlePage({ params }: PageProps) {
   const article = await getArticleBySlug(params.slug)
 
   if (!article) {
