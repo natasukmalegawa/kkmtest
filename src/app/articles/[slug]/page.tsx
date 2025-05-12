@@ -13,15 +13,8 @@ import '@/app/articles/articles-styles.css'
 
 export const dynamicParams = true
 
-// TypeScript types for Next.js App Router
-type PageProps = {
-  params: { slug: string }
-  searchParams?: { [key: string]: string | string[] | undefined }
-}
-
-export async function generateMetadata(
-  { params }: PageProps
-): Promise<Metadata> {
+// Gunakan pendekatan yang sangat sederhana tanpa tipe kustom
+export async function generateMetadata({ params }: any): Promise<Metadata> {
   const article = await getArticleBySlug(params.slug)
 
   if (!article) {
@@ -36,7 +29,7 @@ export async function generateMetadata(
   }
 }
 
-export default async function ArticlePage({ params }: PageProps) {
+export default async function ArticlePage({ params }: any) {
   const article = await getArticleBySlug(params.slug)
 
   if (!article) {
