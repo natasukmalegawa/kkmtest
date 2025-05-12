@@ -9,6 +9,7 @@ import footerColumn from './footerColumn'
 import author from './author'
 import article from './article'
 import category from './category'
+import gallery from './gallery'
 
 export const schemaTypes = [
   siteSettings,
@@ -22,4 +23,5 @@ export const schemaTypes = [
   author,
   article,
   category,
+  gallery,
 ]
