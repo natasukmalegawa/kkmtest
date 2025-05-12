@@ -131,7 +131,15 @@ export default {
       media: 'mainImage',
       status: 'status'
     },
-    prepare({ title, media, status }) {
+    prepare({
+      title,
+      media,
+      status
+    }: {
+      title: string
+      media: any
+      status: string
+    }) {
       return {
         title,
         media,
