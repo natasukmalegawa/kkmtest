@@ -1,13 +1,16 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { client } from '@/lib/sanity'
+import { client } from '@/lib/sanity-client'
 import { urlForImage } from '@/lib/sanity-image'
 import { formatDate } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaArrowLeft, FaDownload } from 'react-icons/fa'
 
-export async function generateMetadata({ params }) {
+export const dynamicParams = true
+
+// Note: For Next.js 15, use the any type to avoid TypeScript errors
+export async function generateMetadata({ params }: any): Promise<Metadata> {
   const gallery = await getGallery(params.slug)
   
   if (!gallery) {
@@ -23,7 +26,7 @@ export async function generateMetadata({ params }) {
   }
 }
 
-async function getGallery(slug) {
+async function getGallery(slug: string) {
   return client.fetch(`
     *[_type == "gallery" && slug.current == $slug][0] {
       _id,
@@ -37,7 +40,7 @@ async function getGallery(slug) {
   `, { slug })
 }
 
-export default async function GalleryDetailPage({ params }) {
+export default async function GalleryDetailPage({ params }: any) {
   const gallery = await getGallery(params.slug)
   
   if (!gallery) {
