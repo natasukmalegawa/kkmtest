@@ -9,14 +9,17 @@ import { PortableText } from '@/components/ui/PortableText'
 import { FaChevronLeft } from 'react-icons/fa'
 import ShareButtons from '@/components/ui/ShareButtons'
 
-// Import CSS global untuk styling font & prose
 import '@/app/articles/articles-styles.css'
 
-// Enable dynamic params (required for dynamic routing in app router)
 export const dynamicParams = true
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  // Generate Metadata untuk halaman artikel
+type ArticlePageProps = {
+  params: {
+    slug: string
+  }
+}
+
+export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const article = await getArticleBySlug(params.slug)
 
   if (!article) {
@@ -31,11 +34,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default async function ArticlePage({ params }: { params: { slug: string } }) {
+export default async function ArticlePage({ params }: ArticlePageProps) {
   const article = await getArticleBySlug(params.slug)
 
   if (!article) {
-    notFound() // Jika artikel tidak ditemukan, tampilkan halaman 404
+    notFound()
   }
 
   const relatedArticles = await getRelatedArticles(article._id, 3)
