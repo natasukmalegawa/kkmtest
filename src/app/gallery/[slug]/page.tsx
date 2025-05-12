@@ -46,11 +46,7 @@ async function getGallery(slug: string) {
   `, { slug })
 }
 
-export default async function GalleryDetailPage({ 
-  params 
-}: { 
-  params: Params 
-}) {
+export default async function GalleryDetailPage({ params }: Props) {
   const gallery = await getGallery(params.slug)
   
   if (!gallery) {
