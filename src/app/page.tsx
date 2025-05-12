@@ -4,7 +4,8 @@ import { Programs } from '@/components/sections/Programs'
 import { Team } from '@/components/sections/Team'
 import { Articles } from '@/components/sections/Articles'
 import { UpcomingPrograms } from '@/components/sections/UpcomingPrograms'
-import { getSiteSettings, getHero, getAboutCards, getPrograms, getTeamMembers, getArticles, getUpcomingPrograms } from '@/lib/sanity-queries'
+import { GallerySection } from '@/components/sections/GallerySection'
+import { getSiteSettings, getHero, getAboutCards, getPrograms, getTeamMembers, getArticles, getUpcomingPrograms, getGalleries } from '@/lib/sanity-queries'
 
 export default async function Home() {
   // Fetch data from Sanity
@@ -15,6 +16,7 @@ export default async function Home() {
   const upcomingPrograms = await getUpcomingPrograms()
   const teamMembers = await getTeamMembers()
   const articles = await getArticles(4) // Limit to 4 articles
+  const galleries = await getGalleries()
   
   return (
     <>
@@ -59,6 +61,13 @@ export default async function Home() {
         title={siteSettings?.upcomingProgramsTitle || "Join Our Exclusive Programs"} 
         subtitle={siteSettings?.upcomingProgramsSubtitle || "Expand your knowledge and skills with our carefully designed programs"} 
         programs={upcomingPrograms || []}
+      />
+
+      <GallerySection
+        smallTitle="DOKUMENTASI"
+        title="Momen Berharga"
+        subtitle="Lihat dokumentasi kegiatan dan acara kami yang telah berlangsung"
+        galleries={galleries}
       />
     </>
   )
