@@ -5,6 +5,7 @@ import { UpcomingProgram } from '@/types'
 import { UpcomingProgramCard } from '@/components/ui/UpcomingProgramCard'
 import Link from 'next/link'
 import { FaChevronRight } from 'react-icons/fa'
+import { AppleButton } from '@/components/ui/AppleButton'
 
 type UpcomingProgramsProps = {
   smallTitle?: string
