@@ -12,43 +12,29 @@ type Params = {
   slug: string
 }
 
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: Params 
-}): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: { slug: string } }
+): Promise<Metadata> {
   const gallery = await getGallery(params.slug)
-  
+
   if (!gallery) {
     return {
       title: 'Not Found',
       description: 'The page you are looking for does not exist',
     }
   }
-  
+
   return {
     title: `${gallery.title} - KKM Gallery`,
     description: gallery.description || 'Lihat dokumentasi kegiatan dan acara kami',
   }
 }
 
-async function getGallery(slug: string) {
-  return client.fetch(`
-    *[_type == "gallery" && slug.current == $slug][0] {
-      _id,
-      title,
-      slug,
-      mainImage,
-      date,
-      location,
-      description
-    }
-  `, { slug })
-}
-
-export default async function GalleryDetailPage({ params }: Props) {
+export default async function GalleryDetailPage(
+  { params }: { params: { slug: string } }
+) {
   const gallery = await getGallery(params.slug)
-  
+
   if (!gallery) {
     notFound()
   }
