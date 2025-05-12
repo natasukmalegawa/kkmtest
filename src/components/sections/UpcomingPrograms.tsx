@@ -173,13 +173,7 @@ export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: Upco
         </div>
         
         <div className="mt-12 text-center">
-          <Link 
-            href="/programs" 
-            className="inline-flex items-center text-apple-blue dark:text-blue-400 font-medium hover:underline sf-pro-text"
-          >
-            View all programs
-            <FaChevronRight className="ml-1" size={12} />
-          </Link>
+          <AppleButton href="/programs">View All Programs</AppleButton>
         </div>
         
         {/* Add custom styling to hide scrollbar */}
