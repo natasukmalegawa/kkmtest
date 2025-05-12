@@ -1,14 +1,16 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { client } from '@/lib/sanity-client'
+import { client } from '@/lib/sanity'
 import { urlForImage } from '@/lib/sanity-image'
 import { formatDate } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaArrowLeft, FaDownload } from 'react-icons/fa'
 
+// Perbaikan definisi Props
 type Props = {
   params: { slug: string }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
