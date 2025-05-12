@@ -87,5 +87,24 @@ export default {
   title: 'Articles Section Subtitle',
   type: 'text',
 },
+// Add these fields to your siteSettings schema:
+{
+  name: 'upcomingProgramsSmallTitle',
+  title: 'Upcoming Programs Section Small Title',
+  type: 'string',
+  description: 'Small title displayed above the main Upcoming Programs title',
+},
+{
+  name: 'upcomingProgramsTitle',
+  title: 'Upcoming Programs Section Title',
+  type: 'string',
+},
+{
+  name: 'upcomingProgramsSubtitle',
+  title: 'Upcoming Programs Section Subtitle',
+  type: 'text',
+},
   ],
 }
+
+
