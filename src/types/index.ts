@@ -56,7 +56,7 @@ export type FooterColumn = {
   links: FooterLink[]
 }
 
-// Update SiteSettings type
+// Site Settings - Gabungkan semua properti dalam satu definisi
 export type SiteSettings = {
   title?: string
   description?: string
@@ -73,6 +73,10 @@ export type SiteSettings = {
   articlesTitle?: string
   articlesSubtitle?: string
   copyright?: string
+  // Tambahkan properti upcoming programs
+  upcomingProgramsSmallTitle?: string
+  upcomingProgramsTitle?: string
+  upcomingProgramsSubtitle?: string
 }
 
 // Add new types
@@ -132,12 +136,4 @@ export type UpcomingProgram = {
   features?: string[]
   order?: number
   registrationLink?: string
-}
-
-// Update SiteSettings to include upcoming programs section
-export type SiteSettings = {
-  // Existing fields...
-  upcomingProgramsSmallTitle?: string
-  upcomingProgramsTitle?: string
-  upcomingProgramsSubtitle?: string
 }
