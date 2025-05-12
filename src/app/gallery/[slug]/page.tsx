@@ -7,13 +7,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaArrowLeft, FaDownload } from 'react-icons/fa'
 
-// Update Props type to match Next.js 15 expectations
-type Props = {
-  params: { slug: string }
-  searchParams: Record<string, string | string[] | undefined>
+// Define types for our params
+type Params = {
+  slug: string
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: Params 
+}): Promise<Metadata> {
   const gallery = await getGallery(params.slug)
   
   if (!gallery) {
@@ -43,7 +46,11 @@ async function getGallery(slug: string) {
   `, { slug })
 }
 
-export default async function GalleryDetailPage({ params }: Props) {
+export default async function GalleryDetailPage({ 
+  params 
+}: { 
+  params: Params 
+}) {
   const gallery = await getGallery(params.slug)
   
   if (!gallery) {
