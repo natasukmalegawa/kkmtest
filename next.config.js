@@ -2,20 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
-  
-  images: {
-    domains: ['cdn.sanity.io'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'cdn.sanity.io',
-        port: '',
-        pathname: '/images/*/**',
-      },
-    ],
-  },
-  // Penting untuk Sanity Studio
-  transpilePackages: ['@sanity'],
-}
 
-module.exports = nextConfig
+  images: {
+    domains: ['cdn.sanity.io'], // hanya ini
+    // remotePatterns: [...], // hapus sementara
+  },
+
+  transpilePackages: ['@sanity'],
+};
+
+module.exports = nextConfig;
