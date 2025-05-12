@@ -217,7 +217,7 @@ export async function getArticleBySlug(slug: string) {
 
 // Get Gallery
 export async function getGalleries(): Promise<Gallery[]> {
-  return client.fetch(`
+  return client.fetch(groq`
     *[_type == "gallery"] | order(order asc) {
       _id,
       title,
@@ -227,8 +227,8 @@ export async function getGalleries(): Promise<Gallery[]> {
       location,
       description,
       order
-    }'
-  )
+    }
+  `)
 }
     
 
