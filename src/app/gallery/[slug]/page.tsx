@@ -7,34 +7,44 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaArrowLeft, FaDownload } from 'react-icons/fa'
 
-// Define types for our params
-type Params = {
-  slug: string
+type PageProps = {
+  params: { slug: string }
+  searchParams: Record<string, string | string[] | undefined>
 }
 
-export async function generateMetadata(
-  { params }: { params: { slug: string } }
-): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const gallery = await getGallery(params.slug)
-
+  
   if (!gallery) {
     return {
       title: 'Not Found',
       description: 'The page you are looking for does not exist',
     }
   }
-
+  
   return {
     title: `${gallery.title} - KKM Gallery`,
     description: gallery.description || 'Lihat dokumentasi kegiatan dan acara kami',
   }
 }
 
-export default async function GalleryDetailPage(
-  { params }: { params: { slug: string } }
-) {
-  const gallery = await getGallery(params.slug)
+async function getGallery(slug: string) {
+  return client.fetch(`
+    *[_type == "gallery" && slug.current == $slug][0] {
+      _id,
+      title,
+      slug,
+      mainImage,
+      date,
+      location,
+      description
+    }
+  `, { slug })
+}
 
+export default async function GalleryDetailPage({ params }: PageProps) {
+  const gallery = await getGallery(params.slug)
+  
   if (!gallery) {
     notFound()
   }
