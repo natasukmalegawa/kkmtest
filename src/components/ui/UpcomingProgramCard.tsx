@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { urlForImage } from '@/lib/sanity-image'
 import { UpcomingProgram } from '@/types'
 import { formatDate } from '@/lib/utils'
-import { FaLock, FaShareAlt } from 'react-icons/fa'
+import { FaLock, FaLockOpen, FaShareAlt, FaCalendarCheck, FaCalendarTimes, FaLink } from 'react-icons/fa'
 import { UpcomingProgramShareModal } from './UpcomingProgramShareModal'
 
 type UpcomingProgramCardProps = {
@@ -20,6 +20,56 @@ export function UpcomingProgramCard({ program }: UpcomingProgramCardProps) {
   const programUrl = typeof window !== 'undefined' 
     ? `${window.location.origin}/programs/${program.slug.current}` 
     : `/programs/${program.slug.current}`
+  
+  // Get status icon and text
+  const getStatusInfo = () => {
+    switch(program.status) {
+      case 'coming-soon':
+        return {
+          icon: <FaLock size={14} />,
+          text: 'Coming Soon',
+          bgColor: 'bg-yellow-500',
+          buttonText: 'View Details'
+        }
+      case 'registration-open':
+        return {
+          icon: <FaLockOpen size={14} />,
+          text: 'Registration Open',
+          bgColor: 'bg-green-500',
+          buttonText: 'Register Now'
+        }
+      case 'registration-closed':
+        return {
+          icon: <FaCalendarTimes size={14} />,
+          text: 'Registration Closed',
+          bgColor: 'bg-red-500',
+          buttonText: 'View Details'
+        }
+      case 'in-progress':
+        return {
+          icon: <FaLink size={14} />,
+          text: 'In Progress',
+          bgColor: 'bg-blue-500',
+          buttonText: 'View Details'
+        }
+      case 'completed':
+        return {
+          icon: <FaCalendarCheck size={14} />,
+          text: 'Completed',
+          bgColor: 'bg-gray-500',
+          buttonText: 'View Summary'
+        }
+      default:
+        return {
+          icon: <FaLock size={14} />,
+          text: 'Coming Soon',
+          bgColor: 'bg-yellow-500',
+          buttonText: 'View Details'
+        }
+    }
+  }
+  
+  const statusInfo = getStatusInfo()
     
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col">
@@ -36,20 +86,11 @@ export function UpcomingProgramCard({ program }: UpcomingProgramCardProps) {
           <div className="w-full h-full bg-gray-200 dark:bg-gray-700"></div>
         )}
         
-        {/* Status Badge */}
+        {/* Status Badge with Icon */}
         <div className="absolute top-3 left-3">
-          <div className={`px-3 py-1 rounded-full text-xs font-medium text-white ${
-            program.status === 'registration-open' 
-              ? 'bg-green-500' 
-              : program.status === 'in-progress'
-                ? 'bg-blue-500'
-                : 'bg-yellow-500'
-          }`}>
-            {program.status === 'registration-open' 
-              ? 'Registration Open' 
-              : program.status === 'in-progress'
-                ? 'In Progress'
-                : 'Coming Soon'}
+          <div className={`px-3 py-1 rounded-full text-xs font-medium text-white flex items-center space-x-1 ${statusInfo.bgColor}`}>
+            {statusInfo.icon}
+            <span>{statusInfo.text}</span>
           </div>
         </div>
         
@@ -102,8 +143,8 @@ export function UpcomingProgramCard({ program }: UpcomingProgramCardProps) {
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
             }`}
           >
-            {!isAvailable && <FaLock className="mr-2" size={12} />}
-            {isAvailable ? 'Register Now' : 'View Details'}
+            {statusInfo.icon && <span className="mr-2">{statusInfo.icon}</span>}
+            {statusInfo.buttonText}
           </Link>
         </div>
       </div>
