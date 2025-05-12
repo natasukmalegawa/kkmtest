@@ -115,6 +115,24 @@ export type Article = {
   body?: any[]
 }
 
+// Gallery 
+export type Gallery = {
+  _id: string
+  title: string
+  slug: {
+    current: string
+  }
+  mainImage: {
+    asset: {
+      _ref: string
+    }
+  }
+  date: string
+  location?: string
+  description?: string
+  order?: number
+}
+
 export type UpcomingProgram = {
   _id: string
   title: string
