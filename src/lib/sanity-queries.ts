@@ -10,6 +10,7 @@ import {
   FooterColumn,
   SiteSettings,
   UpcomingProgram,
+  Gallery,
 } from '@/types'
 
 // Update site settings query to include upcoming programs section
@@ -213,6 +214,23 @@ export async function getArticleBySlug(slug: string) {
     }
   }`, { slug })
 }
+
+// Get Gallery
+export async function getGalleries(): Promise<Gallery[]> {
+  return client.fetch(`
+    *[_type == "gallery"] | order(order asc) {
+      _id,
+      title,
+      slug,
+      mainImage,
+      date,
+      location,
+      description,
+      order
+    }'
+  )
+}
+    
 
 // Get related articles
 export async function getRelatedArticles(articleId: string, limit = 4) {
