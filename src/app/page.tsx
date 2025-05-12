@@ -3,16 +3,18 @@ import { About } from '@/components/sections/About'
 import { Programs } from '@/components/sections/Programs'
 import { Team } from '@/components/sections/Team'
 import { Articles } from '@/components/sections/Articles'
-import { getSiteSettings, getHero, getAboutCards, getPrograms, getTeamMembers, getArticles } from '@/lib/sanity-queries'
+import { UpcomingPrograms } from '@/components/sections/UpcomingPrograms'
+import { getSiteSettings, getHero, getAboutCards, getPrograms, getTeamMembers, getArticles, getUpcomingPrograms } from '@/lib/sanity-queries'
 
 export default async function Home() {
   // Fetch data from Sanity
-  const siteSettings = await getSiteSettings();
-  const hero = await getHero();
-  const aboutCards = await getAboutCards();
-  const programs = await getPrograms();
-  const teamMembers = await getTeamMembers();
-  const articles = await getArticles(3); // Fetch the latest 3 articles
+  const siteSettings = await getSiteSettings()
+  const hero = await getHero()
+  const aboutCards = await getAboutCards()
+  const programs = await getPrograms()
+  const upcomingPrograms = await getUpcomingPrograms()
+  const teamMembers = await getTeamMembers()
+  const articles = await getArticles(4) // Limit to 4 articles
   
   return (
     <>
@@ -38,6 +40,13 @@ export default async function Home() {
         programs={programs || []}
       />
       
+      <UpcomingPrograms 
+        smallTitle={siteSettings?.upcomingProgramsSmallTitle || "Upcoming Programs"}
+        title={siteSettings?.upcomingProgramsTitle || "Join Our Exclusive Programs"} 
+        subtitle={siteSettings?.upcomingProgramsSubtitle || "Expand your knowledge and skills with our carefully designed programs"} 
+        programs={upcomingPrograms || []}
+      />
+      
       <Team 
         smallTitle={siteSettings?.teamSmallTitle || "Our People"}
         title={siteSettings?.teamTitle || "Our Team"} 
@@ -45,7 +54,7 @@ export default async function Home() {
         members={teamMembers || []}
       />
       
-      <Articles
+      <Articles 
         smallTitle={siteSettings?.articlesSmallTitle || "Latest Updates"}
         title={siteSettings?.articlesTitle || "From Our Blog"}
         subtitle={siteSettings?.articlesSubtitle || "Stay updated with our latest insights, news, and stories"}
