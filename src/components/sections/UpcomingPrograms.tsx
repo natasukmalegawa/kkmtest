@@ -104,28 +104,18 @@ export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: Upco
   return (
     <section id="upcoming-programs-section" className="py-20 md:py-24 bg-gray-50 dark:bg-black">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex justify-between items-end mb-16">
-          <div>
-            {smallTitle && (
-              <p className="text-apple-blue dark:text-blue-400 text-sm font-medium mb-2 tracking-wide uppercase sf-pro-text">
-                {smallTitle}
-              </p>
-            )}
-            <h2 className="text-3xl md:text-4xl font-semibold mb-2 sf-pro-display">
-              {title}
-            </h2>
-            <p className="text-apple-gray dark:text-gray-400 text-lg max-w-2xl sf-pro-text">
-              {subtitle}
+        <div className="text-center mb-16">
+          {smallTitle && (
+            <p className="text-apple-blue dark:text-blue-400 text-sm font-medium mb-2 tracking-wide uppercase sf-pro-text">
+              {smallTitle}
             </p>
-          </div>
-          
-          <Link 
-            href="/programs" 
-            className="hidden md:flex items-center text-apple-blue dark:text-blue-400 font-medium hover:underline sf-pro-text"
-          >
-            View all programs
-            <FaChevronRight className="ml-1" size={12} />
-          </Link>
+          )}
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-gray-900 dark:text-white sf-pro-display">
+            {title}
+          </h2>
+          <p className="text-apple-gray dark:text-gray-400 text-lg max-w-2xl mx-auto sf-pro-text">
+            {subtitle}
+          </p>
         </div>
         
         <div className="relative max-w-6xl mx-auto">
@@ -182,8 +172,7 @@ export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: Upco
           )}
         </div>
         
-        {/* Mobile "View All" link */}
-        <div className="mt-8 text-center md:hidden">
+        <div className="mt-12 text-center">
           <Link 
             href="/programs" 
             className="inline-flex items-center text-apple-blue dark:text-blue-400 font-medium hover:underline sf-pro-text"
