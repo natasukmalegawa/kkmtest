@@ -7,12 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaArrowLeft, FaDownload } from 'react-icons/fa'
 
-type PageProps = {
-  params: { slug: string }
-  searchParams: Record<string, string | string[] | undefined>
-}
-
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }) {
   const gallery = await getGallery(params.slug)
   
   if (!gallery) {
@@ -28,7 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-async function getGallery(slug: string) {
+async function getGallery(slug) {
   return client.fetch(`
     *[_type == "gallery" && slug.current == $slug][0] {
       _id,
@@ -42,7 +37,7 @@ async function getGallery(slug: string) {
   `, { slug })
 }
 
-export default async function GalleryDetailPage({ params }: PageProps) {
+export default async function GalleryDetailPage({ params }) {
   const gallery = await getGallery(params.slug)
   
   if (!gallery) {
