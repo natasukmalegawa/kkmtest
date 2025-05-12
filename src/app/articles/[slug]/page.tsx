@@ -12,8 +12,11 @@ import ShareButtons from '@/components/ui/ShareButtons'
 // Import CSS global untuk styling font & prose
 import '@/app/articles/articles-styles.css'
 
-// Generate Metadata untuk halaman artikel
+// Enable dynamic params (required for dynamic routing in app router)
+export const dynamicParams = true
+
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  // Generate Metadata untuk halaman artikel
   const article = await getArticleBySlug(params.slug)
 
   if (!article) {
@@ -24,16 +27,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   return {
     title: `${article.title} | Your Brand`,
-    description: article.excerpt,
+    description: article.excerpt || 'No description available.',
   }
 }
 
 export default async function ArticlePage({ params }: { params: { slug: string } }) {
   const article = await getArticleBySlug(params.slug)
 
-  // Jika artikel tidak ditemukan, tampilkan halaman 404
   if (!article) {
-    notFound()
+    notFound() // Jika artikel tidak ditemukan, tampilkan halaman 404
   }
 
   const relatedArticles = await getRelatedArticles(article._id, 3)
@@ -68,69 +70,103 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             {article.title}
           </h1>
 
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center">
-              {article.author.image && (
+          <div className="flex items-center mb-8">
+            <div className="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gray-200 dark:bg-gray-700">
+              {article.author?.image ? (
                 <Image
-                  src={urlForImage(article.author.image).width(40).height(40).url()}
+                  src={urlForImage(article.author.image).width(100).height(100).url()}
                   alt={article.author.name}
-                  className="rounded-full"
                   width={40}
                   height={40}
+                  className="object-cover"
                 />
+              ) : (
+                <div className="w-full h-full"></div>
               )}
-              <div className="ml-3">
-                <p className="text-sm font-medium text-apple-gray dark:text-gray-300">
-                  {article.author.name}
-                </p>
-                <p className="text-xs text-apple-gray dark:text-gray-500">{formatDate(article.publishedAt)}</p>
-              </div>
+            </div>
+            <div>
+              <p className="text-sm text-gray-900 dark:text-white font-medium sf-pro-text">{article.author.name}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 sf-pro-text">{formatDate(article.publishedAt)}</p>
             </div>
           </div>
 
           {article.mainImage && (
-            <div className="mb-8">
+            <div className="relative w-full h-56 sm:h-72 md:h-96 mb-8 rounded-2xl overflow-hidden">
               <Image
-                src={urlForImage(article.mainImage).width(800).height(500).url()}
+                src={urlForImage(article.mainImage).width(1200).height(800).url()}
                 alt={article.title}
-                className="rounded-lg shadow-lg"
-                width={800}
-                height={500}
+                fill
+                className="object-cover"
+                priority
               />
             </div>
           )}
 
-          <div className="prose prose-xl max-w-none dark:prose-invert">
+          <div className="mb-8 flex justify-center">
+            <ShareButtons 
+              url={articleUrl}
+              title={article.title}
+            />
+          </div>
+
+          <div className="prose dark:prose-invert prose-lg max-w-none sf-pro-text">
             <PortableText value={article.body} />
           </div>
 
-          <div className="mt-8">
-            <ShareButtons url={articleUrl} />
-          </div>
+          {Array.isArray(article.categories) && article.categories.length > 0 && (
+            <div className="mt-12 flex flex-wrap gap-2">
+              {article.categories.map((category) => (
+                <Link
+                  key={category._id}
+                  href={`/categories/${category.title.toLowerCase()}`}
+                  className="rounded-full border border-neutral-200 px-4 py-1 text-sm text-neutral-700 transition-colors hover:border-neutral-300 hover:bg-neutral-100"
+                >
+                  {category.title}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
 
-          <div className="mt-16">
-            <h2 className="text-2xl font-semibold text-apple-gray dark:text-gray-200">Related Articles</h2>
+        <div className="mt-8">
+          <ShareButtons url={articleUrl} />
+        </div>
+
+        {relatedArticles.length > 0 && (
+          <div className="max-w-6xl mx-auto mt-16">
+            <h2 className="text-2xl font-semibold text-apple-gray dark:text-gray-200">
+              Related Articles
+            </h2>
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {relatedArticles.map((relatedArticle) => (
-                <div key={relatedArticle._id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                  <Link href={`/articles/${relatedArticle.slug.current}`}>
-                    <Image
-                      src={urlForImage(relatedArticle.mainImage).width(400).height(250).url()}
-                      alt={relatedArticle.title}
-                      className="w-full h-56 object-cover"
-                      width={400}
-                      height={250}
-                    />
-                    <div className="p-4">
-                      <h3 className="text-xl font-medium text-gray-900 dark:text-white">{relatedArticle.title}</h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">{relatedArticle.excerpt}</p>
+                <Link key={relatedArticle._id} href={`/articles/${relatedArticle.slug.current}`} className="group">
+                  <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-ios h-full flex flex-col">
+                    <div className="relative h-40">
+                      {relatedArticle.mainImage ? (
+                        <Image
+                          src={urlForImage(relatedArticle.mainImage).width(400).height(300).url()}
+                          alt={relatedArticle.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gray-200 dark:bg-gray-700"></div>
+                      )}
                     </div>
-                  </Link>
-                </div>
+                    <div className="p-4 flex-grow flex flex-col bg-[#f5f5f7] dark:bg-gray-800">
+                      <div className="text-apple-gray dark:text-gray-400 text-xs mb-1 sf-pro-text">
+                        {formatDate(relatedArticle.publishedAt)}
+                      </div>
+                      <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-apple-blue dark:group-hover:text-blue-400 transition-ios sf-pro-display">
+                        {relatedArticle.title}
+                      </h3>
+                    </div>
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )
