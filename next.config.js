@@ -4,8 +4,13 @@ const nextConfig = {
   output: 'standalone',
 
   images: {
-    domains: ['cdn.sanity.io'], // hanya ini
-    // remotePatterns: [...], // hapus sementara
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        pathname: '/**',
+      },
+    ],
   },
 
   transpilePackages: ['@sanity'],
