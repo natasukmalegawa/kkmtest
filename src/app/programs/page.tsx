@@ -5,6 +5,7 @@ import { FaChevronLeft } from 'react-icons/fa'
 import { getUpcomingPrograms, getSiteSettings } from '@/lib/sanity-queries'
 import { urlForImage } from '@/lib/sanity-image'
 import { formatDate } from '@/lib/utils'
+import { UpcomingProgram } from '@/types'
 
 export const metadata: Metadata = {
   title: 'Programs | Your Brand',
@@ -98,8 +99,14 @@ export default async function ProgramsPage() {
   )
 }
 
+// Definisikan interface untuk props komponen
+interface ProgramListItemProps {
+  program: UpcomingProgram;
+  highlight?: boolean;
+}
+
 // Helper component for program list items
-function ProgramListItem({ program, highlight = false }) {
+function ProgramListItem({ program, highlight = false }: ProgramListItemProps) {
   const isAvailable = program.status === 'registration-open'
   
   return (
