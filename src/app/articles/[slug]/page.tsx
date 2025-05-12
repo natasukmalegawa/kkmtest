@@ -9,14 +9,14 @@ import { PortableText } from '@/components/ui/PortableText'
 import { FaChevronLeft } from 'react-icons/fa'
 import ShareButtons from '@/components/ui/ShareButtons'
 
-// Import CSS global untuk styling font & prose
 import '@/app/articles/articles-styles.css'
 
-type Props = {
-  params: { slug: string }
-}
+// Enable dynamic params (required for dynamic routing in app router)
+export const dynamicParams = true
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: { slug: string } }
+): Promise<Metadata> {
   const article = await getArticleBySlug(params.slug)
 
   if (!article) {
@@ -31,12 +31,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ArticlePage({ params }: Props) {
+export default async function ArticlePage(
+  { params }: { params: { slug: string } }
+) {
   const article = await getArticleBySlug(params.slug)
 
-  if (!article) {
-    notFound()
-  }
+  if (!article) notFound()
 
   const relatedArticles = await getRelatedArticles(article._id, 3)
   const articleUrl = `https://kkmtest.vercel.app/articles/${params.slug}`
@@ -103,10 +103,7 @@ export default async function ArticlePage({ params }: Props) {
           )}
 
           <div className="mb-8 flex justify-center">
-            <ShareButtons 
-              url={articleUrl}
-              title={article.title}
-            />
+            <ShareButtons url={articleUrl} title={article.title} />
           </div>
 
           <div className="prose dark:prose-invert prose-lg max-w-none sf-pro-text">
@@ -115,17 +112,17 @@ export default async function ArticlePage({ params }: Props) {
 
           {Array.isArray(article.categories) && article.categories.length > 0 && (
             <div className="mt-12 flex flex-wrap gap-2">
-             {article.categories.map((category) => (
-              <Link
-                key={category._id}
-                href={`/categories/${category.title.toLowerCase()}`}
-                className="rounded-full border border-neutral-200 px-4 py-1 text-sm text-neutral-700 transition-colors hover:border-neutral-300 hover:bg-neutral-100"
-              >
-                {category.title}
-              </Link>
-            ))}
-          </div>
-        )}
+              {article.categories.map((category) => (
+                <Link
+                  key={category._id}
+                  href={`/categories/${category.title.toLowerCase()}`}
+                  className="rounded-full border border-neutral-200 px-4 py-1 text-sm text-neutral-700 transition-colors hover:border-neutral-300 hover:bg-neutral-100"
+                >
+                  {category.title}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
 
         {relatedArticles.length > 0 && (
