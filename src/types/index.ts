@@ -127,7 +127,7 @@ export type UpcomingProgram = {
       _ref: string
     }
   }
-  status: 'coming-soon' | 'registration-open' | 'in-progress'
+  status: 'coming-soon' | 'registration-open' | 'in-progress' | 'completed'
   registrationDate?: string
   programDate: string
   location?: string
