@@ -25,7 +25,7 @@ export default {
       name: 'description',
       title: 'Short Description',
       type: 'text',
-      rows: 3,
+      rows: 4,
       validation: (Rule: SanityRule) => Rule.required().max(200)
     },
     {
@@ -46,6 +46,7 @@ export default {
           { title: 'Coming Soon', value: 'coming-soon' },
           { title: 'Registration Open', value: 'registration-open' },
           { title: 'In Progress', value: 'in-progress' },
+          { title: 'Completed', value: 'completed' }, 
         ],
         layout: 'radio'
       },
