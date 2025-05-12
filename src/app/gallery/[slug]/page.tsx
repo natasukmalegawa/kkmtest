@@ -7,10 +7,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaArrowLeft, FaDownload } from 'react-icons/fa'
 
-// Perbaikan definisi Props
+// Update Props type to match Next.js 15 expectations
 type Props = {
   params: { slug: string }
-  searchParams?: { [key: string]: string | string[] | undefined }
+  searchParams: Record<string, string | string[] | undefined>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
