@@ -11,6 +11,7 @@ import {
   SiteSettings,
   UpcomingProgram,
   Gallery,
+  ContactCard,
 } from '@/types'
 
 // Update site settings query to include upcoming programs section
@@ -33,6 +34,12 @@ export async function getSiteSettings() {
     upcomingProgramsSmallTitle,
     upcomingProgramsTitle,
     upcomingProgramsSubtitle,
+    gallerySmallTitle,
+    galleryTitle,
+    gallerySubtitle,
+    contactSmallTitle,
+    contactTitle,
+    contactSubtitle,
     copyright
   }`)
 }
@@ -280,6 +287,24 @@ export async function searchArticles(searchQuery: string, limit = 10) {
       image
     }
   }`
+
+ // Get contact cards
+export async function getContactCards() {
+  return client.fetch<ContactCard[]>(groq`*[_type == "contactCard"] | order(order asc) {
+    _id,
+    title,
+    subtitle,
+    icon,
+    memojiImage,
+    personalName,
+    contactInfo,
+    buttonText,
+    buttonLink,
+    backgroundColor,
+    cardBackgroundColor,
+    order
+  }`)
+}
   
   return client.fetch<Article[]>(query, { searchQuery: `*${searchQuery}*` })
 }
