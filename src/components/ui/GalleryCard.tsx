@@ -1,44 +1,50 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { Gallery } from '@/types'
 import { urlForImage } from '@/lib/sanity-image'
 import { formatDate } from '@/lib/utils'
-import { FaExpand, FaDownload } from 'react-icons/fa'
 import { motion } from 'framer-motion'
+import { FaShareAlt, FaDownload, FaMapMarkerAlt, FaClock } from 'react-icons/fa'
 
 type GalleryCardProps = {
   gallery: Gallery
   index: number
   isActive: boolean
+  totalCards: number
 }
 
-export function GalleryCard({ gallery, index, isActive }: GalleryCardProps) {
+export function GalleryCard({ gallery, index, isActive, totalCards }: GalleryCardProps) {
   const [showFullImage, setShowFullImage] = useState(false)
+  const modalRef = useRef<HTMLDivElement>(null)
   
-  // Ekstrak warna dominan dari gambar (simulasi)
-  const dominantColor = 'rgba(0, 128, 128, 0.2)' // Ini akan diganti dengan ekstraksi warna sebenarnya
+  // Format date for display
+  const formattedDate = new Date(gallery.date)
+  const month = formattedDate.toLocaleString('default', { month: 'short' }).toUpperCase()
+  const day = formattedDate.getDate()
   
-  // Hitung rotasi berdasarkan index
-  const getRotation = () => {
-    if (isActive) return 0
-    return index % 2 === 0 ? -5 : 5
+  // Calculate stacking position
+  const getStackPosition = () => {
+    if (isActive) return { zIndex: totalCards, scale: 1, y: 0, rotate: 0 }
+    
+    // Calculate position based on distance from active index
+    const distance = Math.min(Math.abs(index - 0), totalCards - Math.abs(index - 0))
+    const scale = 1 - (distance * 0.05)
+    const y = distance * 10
+    const rotate = (index % 2 === 0) ? -2 : 2
+    
+    return {
+      zIndex: totalCards - distance,
+      scale,
+      y,
+      rotate
+    }
   }
   
-  // Hitung z-index berdasarkan status aktif
-  const getZIndex = () => {
-    return isActive ? 10 : 1
-  }
-  
-  // Hitung posisi berdasarkan status aktif
-  const getPosition = () => {
-    if (isActive) return 0
-    return index % 2 === 0 ? -20 : 20
-  }
-  
-  // Fungsi untuk mengunduh gambar
-  const downloadImage = () => {
+  // Handle download image
+  const downloadImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
     const imageUrl = urlForImage(gallery.mainImage).url()
     const link = document.createElement('a')
     link.href = imageUrl
@@ -48,111 +54,174 @@ export function GalleryCard({ gallery, index, isActive }: GalleryCardProps) {
     document.body.removeChild(link)
   }
   
+  // Handle share image
+  const shareImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (navigator.share) {
+      navigator.share({
+        title: gallery.title,
+        text: gallery.description || `Check out this image: ${gallery.title}`,
+        url: window.location.href,
+      })
+    }
+  }
+  
+  // Get stack position values
+  const position = getStackPosition()
+  
   return (
     <>
       <motion.div 
-        className="relative rounded-3xl overflow-hidden shadow-lg cursor-pointer"
+        className="relative overflow-hidden rounded-3xl shadow-lg cursor-pointer"
         style={{ 
-          zIndex: getZIndex(),
-          boxShadow: `0 10px 30px ${dominantColor}`,
+          width: '340px',
+          height: '440px',
+          transformOrigin: 'center bottom',
         }}
-        initial={{ rotate: getRotation(), x: getPosition() }}
-        animate={{ 
-          rotate: getRotation(),
-          x: getPosition(),
-          scale: isActive ? 1 : 0.9,
-          opacity: isActive ? 1 : 0.8
+        initial={false}
+        animate={{
+          zIndex: position.zIndex,
+          scale: position.scale,
+          y: position.y,
+          rotate: position.rotate,
         }}
-        transition={{ duration: 0.5 }}
-        whileHover={{ scale: isActive ? 1.02 : 0.95 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        whileHover={{ scale: isActive ? 1.02 : position.scale * 1.02 }}
+        onClick={() => isActive && setShowFullImage(true)}
       >
-        {/* Gambar Utama */}
-        <div className="relative h-[400px] w-[300px]">
+        {/* Main Image */}
+        <div className="relative w-full h-full">
           <Image
-            src={urlForImage(gallery.mainImage).width(600).height(800).url()}
+            src={urlForImage(gallery.mainImage).width(680).height(880).url()}
             alt={gallery.title}
             fill
             className="object-cover"
+            priority={isActive}
           />
           
-          {/* Overlay Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+          {/* Gradient overlay at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
           
-          {/* Konten di atas gambar */}
+          {/* Date box in bottom left corner */}
+          <div className="absolute bottom-5 left-5 bg-white/90 dark:bg-gray-800/90 rounded-lg overflow-hidden shadow-md">
+            <div className="bg-blue-500 text-white text-xs font-medium px-2 py-1 text-center">
+              {month}
+            </div>
+            <div className="px-3 py-2 text-center">
+              <span className="text-lg font-bold text-gray-900 dark:text-white">{day}</span>
+            </div>
+          </div>
+          
+          {/* Content overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-            <h3 className="text-xl font-bold mb-1 sf-pro-display">{gallery.title}</h3>
+            <h3 className="text-2xl font-bold mb-2 sf-pro-display">{gallery.title}</h3>
             
-            <div className="flex flex-col space-y-1 text-sm opacity-90 sf-pro-text">
-              <div className="flex items-center">
-                <span className="text-xs">{formatDate(gallery.date)}</span>
+            {gallery.location && (
+              <div className="flex items-center mb-2">
+                <FaMapMarkerAlt className="mr-2 text-white/80" size={14} />
+                <span className="text-sm text-white/90">{gallery.location}</span>
               </div>
-              
-              {gallery.location && (
-                <div className="flex items-center">
-                  <span className="text-xs">{gallery.location}</span>
-                </div>
-              )}
+            )}
+            
+            <div className="flex items-center mb-4">
+              <FaClock className="mr-2 text-white/80" size={14} />
+              <span className="text-sm text-white/90">
+                {formattedDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                {' '}{formattedDate.toLocaleDateString([], {timeZoneName: 'short'}).split(', ')[1]}
+              </span>
             </div>
             
-            {/* Tombol Full View */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                setShowFullImage(true)
-              }}
-              className="absolute bottom-4 right-4 bg-white/20 p-2 rounded-full text-white hover:bg-white/30 transition-colors"
-              aria-label="View full image"
-            >
-              <FaExpand size={14} />
-            </button>
+            {/* Action buttons */}
+            <div className="flex space-x-2">
+              <button
+                onClick={downloadImage}
+                className="bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white/30 transition-colors"
+                aria-label="Download image"
+              >
+                <FaDownload size={16} />
+              </button>
+              
+              <button
+                onClick={shareImage}
+                className="bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white/30 transition-colors"
+                aria-label="Share image"
+              >
+                <FaShareAlt size={16} />
+              </button>
+            </div>
           </div>
         </div>
       </motion.div>
       
-      {/* Modal Full Image */}
+      {/* Full Image Modal */}
       {showFullImage && (
         <div 
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4 backdrop-blur-sm"
           onClick={() => setShowFullImage(false)}
+          ref={modalRef}
         >
-          <div className="relative max-w-4xl max-h-[90vh] w-full">
-            <Image
-              src={urlForImage(gallery.mainImage).width(1200).height(1600).url()}
-              alt={gallery.title}
-              width={1200}
-              height={1600}
-              className="object-contain max-h-[90vh]"
-            />
+          <div 
+            className="relative max-w-5xl w-full max-h-[90vh] overflow-hidden rounded-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative w-full h-[80vh]">
+              <Image
+                src={urlForImage(gallery.mainImage).width(1920).height(1080).url()}
+                alt={gallery.title}
+                fill
+                className="object-contain"
+              />
+            </div>
             
+            {/* Modal controls */}
             <div className="absolute top-4 right-4 flex space-x-2">
               <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  downloadImage()
-                }}
-                className="bg-white/20 p-3 rounded-full text-white hover:bg-white/30 transition-colors"
+                onClick={downloadImage}
+                className="bg-white/20 backdrop-blur-md p-3 rounded-full text-white hover:bg-white/30 transition-colors"
                 aria-label="Download image"
               >
                 <FaDownload size={18} />
               </button>
               
               <button
+                onClick={shareImage}
+                className="bg-white/20 backdrop-blur-md p-3 rounded-full text-white hover:bg-white/30 transition-colors"
+                aria-label="Share image"
+              >
+                <FaShareAlt size={18} />
+              </button>
+              
+              <button
                 onClick={() => setShowFullImage(false)}
-                className="bg-white/20 p-3 rounded-full text-white hover:bg-white/30 transition-colors"
+                className="bg-white/20 backdrop-blur-md p-3 rounded-full text-white hover:bg-white/30 transition-colors"
                 aria-label="Close"
               >
                 <span className="text-xl font-bold">×</span>
               </button>
             </div>
             
-            <div className="absolute bottom-4 left-4 right-4 text-white p-4 bg-black/50 rounded-lg">
-              <h3 className="text-xl font-bold mb-1 sf-pro-display">{gallery.title}</h3>
-              {gallery.description && (
-                <p className="text-sm opacity-90 sf-pro-text">{gallery.description}</p>
-              )}
-              <div className="flex justify-between mt-2 text-sm opacity-80">
-                <span>{formatDate(gallery.date)}</span>
-                {gallery.location && <span>{gallery.location}</span>}
+            {/* Image info */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
+              <h3 className="text-2xl font-bold mb-2 sf-pro-display">{gallery.title}</h3>
+              
+              <div className="flex flex-wrap items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  {gallery.location && (
+                    <div className="flex items-center">
+                      <FaMapMarkerAlt className="mr-2" size={14} />
+                      <span>{gallery.location}</span>
+                    </div>
+                  )}
+                  
+                  <div className="flex items-center">
+                    <FaClock className="mr-2" size={14} />
+                    <span>{formattedDate.toLocaleDateString()}</span>
+                  </div>
+                </div>
+                
+                {gallery.description && (
+                  <p className="text-sm mt-2 opacity-90 max-w-3xl">{gallery.description}</p>
+                )}
               </div>
             </div>
           </div>
