@@ -1,3 +1,4 @@
+main\sanity\schemas\index.ts
 import siteSettings from './siteSettings'
 import navigation from './navigation'
 import hero from './hero'
@@ -11,6 +12,7 @@ import article from './article'
 import category from './category'
 import gallery from './gallery'
 import contactCard from './contactCard'
+import locationCard from './locationCard'
 
 export const schemaTypes = [
   siteSettings,
@@ -26,4 +28,5 @@ export const schemaTypes = [
   category,
   gallery,
   contactCard,
+  locationCard
 ]
