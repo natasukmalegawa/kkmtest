@@ -178,5 +178,6 @@ export type ContactCard = {
   buttonLink?: string
   backgroundColor: string
   cardBackgroundColor: string
+  textColor: string
   order: number
 }
