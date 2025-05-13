@@ -132,3 +132,26 @@ html {
 .dark .section-gradient-gallery {
   background: #000;
 }
+
+/* Perspective for 3D card effects */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Fix for contact icons in dark mode */
+.dark .contact-icon-box {
+  background-color: white !important;
+}
+
+/* Neumorphic effect for contact cards */
+.neumorphic {
+  box-shadow: 
+    8px 8px 16px rgba(0, 0, 0, 0.1),
+    -8px -8px 16px rgba(255, 255, 255, 0.7);
+}
+
+.dark .neumorphic {
+  box-shadow: 
+    8px 8px 16px rgba(0, 0, 0, 0.3),
+    -8px -8px 16px rgba(255, 255, 255, 0.05);
+}
