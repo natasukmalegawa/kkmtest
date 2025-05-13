@@ -18,9 +18,21 @@ type GallerySectionProps = {
 export function GallerySection({ smallTitle, title, subtitle, galleries }: GallerySectionProps) {
   const [activeIndex, setActiveIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
   
   // Limit to 5 galleries for homepage
   const limitedGalleries = galleries.slice(0, 5)
+  
+  // Check if mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
   
   // Navigate to next slide
   const goToNext = () => {
@@ -100,7 +112,10 @@ export function GallerySection({ smallTitle, title, subtitle, galleries }: Galle
   const hasGalleries = limitedGalleries && limitedGalleries.length > 0
   
   return (
-    <section id="gallery-section" className="py-20 md:py-24 bg-white dark:bg-black">
+    <section 
+      id="gallery-section" 
+      className="py-20 md:py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800"
+    >
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
           {smallTitle && (
@@ -118,23 +133,24 @@ export function GallerySection({ smallTitle, title, subtitle, galleries }: Galle
         
         <div className="relative max-w-6xl mx-auto" ref={containerRef}>
           {/* Gallery Cards Container */}
-          <div className="flex justify-center items-center h-[450px] relative">
+          <div className="flex justify-center items-center h-[500px] relative">
             {!hasGalleries ? (
-              <div className="animate-pulse bg-gray-100 dark:bg-gray-800 rounded-3xl h-[400px] w-[300px]"></div>
+              <div className="animate-pulse bg-gray-100 dark:bg-gray-800 rounded-3xl h-[440px] w-[340px]"></div>
             ) : (
               <>
                 {limitedGalleries.map((gallery, index) => (
                   <div 
                     key={gallery._id} 
-                    className={`absolute transition-all duration-500 ${
-                      index === activeIndex ? 'z-10' : 'z-0'
-                    }`}
-                    onClick={() => goToSlide(index)}
+                    className="absolute transition-all duration-500"
+                    style={{
+                      transform: `translateY(${index === activeIndex ? 0 : 20}px)`,
+                    }}
                   >
                     <GalleryCard 
                       gallery={gallery} 
-                      index={index} 
-                      isActive={index === activeIndex} 
+                      index={(index - activeIndex + limitedGalleries.length) % limitedGalleries.length} 
+                      isActive={index === activeIndex}
+                      totalCards={limitedGalleries.length}
                     />
                   </div>
                 ))}
@@ -142,9 +158,9 @@ export function GallerySection({ smallTitle, title, subtitle, galleries }: Galle
             )}
           </div>
           
-          {/* Navigation Arrows */}
+          {/* Navigation Arrows - Positioned differently on mobile */}
           {hasGalleries && limitedGalleries.length > 1 && (
-            <div className="absolute top-1/2 left-0 right-0 -mt-6 flex justify-between px-4 md:px-10">
+            <div className={`absolute ${isMobile ? 'bottom-0' : 'top-1/2 -mt-6'} left-0 right-0 flex justify-between px-4 md:px-10 ${isMobile ? 'mb-4' : ''}`}>
               <button
                 onClick={goToPrev}
                 className="bg-white/80 dark:bg-gray-800/80 p-3 rounded-full text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 transition-colors shadow-md"
@@ -171,7 +187,7 @@ export function GallerySection({ smallTitle, title, subtitle, galleries }: Galle
                   onClick={() => goToSlide(index)}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
                     index === activeIndex 
-                      ? 'bg-apple-blue w-6' 
+                      ? 'bg-apple-blue dark:bg-blue-500 w-6' 
                       : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
@@ -182,7 +198,7 @@ export function GallerySection({ smallTitle, title, subtitle, galleries }: Galle
         </div>
         
         <div className="mt-12 text-center">
-          <AppleButton href="/gallery">View All Album</AppleButton>
+          <AppleButton href="/gallery">View All Albums</AppleButton>
         </div>
         
         {/* Add custom styling */}
