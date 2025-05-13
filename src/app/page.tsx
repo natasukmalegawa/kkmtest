@@ -18,6 +18,7 @@ export default async function Home() {
   const teamMembers = await getTeamMembers()
   const articles = await getArticles(4) // Limit to 4 articles
   const galleries = await getGalleries()
+  const contactCards = await getContactCards()
   
   return (
     <>
