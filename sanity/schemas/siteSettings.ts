@@ -87,7 +87,7 @@ export default {
   title: 'Articles Section Subtitle',
   type: 'text',
 },
-// Add these fields to your siteSettings schema:
+// Up Coming
 {
   name: 'upcomingProgramsSmallTitle',
   title: 'Upcoming Programs Section Small Title',
@@ -102,6 +102,23 @@ export default {
 {
   name: 'upcomingProgramsSubtitle',
   title: 'Upcoming Programs Section Subtitle',
+  type: 'text',
+},
+// Contact Card
+{
+  name: 'contactSmallTitle',
+  title: 'Contact Section Small Title',
+  type: 'string',
+  description: 'Small title displayed above the main Contact title',
+},
+{
+  name: 'contactTitle',
+  title: 'Contact Section Title',
+  type: 'string',
+},
+{
+  name: 'contactSubtitle',
+  title: 'Contact Section Subtitle',
   type: 'text',
 },
   ],
