@@ -123,5 +123,23 @@ export default {
 },
   ],
 }
-
+// Tambahkan field berikut ke dalam array fields
+{
+  name: 'locationSmallTitle',
+  title: 'Location Small Title',
+  type: 'string',
+  description: 'Small title text for location section',
+},
+{
+  name: 'locationTitle',
+  title: 'Location Title',
+  type: 'string',
+  description: 'Main title for location section',
+},
+{
+  name: 'locationSubtitle',
+  title: 'Location Subtitle',
+  type: 'string',
+  description: 'Subtitle for location section',
+},
 
