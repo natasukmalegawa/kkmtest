@@ -39,6 +39,12 @@ export default defineType({
       validation: (Rule) => Rule.required()
     }),
     defineField({
+      name: 'time',
+      title: 'Time',
+      type: 'string',
+      description: 'Format: 2:00 PM GMT'
+    }),
+    defineField({
       name: 'location',
       title: 'Location',
       type: 'string',
@@ -52,13 +58,13 @@ export default defineType({
       name: 'order',
       title: 'Order',
       type: 'number',
-      hidden: true,
-    }),
+      description: 'Order to display galleries (lower numbers appear first)'
+    })
   ],
   preview: {
     select: {
       title: 'title',
-      media: 'mainImage',
-    },
-  },
+      media: 'mainImage'
+    }
+  }
 })
