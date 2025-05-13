@@ -74,15 +74,15 @@ export function Contact({ smallTitle, title, subtitle, cards }: ContactProps) {
     if (typeof window !== 'undefined') {
       // Make card smaller on mobile
       if (window.innerWidth < 640) {
-        return window.innerWidth - 64 // Mobile size
+        return window.innerWidth - 48 // Reduced padding for mobile
       }
       // Standard size for larger screens
-      return 300 // Slightly smaller to prevent stretching
+      return 320
     }
-    return 300 // Default fallback
+    return 320 // Default fallback
   }
   
-  const [cardWidth, setCardWidth] = useState(300)
+  const [cardWidth, setCardWidth] = useState(320)
   
   useEffect(() => {
     const handleResize = () => {
@@ -99,13 +99,13 @@ export function Contact({ smallTitle, title, subtitle, cards }: ContactProps) {
   return (
     <section 
       id="contact-section" 
-      className="py-20 md:py-24 relative bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800"
+      className="py-20 md:py-24 relative bg-gradient-to-b from-gray-50 to-gray-100 dark:bg-black"
     >
       {/* Blur effect elements for glassmorphism effect */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-blue-300/30 dark:bg-blue-500/10 filter blur-3xl"></div>
-        <div className="absolute bottom-1/3 right-1/4 w-40 h-40 rounded-full bg-purple-300/20 dark:bg-purple-500/10 filter blur-3xl"></div>
-        <div className="absolute top-2/3 left-1/3 w-36 h-36 rounded-full bg-pink-300/20 dark:bg-pink-500/10 filter blur-3xl"></div>
+        <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-blue-300/30 filter blur-3xl"></div>
+        <div className="absolute bottom-1/3 right-1/4 w-40 h-40 rounded-full bg-purple-300/20 filter blur-3xl"></div>
+        <div className="absolute top-2/3 left-1/3 w-36 h-36 rounded-full bg-pink-300/20 filter blur-3xl"></div>
       </div>
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -115,10 +115,10 @@ export function Contact({ smallTitle, title, subtitle, cards }: ContactProps) {
               {smallTitle}
             </p>
           )}
-          <h2 className="text-3xl md:text-4xl font-semibold mb-4 sf-pro-display text-gray-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-gray-900 dark:text-white sf-pro-display">
             {title}
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto sf-pro-text">
+          <p className="text-apple-gray dark:text-gray-400 text-lg max-w-2xl mx-auto sf-pro-text px-4">
             {subtitle}
           </p>
         </div>
@@ -167,7 +167,7 @@ export function Contact({ smallTitle, title, subtitle, cards }: ContactProps) {
                   onClick={() => goToSlide(index)}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
                     index === activeSlide 
-                      ? 'bg-apple-blue dark:bg-blue-500 w-6' 
+                      ? 'bg-apple-blue w-6' 
                       : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
