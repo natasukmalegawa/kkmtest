@@ -10,6 +10,7 @@ import author from './author'
 import article from './article'
 import category from './category'
 import gallery from './gallery'
+import contactCard from './contactCard'
 
 export const schemaTypes = [
   siteSettings,
@@ -24,4 +25,5 @@ export const schemaTypes = [
   article,
   category,
   gallery,
+  contactCard,
 ]
