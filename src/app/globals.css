@@ -113,3 +113,22 @@ html {
 .section-gradient-4 {
   background: linear-gradient(180deg, #F9F9F9 0%, #EFEFEF 100%);
 }
+
+/* Horizontal Stack Slider styles */
+.card-stack {
+  perspective: 1000px;
+}
+
+.card-stack-item {
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transform-style: preserve-3d;
+}
+
+/* Apple-style section backgrounds */
+.section-gradient-gallery {
+  background: linear-gradient(180deg, #F5F5F7 0%, #E5E5E7 100%);
+}
+
+.dark .section-gradient-gallery {
+  background: #000;
+}
