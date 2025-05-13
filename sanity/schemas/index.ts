@@ -1,4 +1,4 @@
-main\sanity\schemas\index.ts
+
 import siteSettings from './siteSettings'
 import navigation from './navigation'
 import hero from './hero'
