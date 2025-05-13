@@ -12,6 +12,7 @@ import {
   UpcomingProgram,
   Gallery,
   ContactCard,
+  LocationCard,
 } from '@/types'
 
 // Update site settings query to include upcoming programs section
@@ -306,5 +307,21 @@ export async function getContactCards() {
     backgroundColor,
     cardBackgroundColor,
     order
+  }`)
+}
+// Tambahkan fungsi query
+export async function getLocationCard() {
+  return client.fetch<LocationCard>(groq`*[_type == "locationCard"][0] {
+    _id,
+    title,
+    address,
+    city,
+    mapImage,
+    backgroundColor,
+    shareButtonText,
+    saveButtonText,
+    callButtonText,
+    mapUrl,
+    phoneNumber
   }`)
 }
