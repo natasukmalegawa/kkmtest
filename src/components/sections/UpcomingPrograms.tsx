@@ -32,47 +32,24 @@ export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: Upco
     }
   }
   
-  // Handle scroll events to update active slide
+    // Handle scroll events to update active slide - diperbaiki untuk mengatasi masalah indikator dot
   const handleScroll = () => {
     if (!carouselRef.current) return
     
     const scrollPosition = carouselRef.current.scrollLeft
     const viewportWidth = carouselRef.current.clientWidth
-    const centerPosition = scrollPosition + (viewportWidth / 2)
+    const slideWidth = slideRefs.current[0]?.clientWidth || 0
+    const slideGap = 24 // gap-6 = 1.5rem = 24px
     
-    // Find which slide is closest to the center
-    let closestSlideIndex = 0
-    let closestDistance = Number.MAX_VALUE
+    // Calculate which slide is most visible
+    const slideIndex = Math.round(scrollPosition / (slideWidth + slideGap))
     
-    slideRefs.current.forEach((slideRef, index) => {
-      if (!slideRef) return
-      
-      const slideCenter = slideRef.offsetLeft + (slideRef.clientWidth / 2)
-      const distance = Math.abs(centerPosition - slideCenter)
-      
-      if (distance < closestDistance) {
-        closestDistance = distance
-        closestSlideIndex = index
-      }
-    })
-    
-    if (activeSlide !== closestSlideIndex) {
-      setActiveSlide(closestSlideIndex)
+    if (slideIndex >= 0 && slideIndex < programs.length && activeSlide !== slideIndex) {
+      setActiveSlide(slideIndex)
     }
   }
   
-  // Add scroll event listener
-  useEffect(() => {
-    const carousel = carouselRef.current
-    if (carousel) {
-      carousel.addEventListener('scroll', handleScroll)
-      return () => {
-        carousel.removeEventListener('scroll', handleScroll)
-      }
-    }
-  }, [])
-  
-    // Responsive card width - dimodifikasi untuk ukuran portrait yang compact
+  // Responsive card width - dimodifikasi untuk ukuran portrait yang compact
   const getCardWidth = () => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth < 640) {
@@ -120,14 +97,15 @@ export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: Upco
         </div>
         
         <div className="relative max-w-6xl mx-auto">
-          {/* Carousel container */}
+          {/* Carousel container - diperbaiki untuk posisi tengah */}
           <div 
             ref={carouselRef}
-            className="flex overflow-x-auto scrollbar-hide gap-6 pb-10 snap-x scroll-pl-4"
+            className="flex overflow-x-auto scrollbar-hide gap-6 pb-10 snap-x scroll-pl-4 justify-center"
             style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}
+            onScroll={handleScroll}
           >
             {!hasPrograms ? (
-              <>
+              <>  
                 {[1, 2, 3].map((i) => (
                   <div 
                     key={i} 
