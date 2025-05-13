@@ -5,7 +5,8 @@ import { Team } from '@/components/sections/Team'
 import { Articles } from '@/components/sections/Articles'
 import { UpcomingPrograms } from '@/components/sections/UpcomingPrograms'
 import { GallerySection } from '@/components/sections/GallerySection'
-import { getSiteSettings, getHero, getAboutCards, getPrograms, getTeamMembers, getArticles, getUpcomingPrograms, getGalleries } from '@/lib/sanity-queries'
+import { Contact } from '@/components/sections/Contact'
+import { getSiteSettings, getHero, getAboutCards, getPrograms, getTeamMembers, getArticles, getUpcomingPrograms, getGalleries, getContactCards } from '@/lib/sanity-queries'
 
 export default async function Home() {
   // Fetch data from Sanity
@@ -68,6 +69,12 @@ export default async function Home() {
         title="Momen Berharga"
         subtitle="Lihat dokumentasi kegiatan dan acara kami yang telah berlangsung"
         galleries={galleries}
+      />
+      <Contact
+        smallTitle={siteSettings?.contactSmallTitle || "Get in Touch"}
+        title={siteSettings?.contactTitle || "Connect With Us"}
+        subtitle={siteSettings?.contactSubtitle || "Reach out through our social media channels or send us a message"}
+        cards={contactCards || []}
       />
     </>
   )
