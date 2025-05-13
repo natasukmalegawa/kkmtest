@@ -73,10 +73,13 @@ export type SiteSettings = {
   articlesTitle?: string
   articlesSubtitle?: string
   copyright?: string
-  // Tambahkan properti upcoming programs
   upcomingProgramsSmallTitle?: string
   upcomingProgramsTitle?: string
   upcomingProgramsSubtitle?: string
+  contactSmallTitle?: string
+  contactTitle?: string
+  contactSubtitle?: string
+}
 }
 
 // Add new types
@@ -154,4 +157,27 @@ export type UpcomingProgram = {
   features?: string[]
   order?: number
   registrationLink?: string
+}
+// Contact Card
+export type ContactCard = {
+  _id: string
+  title: string
+  subtitle: string
+  icon?: {
+    asset: {
+      _ref: string
+    }
+  }
+  memojiImage: {
+    asset: {
+      _ref: string
+    }
+  }
+  personalName: string
+  contactInfo: string
+  buttonText: string
+  buttonLink?: string
+  backgroundColor: string
+  cardBackgroundColor: string
+  order: number
 }
