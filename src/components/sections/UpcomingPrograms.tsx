@@ -146,7 +146,7 @@ export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: Upco
                   key={program._id}
                   className="flex-shrink-0 snap-center"
                   style={{ width: `${cardWidth}px` }}
-                  ref={(el) => (slideRefs.current[index] = el)}
+                  ref={(el) => { slideRefs.current[index] = el }} // <- FIXED HERE
                 >
                   <UpcomingProgramCard program={program} />
                 </div>
