@@ -287,8 +287,11 @@ export async function searchArticles(searchQuery: string, limit = 10) {
       image
     }
   }`
+  
+  return client.fetch<Article[]>(query, { searchQuery: `*${searchQuery}*` })
+}
 
- // Get contact cards
+// Get contact cards
 export async function getContactCards() {
   return client.fetch<ContactCard[]>(groq`*[_type == "contactCard"] | order(order asc) {
     _id,
@@ -304,7 +307,4 @@ export async function getContactCards() {
     cardBackgroundColor,
     order
   }`)
-}
-  
-  return client.fetch<Article[]>(query, { searchQuery: `*${searchQuery}*` })
 }
