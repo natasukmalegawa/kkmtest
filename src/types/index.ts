@@ -79,6 +79,9 @@ export type SiteSettings = {
   contactSmallTitle?: string
   contactTitle?: string
   contactSubtitle?: string
+  locationSmallTitle?: string
+  locationTitle?: string
+  locationSubtitle?: string
 }
 
 // Add new types
