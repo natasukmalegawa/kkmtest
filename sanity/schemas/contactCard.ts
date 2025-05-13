@@ -9,7 +9,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
-      description: 'Title for this contact card (e.g., "Instagram", "Email")',
+      description: 'Title for this contact card (e.g., "Instagram", "Email", "WhatsApp")',
       validation: (Rule: SanityRule) => Rule.required()
     },
     {
@@ -57,14 +57,14 @@ export default {
       name: 'buttonText',
       title: 'Button Text',
       type: 'string',
-      description: 'Text for the button (e.g., "Follow", "Email Us")',
+      description: 'Text for the button (e.g., "Follow", "Email Us", "Chat")',
       validation: (Rule: SanityRule) => Rule.required()
     },
     {
       name: 'buttonLink',
       title: 'Button Link',
       type: 'url',
-      description: 'URL for the button (e.g., Instagram profile, mailto link)'
+      description: 'URL for the button (e.g., Instagram profile, mailto link, whatsapp link)'
     },
     {
       name: 'backgroundColor',
@@ -79,6 +79,14 @@ export default {
       type: 'string',
       description: 'Background color for the personal card (in HEX or rgba format)',
       validation: (Rule: SanityRule) => Rule.required()
+    },
+    {
+      name: 'textColor',
+      title: 'Text Color',
+      type: 'string',
+      description: 'Color for the text in personal card (in HEX format)',
+      validation: (Rule: SanityRule) => Rule.required(),
+      initialValue: '#000000'
     },
     {
       name: 'order',
