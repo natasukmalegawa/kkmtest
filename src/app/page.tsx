@@ -6,7 +6,8 @@ import { Articles } from '@/components/sections/Articles'
 import { UpcomingPrograms } from '@/components/sections/UpcomingPrograms'
 import { GallerySection } from '@/components/sections/GallerySection'
 import { Contact } from '@/components/sections/Contact'
-import { getSiteSettings, getHero, getAboutCards, getPrograms, getTeamMembers, getArticles, getUpcomingPrograms, getGalleries, getContactCards } from '@/lib/sanity-queries'
+import { Location } from '@/components/sections/Location'
+import { getSiteSettings, getHero, getAboutCards, getPrograms, getTeamMembers, getArticles, getUpcomingPrograms, getGalleries, getContactCards, getLocationCard } from '@/lib/sanity-queries'
 
 export default async function Home() {
   // Fetch data from Sanity
@@ -19,6 +20,7 @@ export default async function Home() {
   const articles = await getArticles(4) // Limit to 4 articles
   const galleries = await getGalleries()
   const contactCards = await getContactCards()
+  const locationCard = await getLocationCard()
   
   return (
     <>
@@ -76,6 +78,12 @@ export default async function Home() {
         title={siteSettings?.contactTitle || "Connect With Us"}
         subtitle={siteSettings?.contactSubtitle || "Reach out through our social media channels or send us a message"}
         cards={contactCards || []}
+      />
+       <Location
+        smallTitle={siteSettings?.locationSmallTitle}
+        title={siteSettings?.locationTitle || "Find Us"}
+        subtitle={siteSettings?.locationSubtitle || "Visit our location or get directions to find us easily."}
+        card={locationCard}
       />
     </>
   )
