@@ -17,27 +17,30 @@ type UpcomingProgramsProps = {
 export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: UpcomingProgramsProps) {
   const [activeSlide, setActiveSlide] = useState(0)
   const carouselRef = useRef<HTMLDivElement>(null)
-  const slideRefs = useRef<(HTMLDivElement | null)[]>([])
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  slideRefs.current = []; // Reset on each render to avoid stale refs
   
   // Navigate to slide
   const goToSlide = (index: number) => {
     if (carouselRef.current && slideRefs.current[index]) {
       setActiveSlide(index)
       
-      const scrollPosition = slideRefs.current[index]?.offsetLeft || 0
+      const slideWidth = slideRefs.current[0]?.clientWidth || 0
+      const slideGap = 24 // gap-6 = 1.5rem = 24px
+      const scrollPosition = index * (slideWidth + slideGap)
+      
       carouselRef.current.scrollTo({
-        left: scrollPosition - 16,
+        left: scrollPosition,
         behavior: 'smooth'
       })
     }
   }
   
-    // Handle scroll events to update active slide - diperbaiki untuk mengatasi masalah indikator dot
+  // Handle scroll events to update active slide
   const handleScroll = () => {
-    if (!carouselRef.current) return
+    if (!carouselRef.current || slideRefs.current.length === 0) return
     
     const scrollPosition = carouselRef.current.scrollLeft
-    const viewportWidth = carouselRef.current.clientWidth
     const slideWidth = slideRefs.current[0]?.clientWidth || 0
     const slideGap = 24 // gap-6 = 1.5rem = 24px
     
@@ -49,7 +52,18 @@ export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: Upco
     }
   }
   
-  // Responsive card width - dimodifikasi untuk ukuran portrait yang compact
+  // Add scroll event listener
+  useEffect(() => {
+    const carousel = carouselRef.current
+    if (carousel) {
+      carousel.addEventListener('scroll', handleScroll)
+      return () => {
+        carousel.removeEventListener('scroll', handleScroll)
+      }
+    }
+  }, [])
+  
+  // Responsive card width
   const getCardWidth = () => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth < 640) {
@@ -63,7 +77,7 @@ export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: Upco
     return 320 // Default fallback
   }
   
-  const [cardWidth, setCardWidth] = useState(350)
+  const [cardWidth, setCardWidth] = useState(320)
   
   useEffect(() => {
     const handleResize = () => {
@@ -76,6 +90,15 @@ export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: Upco
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+  
+  // Fix initial scroll position on mount
+  useEffect(() => {
+    if (carouselRef.current && programs.length > 0) {
+      // Set initial scroll position to show first slide properly
+      carouselRef.current.scrollLeft = 0
+      setActiveSlide(0)
+    }
+  }, [programs.length])
   
   const hasPrograms = programs && programs.length > 0
   
@@ -97,10 +120,10 @@ export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: Upco
         </div>
         
         <div className="relative max-w-6xl mx-auto">
-          {/* Carousel container - diperbaiki untuk posisi tengah */}
+          {/* Carousel container */}
           <div 
             ref={carouselRef}
-            className="flex overflow-x-auto scrollbar-hide gap-6 pb-10 snap-x scroll-pl-4 justify-center"
+            className="flex overflow-x-auto scrollbar-hide gap-6 pb-10 snap-x px-4 md:px-6"
             style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}
             onScroll={handleScroll}
           >
@@ -112,7 +135,7 @@ export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: Upco
                     className="flex-shrink-0 animate-pulse snap-center"
                     style={{ width: `${cardWidth}px` }}
                   >
-                    <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl h-[360px]"></div>
+                    <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl h-[480px]"></div>
                   </div>
                 ))}
               </>
