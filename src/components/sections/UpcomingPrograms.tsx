@@ -72,18 +72,18 @@ export function UpcomingPrograms({ smallTitle, title, subtitle, programs }: Upco
     }
   }, [])
   
-  // Responsive card width
+    // Responsive card width - dimodifikasi untuk ukuran portrait yang compact
   const getCardWidth = () => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth < 640) {
         return window.innerWidth - 64 // Mobile
       } else if (window.innerWidth < 1024) {
-        return (window.innerWidth - 128) / 2 // Tablet
+        return 280 // Tablet - ukuran compact
       } else {
-        return (window.innerWidth - 256) / 3 // Desktop - 3 cards view
+        return 320 // Desktop - ukuran compact
       }
     }
-    return 350 // Default fallback
+    return 320 // Default fallback
   }
   
   const [cardWidth, setCardWidth] = useState(350)
