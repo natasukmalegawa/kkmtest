@@ -91,42 +91,61 @@ export function UpcomingProgramCard({ program }: UpcomingProgramCardProps) {
         
         {/* Content Container */}
         <div className="absolute inset-0 flex flex-col p-6">
+          {/* Top Section - Status Info */}
+          <div className="flex justify-between items-center mb-8">
+            {/* Status Text Only */}
+            <div className="text-xs font-medium text-white drop-shadow-md">
+              {statusInfo.text}
+            </div>
+            
+            {/* Share Button */}
+            <button
+              onClick={() => setShowShareModal(true)}
+              className="bg-white/20 backdrop-blur-sm p-2 rounded-full text-white hover:bg-white/30 transition-ios"
+              aria-label="Share program"
+            >
+              <FaShareAlt size={14} />
+            </button>
+          </div>
+          
           {/* Center Content - Title and Subtitle */}
-          <div className="flex flex-col items-center justify-center text-center my-auto">
+          <div className="flex flex-col items-center justify-center text-center mt-4 mb-auto px-2">
             <h3 className="text-2xl font-bold text-white mb-2 sf-pro-display drop-shadow-md">{program.title}</h3>
             <p className="text-sm text-white/90 line-clamp-2 sf-pro-text drop-shadow-md">{program.description}</p>
           </div>
           
-          {/* Bottom Section */}
-          <div className="relative mt-auto">
+          {/* Bottom Section with Progressive Blur Effect */}
+          <div className="relative mt-auto pt-8">
+            {/* Progressive blur effect */}
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/60 via-black/30 to-transparent backdrop-blur-[2px] -mx-6 -mb-6"></div>
+            
             {/* Information and Button Container */}
-            <div className="relative flex items-end justify-between z-10">
+            <div className="relative flex flex-col z-10 space-y-4">
               {/* Date, Location, Price Info */}
-              <div className="space-y-2">
-                <div className="flex flex-col text-white drop-shadow-md">
-                  <div className="flex items-center text-xs font-medium">
-                    <FaCalendarAlt size={10} className="mr-1" />
-                    <span>{formatDate(program.programDate)}</span>
-                    {program.location && (
-                      <>
-                        <span className="mx-1">|</span>
-                        <FaMapMarkerAlt size={10} className="mr-1" />
-                        <span>{program.location}</span>
-                      </>
-                    )}
-                  </div>
-                  {program.price !== undefined && (
-                    <div className="text-xs mt-1">
-                      {program.price === 0 ? 'Free' : `Rp ${program.price.toLocaleString('id-ID')}`}
-                    </div>
-                  )}
+              <div className="flex items-center text-white drop-shadow-md">
+                <div className="flex items-center text-xs">
+                  <FaCalendarAlt size={10} className="mr-1" />
+                  <span>{formatDate(program.programDate)}</span>
                 </div>
+                {program.location && (
+                  <div className="flex items-center text-xs ml-2">
+                    <span className="mx-1">|</span>
+                    <FaMapMarkerAlt size={10} className="mr-1" />
+                    <span>{program.location}</span>
+                  </div>
+                )}
               </div>
+              
+              {program.price !== undefined && (
+                <div className="text-xs text-white drop-shadow-md">
+                  {program.price === 0 ? 'Free' : `Rp ${program.price.toLocaleString('id-ID')}`}
+                </div>
+              )}
               
               {/* Action Button */}
               <Link 
                 href={`/programs/${program.slug.current}`}
-                className={`flex items-center justify-center py-2 px-4 rounded-full text-sm font-medium transition-ios ${isAvailable ? 'bg-white text-black' : 'bg-white/90 text-black'}`}
+                className={`inline-flex items-center justify-center py-2 px-4 rounded-full text-sm font-medium transition-ios w-auto self-end ${isAvailable ? 'bg-white text-black' : 'bg-white/90 text-black'}`}
               >
                 {statusInfo.icon}
                 <span className="ml-2">{statusInfo.buttonText}</span>
@@ -134,15 +153,6 @@ export function UpcomingProgramCard({ program }: UpcomingProgramCardProps) {
             </div>
           </div>
         </div>
-        
-        {/* Share Button */}
-        <button
-          onClick={() => setShowShareModal(true)}
-          className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm p-2 rounded-full text-white hover:bg-white/30 transition-ios"
-          aria-label="Share program"
-        >
-          <FaShareAlt size={14} />
-        </button>
       </div>
       
       {/* Share Modal */}
