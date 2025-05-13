@@ -181,3 +181,21 @@ export type ContactCard = {
   textColor: string
   order: number
 }
+// Location Card
+export type LocationCard = {
+  _id: string
+  title: string
+  address: string
+  city: string
+  mapImage: {
+    asset: {
+      _ref: string
+    }
+  }
+  backgroundColor: string
+  shareButtonText: string
+  saveButtonText: string
+  callButtonText: string
+  mapUrl: string
+  phoneNumber?: string
+}
