@@ -80,7 +80,6 @@ export type SiteSettings = {
   contactTitle?: string
   contactSubtitle?: string
 }
-}
 
 // Add new types
 export type Author = {
