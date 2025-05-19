@@ -167,17 +167,19 @@ export function GallerySection({ smallTitle, title, subtitle, galleries }: Galle
   const hasGalleries = limitedGalleries && limitedGalleries.length > 0
   
   return (
-    <section id="gallery-section" className="py-20 md:py-24 bg-gradient-to-b from-gray-50 to-gray-100 dark:bg-black">
+    <section id="gallery-section" className="py-20 md:py-24 bg-gradient-to-b from-gray-50 to-gray-100 dark:bg-apple-darker dark:bg-none">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
-          <p className="text-apple-blue dark:text-blue-400 text-sm font-medium mb-2 tracking-wide uppercase sf-pro-text">
-            Our Memories
-          </p>
+          {smallTitle && (
+            <p className="text-apple-blue dark:text-blue-400 text-sm font-medium mb-2 tracking-wide uppercase sf-pro-text">
+              {smallTitle || "Our Memories"}
+            </p>
+          )}
           <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-gray-900 dark:text-white sf-pro-display">
-            Photo Gallery
+            {title || "Photo Gallery"}
           </h2>
           <p className="text-apple-gray dark:text-gray-400 text-lg max-w-2xl mx-auto sf-pro-text">
-            Explore our collection of memorable moments and events
+            {subtitle || "Explore our collection of memorable moments and events"}
           </p>
         </div>
         
@@ -240,6 +242,14 @@ export function GallerySection({ smallTitle, title, subtitle, galleries }: Galle
         
         {/* Add custom styling */}
         <style jsx global>{`
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          
           .sf-pro-display {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
             letter-spacing: -0.015em;
