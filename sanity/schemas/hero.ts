@@ -17,15 +17,15 @@ export default {
     },
     {
       name: 'ctaText',
-      title: 'Default Call to Action Text',
+      title: 'Primary Button Text',
       type: 'string',
-      description: 'Default button text if no slides are defined'
+      description: 'Text for the primary button (e.g., "Learn more")'
     },
     {
       name: 'ctaSecondaryText',
-      title: 'Default Secondary CTA Text',
+      title: 'Secondary Button Text',
       type: 'string',
-      description: 'Optional secondary text that appears next to the CTA button'
+      description: 'Text for the outline button (e.g., "Contact us")'
     },
     {
       name: 'backgroundImage',
@@ -58,15 +58,21 @@ export default {
             },
             {
               name: 'ctaText',
-              title: 'Call to Action Text',
+              title: 'Primary Button Text',
               type: 'string',
-              description: 'Primary button text'
+              description: 'Text for the primary button'
             },
             {
               name: 'ctaSecondaryText',
-              title: 'Secondary CTA Text',
+              title: 'Secondary Button Text',
               type: 'string',
-              description: 'Optional secondary text that appears next to the CTA button'
+              description: 'Text for the outline button'
+            },
+            {
+              name: 'additionalText',
+              title: 'Additional Text (Purple)',
+              type: 'string', 
+              description: 'Optional text that appears below the buttons (in purple)'
             },
             {
               name: 'backgroundImage',
