@@ -99,7 +99,7 @@ export function Contact({ smallTitle, title, subtitle, cards }: ContactProps) {
   return (
     <section 
       id="contact-section" 
-      className="py-20 md:py-24 relative bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-black"
+      className="py-20 md:py-24 relative bg-gradient-to-b from-gray-50 to-gray-100 dark:bg-apple-darker"
     >
       {/* Blur effect elements for glassmorphism effect */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
@@ -118,7 +118,7 @@ export function Contact({ smallTitle, title, subtitle, cards }: ContactProps) {
           <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-gray-900 dark:text-white sf-pro-display">
             {title}
           </h2>
-          <p className="text-apple-gray dark:text-gray-300 text-lg max-w-2xl mx-auto sf-pro-text px-4">
+          <p className="text-apple-gray dark:text-gray-400 text-lg max-w-2xl mx-auto sf-pro-text px-4">
             {subtitle}
           </p>
         </div>
@@ -167,7 +167,7 @@ export function Contact({ smallTitle, title, subtitle, cards }: ContactProps) {
                   onClick={() => goToSlide(index)}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
                     index === activeSlide 
-                      ? 'bg-apple-blue dark:bg-blue-500 w-6' 
+                      ? 'bg-apple-blue w-6' 
                       : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
@@ -195,12 +195,6 @@ export function Contact({ smallTitle, title, subtitle, cards }: ContactProps) {
           .sf-pro-text {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
             letter-spacing: -0.01em;
-          }
-          
-          @media (prefers-color-scheme: dark) {
-            .dark-bg-contact-section {
-              background: linear-gradient(180deg, #0d0d0d 0%, #000000 100%);
-            }
           }
         `}</style>
       </div>
