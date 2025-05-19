@@ -89,7 +89,7 @@ export default {
       subtitle: 'subtitle',
       media: 'backgroundImage'
     },
-    prepare({ title, subtitle, media }) {
+    prepare({ title, subtitle, media }: { title?: string; subtitle?: string; media?: any }) {
       return {
         title: title || 'Hero Section',
         subtitle: subtitle ? subtitle.slice(0, 50) + '...' : 'No subtitle',
