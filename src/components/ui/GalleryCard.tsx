@@ -54,7 +54,7 @@ export function GalleryCard({ gallery, index, isActive }: GalleryCardProps) {
   return (
     <>
       <motion.div 
-        className="relative rounded-3xl overflow-hidden shadow-lg cursor-pointer card-stack-item"
+        className="relative rounded-3xl overflow-hidden shadow-lg dark:shadow-lg dark:shadow-gray-900/30 cursor-pointer card-stack-item"
         style={{ 
           zIndex: getZIndex(),
         }}
@@ -112,7 +112,7 @@ export function GalleryCard({ gallery, index, isActive }: GalleryCardProps) {
               e.stopPropagation()
               setShowFullImage(true)
             }}
-            className="absolute top-4 right-4 morphism p-2.5 rounded-full text-gray-700 dark:text-white hover:bg-white/40 dark:hover:bg-white/20 transition-colors shadow-md"
+            className="absolute top-4 right-4 bg-white/30 dark:bg-white/20 backdrop-blur-md p-2.5 rounded-full text-gray-800 dark:text-white hover:bg-white/40 dark:hover:bg-white/30 transition-colors shadow-md"
             aria-label="View full image"
           >
             <FaExpand size={14} />
@@ -141,7 +141,7 @@ export function GalleryCard({ gallery, index, isActive }: GalleryCardProps) {
                   e.stopPropagation()
                   downloadImage()
                 }}
-                className="morphism p-3 rounded-full text-gray-700 dark:text-white hover:bg-white/40 dark:hover:bg-white/20 transition-colors shadow-md"
+                className="bg-white/30 dark:bg-white/20 backdrop-blur-md p-3 rounded-full text-gray-800 dark:text-white hover:bg-white/40 dark:hover:bg-white/30 transition-colors shadow-md"
                 aria-label="Download image"
               >
                 <FaDownload size={18} />
@@ -149,14 +149,14 @@ export function GalleryCard({ gallery, index, isActive }: GalleryCardProps) {
               
               <button
                 onClick={() => setShowFullImage(false)}
-                className="morphism p-3 rounded-full text-gray-700 dark:text-white hover:bg-white/40 dark:hover:bg-white/20 transition-colors shadow-md"
+                className="bg-white/30 dark:bg-white/20 backdrop-blur-md p-3 rounded-full text-gray-800 dark:text-white hover:bg-white/40 dark:hover:bg-white/30 transition-colors shadow-md"
                 aria-label="Close"
               >
                 <span className="text-xl font-bold">×</span>
               </button>
             </div>
             
-            <div className="absolute bottom-4 left-4 right-4 text-white p-4 bg-black/50 rounded-lg">
+            <div className="absolute bottom-4 left-4 right-4 text-white p-4 bg-black/50 backdrop-blur-md rounded-lg">
               <h3 className="text-xl font-bold mb-1 sf-pro-display">{gallery.title}</h3>
               {gallery.description && (
                 <p className="text-sm opacity-90 sf-pro-text">{gallery.description}</p>
