@@ -1,52 +1,68 @@
-import { useState } from "react";
-import { FaSearch } from "react-icons/fa";
-import { IoClose } from "react-icons/io5";
-import { useLanguage } from "../contexts/LanguageContext";
+'use client'
 
-interface SearchBarProps {
-  className?: string;
-}
+import { useState, useRef, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { FaSearch } from 'react-icons/fa'
 
-const SearchBar = ({ className }: SearchBarProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const { translate } = useLanguage();
+export function SearchBar() {
+  const [isExpanded, setIsExpanded] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
+  const router = useRouter()
+  
+  // Handle outside click to close search
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
+        setIsExpanded(false)
+      }
+    }
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-    setSearchValue("");
-  };
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      // Navigate to search results page
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
+      setIsExpanded(false)
+    }
+  }
 
   return (
-    <div className={`relative flex items-center ${className}`}>
-      {isOpen ? (
-        <div className="flex items-center bg-gray-100 rounded-[20px] p-2">
-          <input
-            className="bg-transparent border-none outline-none pl-2 pr-1 w-[180px] text-sm"
-            placeholder={translate('search.placeholder')}
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            autoFocus
-          />
-          {/* Added proper spacing */}
-          <button 
-            className="p-2 text-gray-700 hover:text-black" 
-            onClick={handleToggle}
-          >
-            <IoClose className="text-lg" />
-          </button>
-        </div>
-      ) : (
-        <button 
-          className="p-2 rounded-full bg-gray-100 flex items-center justify-center"
-          onClick={handleToggle}
+    <div className="relative" ref={inputRef}>
+      <div className={`
+        flex items-center overflow-hidden transition-all duration-300 ease-in-out
+        ${isExpanded 
+          ? 'w-36 md:w-48 bg-gray-100 dark:bg-gray-800 rounded-full pl-3' // Added pl-3 for left padding
+          : 'w-6 h-6'
+        }
+      `}>
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={`flex items-center justify-center text-gray-600 dark:text-gray-300 w-6 h-6 ${isExpanded ? 'mr-1' : ''}`} // Added mr-1 margin when expanded
+          aria-label="Search"
         >
-          {/* Added proper spacing around the search icon */}
-          <FaSearch className="text-gray-700 text-sm mx-1" />
+          <FaSearch className="h-4 w-4" />
         </button>
-      )}
+        
+        {isExpanded && (
+          <form onSubmit={handleSearch} className="w-full">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cari konten..."
+              className="w-full h-8 pr-3 text-sm bg-transparent border-0 focus:outline-none focus:ring-0"
+              autoFocus
+            />
+          </form>
+        )}
+      </div>
     </div>
-  );
-};
-
-export default SearchBar;
+  )
+}
