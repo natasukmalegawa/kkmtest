@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
 import { urlForImage } from '@/lib/sanity-image'
 
@@ -27,7 +26,6 @@ type HeroProps = {
       _ref: string
     }
   }
-  // Tambahkan properti untuk carousel slides
   slides?: HeroSlide[]
 }
 
@@ -93,8 +91,8 @@ export function Hero({ title, subtitle, ctaText, ctaSecondaryText, backgroundIma
         className="absolute inset-0 bg-center bg-cover transition-opacity duration-1000"
         style={backgroundStyle}
       >
-        {/* Dark overlay for better text visibility */}
-        <div className="absolute inset-0 bg-black/40"></div>
+        {/* Light semi-transparent overlay */}
+        <div className="absolute inset-0 bg-black/30"></div>
       </div>
       
       <div className="container relative z-10 mx-auto px-4 md:px-6 h-[100vh] flex flex-col justify-center items-center text-center text-white">
@@ -107,36 +105,40 @@ export function Hero({ title, subtitle, ctaText, ctaSecondaryText, backgroundIma
                 : 'opacity-0 transform translate-y-8 pointer-events-none'
             } ${isFirstRender ? 'transition-none' : ''}`}
           >
-            {/* New hero content layout */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-5 tracking-tight leading-tight">
-              {slide.title}
+            {/* Hero content based exactly on uploaded image */}
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight tracking-tight">
+              We help you grow, create, <br className="hidden md:block" />
+              and stand out.
             </h1>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-8 text-white/90 max-w-3xl mx-auto leading-snug">
-              {slide.subtitle}
-            </h2>
-            <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-              <Button onClick={scrollToAbout} variant="primary" size="lg" className="min-w-[180px] font-semibold text-base">
-                {slide.ctaText}
+            <p className="text-xl md:text-2xl font-normal mb-10 text-white/90">
+              Your journey starts here.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button onClick={scrollToAbout} variant="primary" size="lg">
+                Learn more
               </Button>
-              {slide.ctaSecondaryText && (
-                <span className="text-white/80 text-lg hover:text-white cursor-pointer transition-colors duration-300 font-medium">
-                  {slide.ctaSecondaryText}
-                </span>
-              )}
+              <Button onClick={scrollToAbout} variant="outline" size="lg">
+                Contact us
+              </Button>
             </div>
+            {slide.ctaSecondaryText && (
+              <p className="mt-6 text-purple-300 text-lg">
+                {slide.ctaSecondaryText}
+              </p>
+            )}
           </div>
         ))}
         
         {/* Carousel indicators */}
         {heroSlides.length > 1 && (
-          <div className="absolute bottom-12 flex space-x-3">
+          <div className="absolute bottom-10 flex space-x-2">
             {heroSlides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   index === activeSlide 
-                    ? 'bg-white w-8' 
+                    ? 'bg-white w-6' 
                     : 'bg-white/50 hover:bg-white/80'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
