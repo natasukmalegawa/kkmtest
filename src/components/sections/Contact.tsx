@@ -99,7 +99,7 @@ export function Contact({ smallTitle, title, subtitle, cards }: ContactProps) {
   return (
     <section 
       id="contact-section" 
-      className="py-20 md:py-24 relative bg-gradient-to-b from-gray-50 to-gray-100 dark:bg-apple-darker"
+      className="py-20 md:py-24 relative bg-gradient-to-b from-gray-50 to-gray-100 dark:bg-apple-darker dark:bg-none"
     >
       {/* Blur effect elements for glassmorphism effect */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
