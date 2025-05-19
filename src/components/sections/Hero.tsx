@@ -9,6 +9,7 @@ type HeroSlide = {
   title: string
   subtitle: string
   ctaText: string
+  ctaSecondaryText?: string
   backgroundImage?: {
     asset: {
       _ref: string
@@ -20,6 +21,7 @@ type HeroProps = {
   title: string
   subtitle: string
   ctaText: string
+  ctaSecondaryText?: string
   backgroundImage?: {
     asset: {
       _ref: string
@@ -29,14 +31,14 @@ type HeroProps = {
   slides?: HeroSlide[]
 }
 
-export function Hero({ title, subtitle, ctaText, backgroundImage, slides }: HeroProps) {
+export function Hero({ title, subtitle, ctaText, ctaSecondaryText, backgroundImage, slides }: HeroProps) {
   const [activeSlide, setActiveSlide] = useState(0)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   
   // Data untuk carousel
   const heroSlides = slides && slides.length > 0 
     ? slides 
-    : [{ title, subtitle, ctaText, backgroundImage }]
+    : [{ title, subtitle, ctaText, ctaSecondaryText, backgroundImage }]
   
   const scrollToAbout = () => {
     const aboutSection = document.getElementById('about-section')
@@ -85,47 +87,56 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides }: Hero
     : { background: backgroundImageUrl }
   
   return (
-    <section className="relative min-h-[85vh] overflow-hidden">
+    <section className="relative min-h-[100vh] overflow-hidden">
       {/* Background with fade animation */}
       <div 
         className="absolute inset-0 bg-center bg-cover transition-opacity duration-1000"
         style={backgroundStyle}
       >
-        <div className="absolute inset-0 bg-black/30 dark:bg-black/50"></div>
+        {/* Dark overlay for better text visibility */}
+        <div className="absolute inset-0 bg-black/40"></div>
       </div>
       
-      <div className="container relative z-10 mx-auto px-4 md:px-6 h-[85vh] flex flex-col justify-center items-center text-center text-white">
+      <div className="container relative z-10 mx-auto px-4 md:px-6 h-[100vh] flex flex-col justify-center items-center text-center text-white">
         {heroSlides.map((slide, index) => (
           <div 
             key={index}
-            className={`w-full max-w-3xl px-4 sm:px-6 transition-all duration-500 absolute ${
+            className={`w-full max-w-4xl px-4 sm:px-6 transition-all duration-500 absolute ${
               index === activeSlide 
                 ? 'opacity-100 transform translate-y-0' 
                 : 'opacity-0 transform translate-y-8 pointer-events-none'
             } ${isFirstRender ? 'transition-none' : ''}`}
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-6">
+            {/* New hero content layout */}
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-5 tracking-tight leading-tight">
               {slide.title}
             </h1>
-            <p className="text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-8 text-white/90 max-w-3xl mx-auto leading-snug">
               {slide.subtitle}
-            </p>
-            <Button onClick={scrollToAbout} variant="primary">
-              {slide.ctaText}
-            </Button>
+            </h2>
+            <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+              <Button onClick={scrollToAbout} variant="primary" size="lg" className="min-w-[180px] font-semibold text-base">
+                {slide.ctaText}
+              </Button>
+              {slide.ctaSecondaryText && (
+                <span className="text-white/80 text-lg hover:text-white cursor-pointer transition-colors duration-300 font-medium">
+                  {slide.ctaSecondaryText}
+                </span>
+              )}
+            </div>
           </div>
         ))}
         
         {/* Carousel indicators */}
         {heroSlides.length > 1 && (
-          <div className="absolute bottom-10 flex space-x-2">
+          <div className="absolute bottom-12 flex space-x-3">
             {heroSlides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   index === activeSlide 
-                    ? 'bg-white w-6' 
+                    ? 'bg-white w-8' 
                     : 'bg-white/50 hover:bg-white/80'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
