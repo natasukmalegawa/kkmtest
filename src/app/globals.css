@@ -1,6 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*
+! tailwindcss v3.3.0 | MIT License | https://tailwindcss.com
+*/
+@import './tailwind-directives.css';
 
 /* iOS-style smooth scrolling */
 html {
@@ -10,6 +11,23 @@ html {
 /* Apple-style animations */
 .transition-ios {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Language change animation */
+.language-transition {
+  animation: fadeTransition 0.3s ease;
+}
+
+@keyframes fadeTransition {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /* Morphism effect for team cards */

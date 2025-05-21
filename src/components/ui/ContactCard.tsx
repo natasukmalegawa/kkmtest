@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { urlForImage } from '@/lib/sanity-image'
 import { ContactCard as ContactCardType } from '@/types'
+import { useLanguage } from '@/components/providers/LanguageProvider'
 
 type ContactCardProps = {
   card: ContactCardType
@@ -12,7 +13,8 @@ type ContactCardProps = {
 export function ContactCard({ card }: ContactCardProps) {
   // State to track button hover
   const [isHovering, setIsHovering] = useState(false)
-  
+  // Get translation function
+  const { t } = useLanguage()
   // Format button link
   const buttonLink = card.buttonLink || '#'
   
@@ -43,10 +45,9 @@ export function ContactCard({ card }: ContactCardProps) {
               className="object-contain"
             />
           </div>
-        )}
-        <div>
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-0.5">{card.title}</h3> {/* Reduced margin bottom */}
-          <p className="text-gray-600 dark:text-gray-300 text-sm">{card.subtitle}</p>
+        )}        <div>
+          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-0.5">{t(card.title)}</h3> {/* Reduced margin bottom */}
+          <p className="text-gray-600 dark:text-gray-300 text-sm">{t(card.subtitle)}</p>
         </div>
       </div>
       
@@ -87,8 +88,7 @@ export function ContactCard({ card }: ContactCardProps) {
                 className="object-contain"
               />
             )}
-          </div>
-          <h4 className="text-gray-800 dark:text-white text-xl font-medium mb-1">{card.personalName}</h4>
+          </div>          <h4 className="text-gray-800 dark:text-white text-xl font-medium mb-1">{t(card.personalName)}</h4>
           <p className="text-gray-600 dark:text-gray-300 text-sm">{card.contactInfo}</p>
         </div>
       </div>
@@ -116,7 +116,7 @@ export function ContactCard({ card }: ContactCardProps) {
           </svg>
         )}
         
-        {card.buttonText}
+        {t(card.buttonText)}
       </a>
     </div>
   )

@@ -5,14 +5,16 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { SearchBar } from '@/components/ui/SearchBar'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { LanguageToggle } from '@/components/ui/LanguageToggle'
 import { getNavigation } from '@/lib/sanity-queries'
 import { Navigation } from '@/types'
+import { useLanguage } from '@/components/providers/LanguageProvider'
 
 export function Header() {
   const [navigation, setNavigation] = useState<Navigation[]>([])
   const [loading, setLoading] = useState(true)
   const [isOpen, setIsOpen] = useState(false)
-  const [activeLang, setActiveLang] = useState('ID')
+  const { language, setLanguage, t } = useLanguage()
   
   useEffect(() => {
     async function fetchNavigation() {
@@ -59,14 +61,13 @@ export function Header() {
                 ))}
               </div>
             ) : (
-              <>
-                {navItems.map((item) => (
+              <>                {navItems.map((item) => (
                   <Link
                     key={item.title}
                     href={item.url}
                     className="text-apple-gray hover:text-apple-dark dark:hover:text-white text-sm font-medium transition-ios"
                   >
-                    {item.title}
+                    {t(item.title)}
                   </Link>
                 ))}
               </>
@@ -76,29 +77,9 @@ export function Header() {
           {/* Right section with search, theme, language, and mobile menu */}
           <div className="flex items-center gap-3">
             <SearchBar />
-            
-            {/* Language toggle */}
-            <div className="hidden md:flex bg-gray-200/80 dark:bg-gray-800/80 rounded-full p-0.5 h-8">
-              <button 
-                onClick={() => setActiveLang('ID')} 
-                className={`px-2 flex items-center justify-center text-xs font-medium rounded-full transition-all duration-200 ${
-                  activeLang === 'ID' 
-                    ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-white' 
-                    : 'text-gray-600 dark:text-gray-400'
-                }`}
-              >
-                ID
-              </button>
-              <button 
-                onClick={() => setActiveLang('EN')} 
-                className={`px-2 flex items-center justify-center text-xs font-medium rounded-full transition-all duration-200 ${
-                  activeLang === 'EN' 
-                    ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-white' 
-                    : 'text-gray-600 dark:text-gray-400'
-                }`}
-              >
-                EN
-              </button>
+              {/* Language toggle */}
+            <div className="hidden md:flex">
+              <LanguageToggle />
             </div>
             
             <ThemeToggle />
@@ -148,15 +129,14 @@ export function Header() {
                   ))}
                 </div>
               ) : (
-                <>
-                  {navItems.map((item) => (
+                <>                  {navItems.map((item) => (
                     <Link
                       key={item.title}
                       href={item.url}
                       onClick={() => setIsOpen(false)}
                       className="text-apple-gray hover:text-apple-dark dark:hover:text-white text-base font-medium transition-ios text-center py-2"
                     >
-                      {item.title}
+                      {t(item.title)}
                     </Link>
                   ))}
                 </>
@@ -164,29 +144,7 @@ export function Header() {
             </div>
             
             {/* Mobile toggles */}
-            <div className="flex flex-wrap gap-3 justify-center">
-              <div className="flex bg-gray-200/80 dark:bg-gray-800/80 rounded-full p-0.5 h-8">
-                <button 
-                  onClick={() => setActiveLang('ID')} 
-                  className={`px-2 flex items-center justify-center text-xs font-medium rounded-full transition-all duration-200 ${
-                    activeLang === 'ID' 
-                      ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-white' 
-                      : 'text-gray-600 dark:text-gray-400'
-                  }`}
-                >
-                  ID
-                </button>
-                <button 
-                  onClick={() => setActiveLang('EN')} 
-                  className={`px-2 flex items-center justify-center text-xs font-medium rounded-full transition-all duration-200 ${
-                    activeLang === 'EN' 
-                      ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-white' 
-                      : 'text-gray-600 dark:text-gray-400'
-                  }`}
-                >
-                  EN
-                </button>
-              </div>
+            <div className="flex flex-wrap gap-3 justify-center">              <LanguageToggle />
               
               {/* Mobile theme toggle */}
               <ThemeToggle />

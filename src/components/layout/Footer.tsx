@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
 import { getFooter } from '@/lib/sanity-queries'
 import { FooterColumn } from '@/types'
+import { useLanguage } from '@/components/providers/LanguageProvider'
 
 export function Footer() {
   const [footer, setFooter] = useState<{
@@ -12,6 +13,7 @@ export function Footer() {
     copyright: string;
   } | null>(null)
   const [loading, setLoading] = useState(true)
+  const { t } = useLanguage()
   
   useEffect(() => {
     async function fetchFooter() {
@@ -71,9 +73,8 @@ export function Footer() {
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="inline-block mb-4">
               <span className="text-apple-blue font-semibold text-xl">Brand</span>
-            </Link>
-            <p className="text-apple-gray text-sm mb-6 max-w-xs">
-              Designed to help you achieve more through clean design and innovative technology.
+            </Link>            <p className="text-apple-gray text-sm mb-6 max-w-xs">
+              {t('Designed to help you achieve more through clean design and innovative technology.')}
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-apple-gray hover:text-apple-blue dark:hover:text-white transition-ios">
@@ -108,8 +109,7 @@ export function Footer() {
           ) : (
             <>
               {footerData.columns.map((column, index) => (
-                <div key={index}>
-                  <h3 className="font-medium text-apple-dark dark:text-white mb-4">{column.title}</h3>
+                <div key={index}>              <h3 className="font-medium text-apple-dark dark:text-white mb-4">{t(column.title)}</h3>
                   <ul className="space-y-3">
                     {column.links.map((link, linkIndex) => (
                       <li key={linkIndex}>
@@ -117,7 +117,7 @@ export function Footer() {
                           href={link.url}
                           className="text-apple-gray hover:text-apple-blue dark:hover:text-white text-sm transition-ios"
                         >
-                          {link.title}
+                          {t(link.title)}
                         </Link>
                       </li>
                     ))}
@@ -128,9 +128,8 @@ export function Footer() {
           )}
         </div>
         
-        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
-          <p className="text-apple-gray text-sm">
-            {footerData.copyright}
+        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">          <p className="text-apple-gray text-sm">
+            {t(footerData.copyright)}
           </p>
         </div>
       </div>
