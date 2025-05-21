@@ -10,10 +10,10 @@ import { FaChevronLeft } from 'react-icons/fa'
 // Import global styles
 import '@/app/articles/articles-styles.css'
 
-// Gunakan metadata sebagai objek langsung, bukan fungsi
+// Metadata untuk halaman artikel
 export const metadata = {
-  title: 'Articles | Your Brand',
-  description: 'Read our latest articles and stories',
+  title: 'Articles | Karya Mahasiswa UNY',
+  description: 'Baca artikel dan berita terbaru tentang karya mahasiswa',
 }
 
 // Gunakan any untuk searchParams untuk menghindari error tipe
