@@ -3,40 +3,20 @@
 import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
 import { urlForImage } from '@/lib/sanity-image'
-
-type HeroSlide = {
-  title: string
-  subtitle: string
-  ctaText: string
-  ctaSecondaryText?: string
-  backgroundImage?: {
-    asset: {
-      _ref: string
-    }
-  }
-}
+import { HeroSlide } from '@/types'
 
 type HeroProps = {
   title: string
   subtitle: string
   ctaText: string
-  ctaSecondaryText?: string
-  backgroundImage?: {
-    asset: {
-      _ref: string
-    }
-  }
+  backgroundImage?: any
   slides?: HeroSlide[]
 }
 
-export function Hero({ title, subtitle, ctaText, ctaSecondaryText, backgroundImage, slides }: HeroProps) {
+export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }: HeroProps) {
   const [activeSlide, setActiveSlide] = useState(0)
+  const [isFirstRender, setIsFirstRender] = useState(true)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  
-  // Data untuk carousel
-  const heroSlides = slides && slides.length > 0 
-    ? slides 
-    : [{ title, subtitle, ctaText, ctaSecondaryText, backgroundImage }]
   
   const scrollToAbout = () => {
     const aboutSection = document.getElementById('about-section')
@@ -45,11 +25,23 @@ export function Hero({ title, subtitle, ctaText, ctaSecondaryText, backgroundIma
     }
   }
   
+  // Create hero slides array from props
+  const heroSlides = slides && slides.length > 0 
+    ? slides 
+    : [{
+        title: title,
+        subtitle: subtitle,
+        ctaText: ctaText,
+        backgroundImage: backgroundImage
+      }]
+  
+  // Setup slideshow interval
   useEffect(() => {
-    // Auto rotate slides every 6 seconds
-    intervalRef.current = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % heroSlides.length)
-    }, 6000)
+    if (heroSlides.length > 1) {
+      intervalRef.current = setInterval(() => {
+        setActiveSlide(prev => (prev + 1) % heroSlides.length)
+      }, 6000)
+    }
     
     return () => {
       if (intervalRef.current) {
@@ -58,8 +50,7 @@ export function Hero({ title, subtitle, ctaText, ctaSecondaryText, backgroundIma
     }
   }, [heroSlides.length])
   
-  // Skip animation for first render
-  const [isFirstRender, setIsFirstRender] = useState(true)
+  // Remove transition on first render
   useEffect(() => {
     setIsFirstRender(false)
   }, [])
@@ -106,11 +97,11 @@ export function Hero({ title, subtitle, ctaText, ctaSecondaryText, backgroundIma
             } ${isFirstRender ? 'transition-none' : ''}`}
           >
             {/* Hero content based exactly on uploaded image */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-4 leading-tight tracking-tight">
               We help you grow, create, <br className="hidden md:block" />
               and stand out.
             </h1>
-            <p className="text-xl md:text-2xl font-normal mb-10 text-white/90">
+            <p className="text-lg md:text-xl lg:text-2xl font-normal mb-10 text-white/90">
               Your journey starts here.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
@@ -122,7 +113,7 @@ export function Hero({ title, subtitle, ctaText, ctaSecondaryText, backgroundIma
               </Button>
             </div>
             {slide.ctaSecondaryText && (
-              <p className="mt-6 text-purple-300 text-lg">
+              <p className="mt-6 text-purple-300 text-base md:text-lg">
                 {slide.ctaSecondaryText}
               </p>
             )}
