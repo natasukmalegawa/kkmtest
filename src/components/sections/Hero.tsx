@@ -69,7 +69,7 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
     : { background: backgroundImageUrl }
 
   return (
-    <section className="relative min-h-[85vh] sm:min-h-[80vh] overflow-hidden">
+    <section className="relative min-h-[75vh] sm:min-h-[80vh] overflow-hidden">
       {/* Background */}
       <div
         className="absolute inset-0 bg-center bg-cover transition-opacity duration-1000"
@@ -78,27 +78,9 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
-      {/* Dot navigator - ABSOLUTE DI PALING BAWAH HERO */}
-      {heroSlides.length > 1 && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
-          {heroSlides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === safeActiveSlide
-                  ? 'bg-white w-6'
-                  : 'bg-white/50 hover:bg-white/80'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
-
-      <div className="relative z-10 flex flex-col items-center w-full h-full min-h-[85vh] sm:min-h-[80vh]">
-        {/* Heading container - bagian tengah atas hero */}
-        <div className="w-full max-w-2xl flex flex-col items-center pt-12 sm:pt-16 md:pt-20 px-4 sm:px-0">
+      <div className="relative z-10 flex flex-col items-center justify-between w-full h-[75vh] sm:h-[80vh]">
+        {/* Heading 1 & 2: di bagian atas */}
+        <div className="w-full max-w-2xl flex flex-col items-center pt-8 sm:pt-12 px-4 sm:px-0">
           <h1 className="
             text-white
             drop-shadow-lg
@@ -117,17 +99,15 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
             drop-shadow
             text-base xs:text-lg md:text-xl lg:text-2xl
             font-normal
-            mb-0
             text-center
             px-2 sm:px-0
           ">
             {currentSlide.subtitle || "Your journey starts here."}
           </p>
         </div>
-        {/* Spacer agar tengah hero kosong */}
-        <div className="flex-1" />
-        {/* CTA button di bawah tapi di atas dot navigator */}
-        <div className="w-full flex flex-col items-center pb-20">
+
+        {/* CTA button: di bawah hero, bukan di tengah */}
+        <div className="w-full flex flex-col items-center pb-16">
           <div className="flex flex-wrap justify-center gap-2 xs:gap-4 md:gap-6">
             <Button
               onClick={scrollToAbout}
@@ -152,6 +132,24 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
             </p>
           )}
         </div>
+
+        {/* Dot navigator tetap di PALING BAWAH */}
+        {heroSlides.length > 1 && (
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
+            {heroSlides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === safeActiveSlide
+                    ? 'bg-white w-6'
+                    : 'bg-white/50 hover:bg-white/80'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
