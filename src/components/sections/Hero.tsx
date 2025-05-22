@@ -69,7 +69,7 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
     : { background: backgroundImageUrl }
 
   return (
-    <section className="relative min-h-[75vh] sm:min-h-[80vh] overflow-hidden">
+    <section className="relative min-h-[100vh] sm:min-h-[100vh] overflow-hidden">
       {/* Background */}
       <div
         className="absolute inset-0 bg-center bg-cover transition-opacity duration-1000"
@@ -78,13 +78,13 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
-      <div className="relative z-10 flex flex-col items-center justify-between w-full h-[75vh] sm:h-[80vh]">
-        {/* Heading 1 & 2: di bagian atas */}
-        <div className="w-full max-w-2xl flex flex-col items-center pt-8 sm:pt-12 px-4 sm:px-0">
+      <div className="relative z-10 flex flex-col items-center justify-center w-full h-[100vh] sm:h-[100vh]">
+        {/* Heading 1 & 2: di bagian tengah */}
+        <div className="w-full max-w-2xl flex flex-col items-center px-4 sm:px-0">
           <h1 className="
             text-white
             drop-shadow-lg
-            text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl
+            text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-7xl
             font-bold
             mb-2
             leading-tight
@@ -100,37 +100,23 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
             text-base xs:text-lg md:text-xl lg:text-2xl
             font-normal
             text-center
+            mt-2 sm:mt-3
             px-2 sm:px-0
           ">
             {currentSlide.subtitle || "Your journey starts here."}
           </p>
         </div>
 
-        {/* CTA button: di bawah hero, bukan di tengah */}
-        <div className="w-full flex flex-col items-center pb-16">
-          <div className="flex flex-wrap justify-center gap-2 xs:gap-4 md:gap-6">
-            <Button
-              onClick={scrollToAbout}
-              variant="primary"
-              size="sm"
-              className="text-xs xs:text-sm sm:text-base md:text-lg px-4 py-2 sm:px-6 sm:py-3"
-            >
-              {currentSlide.ctaText || "Learn More"}
-            </Button>
-            <Button
-              onClick={scrollToAbout}
-              variant="outline"
-              size="sm"
-              className="text-xs xs:text-sm sm:text-base md:text-lg px-4 py-2 sm:px-6 sm:py-3"
-            >
-              Contact us
-            </Button>
-          </div>
-          {currentSlide.ctaSecondaryText && (
-            <p className="mt-6 text-purple-300 text-xs md:text-base lg:text-lg text-center">
-              {currentSlide.ctaSecondaryText}
-            </p>
-          )}
+        {/* CTA button: di tengah, di bawah heading */}
+        <div className="mt-6 sm:mt-8 md:mt-10">
+          <Button
+            onClick={scrollToAbout}
+            variant="primary"
+            size="lg"
+            className="text-sm xs:text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-3.5 rounded-full"
+          >
+            {currentSlide.ctaText || "Grow with us"}
+          </Button>
         </div>
 
         {/* Dot navigator tetap di PALING BAWAH */}
