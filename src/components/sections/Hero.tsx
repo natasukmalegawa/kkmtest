@@ -69,8 +69,8 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
     : { background: backgroundImageUrl }
 
   return (
-    <section className="relative min-h-[100vh] sm:min-h-[100vh] overflow-hidden">
-      {/* Background */}
+    <section className="relative min-h-[85vh] sm:min-h-[85vh] overflow-hidden">
+      {/* Background with transition effect restored */}
       <div
         className="absolute inset-0 bg-center bg-cover transition-opacity duration-1000"
         style={backgroundStyle}
@@ -78,48 +78,50 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center w-full h-[100vh] sm:h-[100vh]">
-        {/* Heading 1 & 2: di bagian tengah */}
-        <div className="w-full max-w-2xl flex flex-col items-center px-4 sm:px-0">
+      <div className="relative z-10 flex flex-col items-center justify-center w-full h-[85vh] sm:h-[85vh]">
+        {/* Heading 1 & 2 with transition effects */}
+        <div className="w-full max-w-2xl flex flex-col items-center px-4 sm:px-0 mb-8">
           <h1 className="
             text-white
             drop-shadow-lg
-            text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-7xl
+            text-3xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-6xl
             font-bold
             mb-2
             leading-tight
             tracking-tight
             text-center
             px-2 sm:px-0
+            transition-opacity duration-1000
           ">
             {currentSlide.title || "We help you grow, create, and stand out."}
           </h1>
           <p className="
             text-white
             drop-shadow
-            text-base xs:text-lg md:text-xl lg:text-2xl
+            text-base xs:text-lg md:text-lg lg:text-xl
             font-normal
             text-center
-            mt-2 sm:mt-3
+            mt-2
             px-2 sm:px-0
+            transition-opacity duration-1000
           ">
             {currentSlide.subtitle || "Your journey starts here."}
           </p>
         </div>
 
-        {/* CTA button: di tengah, di bawah heading */}
-        <div className="mt-6 sm:mt-8 md:mt-10">
+        {/* CTA button with transition effect */}
+        <div className="transition-opacity duration-1000">
           <Button
             onClick={scrollToAbout}
             variant="primary"
             size="lg"
-            className="text-sm xs:text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-3.5 rounded-full"
+            className="text-sm xs:text-base sm:text-lg px-6 py-2.5 sm:px-8 sm:py-3 rounded-full"
           >
             {currentSlide.ctaText || "Grow with us"}
           </Button>
         </div>
 
-        {/* Dot navigator tetap di PALING BAWAH */}
+        {/* Dot navigator at bottom */}
         {heroSlides.length > 1 && (
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
             {heroSlides.map((_, index) => (
