@@ -4,21 +4,12 @@ import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
 import { urlForImage } from '@/lib/sanity-image'
 
-// Buat tipe HeroSlide di dalam file Hero.tsx
-type HeroSlide = {
-  title?: string
-  subtitle?: string
-  ctaText?: string
-  ctaSecondaryText?: string
-  backgroundImage?: any
-}
-
 type HeroProps = {
   title: string
   subtitle: string
   ctaText: string
   backgroundImage?: any
-  slides?: HeroSlide[]
+  slides?: any[] // Gunakan any[] untuk slides agar sesuai dengan data dari Sanity
 }
 
 export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }: HeroProps) {
@@ -33,7 +24,7 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
     }
   }
   
-  // Create hero slides array from props
+  // Gunakan slides dari Sanity jika tersedia, jika tidak buat slide default
   const heroSlides = slides && slides.length > 0 
     ? slides 
     : [{
@@ -104,17 +95,16 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
                 : 'opacity-0 transform translate-y-8 pointer-events-none'
             } ${isFirstRender ? 'transition-none' : ''}`}
           >
-            {/* Hero content based exactly on uploaded image */}
+            {/* Hero content */}
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-4 leading-tight tracking-tight">
-              We help you grow, create, <br className="hidden md:block" />
-              and stand out.
+              {slide.title || "We help you grow, create, and stand out."}
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl font-normal mb-10 text-white/90">
-              Your journey starts here.
+              {slide.subtitle || "Your journey starts here."}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button onClick={scrollToAbout} variant="primary" size="lg">
-                Learn more
+                {slide.ctaText || "Learn more"}
               </Button>
               <Button onClick={scrollToAbout} variant="outline" size="lg">
                 Contact us
