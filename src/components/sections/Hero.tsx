@@ -69,7 +69,7 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
     : { background: backgroundImageUrl }
 
   return (
-    <section className="relative min-h-[60vh] md:min-h-[75vh] lg:min-h-[80vh] overflow-hidden flex items-start justify-center">
+    <section className="relative min-h-[100vh] overflow-hidden flex items-center justify-center">
       {/* Background */}
       <div
         className="absolute inset-0 bg-center bg-cover transition-opacity duration-1000"
@@ -89,11 +89,20 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
                 : 'opacity-0 transform translate-y-8 pointer-events-none'
             } ${isFirstRender ? 'transition-none' : ''}`}
             style={{
-              top: '8vh',
+              // Konten di posisi lebih ke atas, tombol jauh di bawah
+              top: '0',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              height: '100vh',
+              paddingTop: '18vh',
+              paddingBottom: '8vh',
             }}
           >
             {/* Heading 1 */}
             <h1 className="
+              text-white
               text-2xl
               xs:text-3xl
               sm:text-4xl
@@ -106,11 +115,13 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
               text-center
               px-2
               sm:px-0
+              drop-shadow-lg
             ">
               {slide.title || "We help you grow, create, and stand out."}
             </h1>
             {/* Subtitle */}
             <p className="
+              text-white
               text-base
               xs:text-lg
               md:text-xl
@@ -118,13 +129,15 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
               font-normal
               mb-12
               md:mb-16
-              text-white/90
               text-center
               px-2
               sm:px-0
+              drop-shadow
             ">
               {slide.subtitle || "Your journey starts here."}
             </p>
+            {/* Spacer besar untuk jarak ke button */}
+            <div className="h-12 md:h-16"></div>
             {/* CTA Button */}
             <div className="flex flex-wrap justify-center gap-2 xs:gap-4 md:gap-6 pb-2">
               <Button
