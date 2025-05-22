@@ -95,8 +95,8 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
         className="absolute inset-0 bg-center bg-cover transition-opacity duration-1000"
         style={backgroundStyle}
       >
-        {/* Light semi-transparent overlay */}
-        <div className="absolute inset-0 bg-black/30"></div>
+        {/* Light semi-transparent overlay - Ditingkatkan menjadi lebih gelap */}
+        <div className="absolute inset-0 bg-black/50"></div>
       </div>
       
       <div className="container relative z-10 mx-auto px-4 md:px-6 h-[100vh] flex flex-col justify-center items-center text-center text-white">
@@ -110,13 +110,13 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
             } ${isFirstRender ? 'transition-none' : ''}`}
           >
             {/* Hero content */}
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-4 leading-tight tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-3 md:mb-4 leading-tight tracking-tight">
               {slide.title || "We help you grow, create, and stand out."}
             </h1>
-            <p className="text-lg md:text-xl lg:text-2xl font-normal mb-10 text-white/90">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-normal mb-8 md:mb-10 text-white/90">
               {slide.subtitle || "Your journey starts here."}
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-3 md:gap-4">
               <Button onClick={scrollToAbout} variant="primary" size="lg">
                 {slide.ctaText || "Learn more"}
               </Button>
@@ -125,7 +125,7 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
               </Button>
             </div>
             {slide.ctaSecondaryText && (
-              <p className="mt-6 text-purple-300 text-base md:text-lg">
+              <p className="mt-6 text-purple-300 text-sm md:text-base lg:text-lg">
                 {slide.ctaSecondaryText}
               </p>
             )}
