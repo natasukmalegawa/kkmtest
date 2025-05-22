@@ -3,7 +3,15 @@
 import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
 import { urlForImage } from '@/lib/sanity-image'
-import { HeroSlide } from '@/types'
+
+// Buat tipe HeroSlide di dalam file Hero.tsx
+type HeroSlide = {
+  title?: string
+  subtitle?: string
+  ctaText?: string
+  ctaSecondaryText?: string
+  backgroundImage?: any
+}
 
 type HeroProps = {
   title: string
