@@ -69,120 +69,89 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
     : { background: backgroundImageUrl }
 
   return (
-    <section className="relative min-h-[100vh] overflow-hidden flex items-center justify-center">
+    <section className="relative min-h-[85vh] sm:min-h-[80vh] overflow-hidden">
       {/* Background */}
       <div
         className="absolute inset-0 bg-center bg-cover transition-opacity duration-1000"
         style={backgroundStyle}
       >
-        {/* Overlay lebih gelap */}
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
-      <div className="container relative z-10 mx-auto px-0 w-full flex flex-col items-center">
-        {heroSlides.map((slide, index) => (
-          <div
-            key={index}
-            className={`w-full max-w-4xl px-4 sm:px-6 transition-all duration-500 absolute left-1/2 -translate-x-1/2 ${
-              index === safeActiveSlide
-                ? 'opacity-100 transform translate-y-0'
-                : 'opacity-0 transform translate-y-8 pointer-events-none'
-            } ${isFirstRender ? 'transition-none' : ''}`}
-            style={{
-              // Konten di posisi lebih ke atas, tombol jauh di bawah
-              top: '0',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              height: '100vh',
-              paddingTop: '18vh',
-              paddingBottom: '8vh',
-            }}
-          >
-            {/* Heading 1 */}
-            <h1 className="
-              text-white
-              text-2xl
-              xs:text-3xl
-              sm:text-4xl
-              md:text-5xl
-              lg:text-6xl
-              font-bold
-              mb-2
-              leading-tight
-              tracking-tight
-              text-center
-              px-2
-              sm:px-0
-              drop-shadow-lg
-            ">
-              {slide.title || "We help you grow, create, and stand out."}
-            </h1>
-            {/* Subtitle */}
-            <p className="
-              text-white
-              text-base
-              xs:text-lg
-              md:text-xl
-              lg:text-2xl
-              font-normal
-              mb-12
-              md:mb-16
-              text-center
-              px-2
-              sm:px-0
-              drop-shadow
-            ">
-              {slide.subtitle || "Your journey starts here."}
-            </p>
-            {/* Spacer besar untuk jarak ke button */}
-            <div className="h-12 md:h-16"></div>
-            {/* CTA Button */}
-            <div className="flex flex-wrap justify-center gap-2 xs:gap-4 md:gap-6 pb-2">
-              <Button
-                onClick={scrollToAbout}
-                variant="primary"
-                size="sm"
-                className="text-xs xs:text-sm sm:text-base md:text-lg px-4 py-2 sm:px-6 sm:py-3"
-              >
-                {slide.ctaText || "Learn more"}
-              </Button>
-              <Button
-                onClick={scrollToAbout}
-                variant="outline"
-                size="sm"
-                className="text-xs xs:text-sm sm:text-base md:text-lg px-4 py-2 sm:px-6 sm:py-3"
-              >
-                Contact us
-              </Button>
-            </div>
-            {/* ctaSecondaryText */}
-            {slide.ctaSecondaryText && (
-              <p className="mt-6 text-purple-300 text-xs md:text-base lg:text-lg text-center">
-                {slide.ctaSecondaryText}
-              </p>
-            )}
-          </div>
-        ))}
+      {/* Dot navigator - ABSOLUTE DI PALING BAWAH HERO */}
+      {heroSlides.length > 1 && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
+          {heroSlides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === safeActiveSlide
+                  ? 'bg-white w-6'
+                  : 'bg-white/50 hover:bg-white/80'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
 
-        {/* Carousel indicators */}
-        {heroSlides.length > 1 && (
-          <div className="absolute bottom-6 flex space-x-2 left-1/2 -translate-x-1/2">
-            {heroSlides.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === safeActiveSlide
-                    ? 'bg-white w-6'
-                    : 'bg-white/50 hover:bg-white/80'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
+      <div className="relative z-10 flex flex-col items-center w-full h-full min-h-[85vh] sm:min-h-[80vh]">
+        {/* Heading container - bagian tengah atas hero */}
+        <div className="w-full max-w-2xl flex flex-col items-center pt-12 sm:pt-16 md:pt-20 px-4 sm:px-0">
+          <h1 className="
+            text-white
+            drop-shadow-lg
+            text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl
+            font-bold
+            mb-2
+            leading-tight
+            tracking-tight
+            text-center
+            px-2 sm:px-0
+          ">
+            {currentSlide.title || "We help you grow, create, and stand out."}
+          </h1>
+          <p className="
+            text-white
+            drop-shadow
+            text-base xs:text-lg md:text-xl lg:text-2xl
+            font-normal
+            mb-0
+            text-center
+            px-2 sm:px-0
+          ">
+            {currentSlide.subtitle || "Your journey starts here."}
+          </p>
+        </div>
+        {/* Spacer agar tengah hero kosong */}
+        <div className="flex-1" />
+        {/* CTA button di bawah tapi di atas dot navigator */}
+        <div className="w-full flex flex-col items-center pb-20">
+          <div className="flex flex-wrap justify-center gap-2 xs:gap-4 md:gap-6">
+            <Button
+              onClick={scrollToAbout}
+              variant="primary"
+              size="sm"
+              className="text-xs xs:text-sm sm:text-base md:text-lg px-4 py-2 sm:px-6 sm:py-3"
+            >
+              {currentSlide.ctaText || "Learn More"}
+            </Button>
+            <Button
+              onClick={scrollToAbout}
+              variant="outline"
+              size="sm"
+              className="text-xs xs:text-sm sm:text-base md:text-lg px-4 py-2 sm:px-6 sm:py-3"
+            >
+              Contact us
+            </Button>
           </div>
-        )}
+          {currentSlide.ctaSecondaryText && (
+            <p className="mt-6 text-purple-300 text-xs md:text-base lg:text-lg text-center">
+              {currentSlide.ctaSecondaryText}
+            </p>
+          )}
+        </div>
       </div>
     </section>
   )
