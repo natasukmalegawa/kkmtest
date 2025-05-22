@@ -24,6 +24,9 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
     }
   }
   
+  // Debug: Cek slides dari Sanity
+  console.log('Debugging slides dari Sanity:', slides)
+  
   // Gunakan slides dari Sanity jika tersedia, jika tidak buat slide default
   const heroSlides = slides && slides.length > 0 
     ? slides 
@@ -36,7 +39,14 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
   
   // Setup slideshow interval
   useEffect(() => {
+    // Hapus interval sebelumnya jika ada
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+    }
+    
+    // Hanya atur interval jika ada lebih dari 1 slide
     if (heroSlides.length > 1) {
+      console.log('Setting up slideshow with', heroSlides.length, 'slides')
       intervalRef.current = setInterval(() => {
         setActiveSlide(prev => (prev + 1) % heroSlides.length)
       }, 6000)
@@ -65,12 +75,16 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
     }, 6000)
   }
   
-  const currentSlide = heroSlides[activeSlide]
-  const backgroundImageUrl = currentSlide.backgroundImage 
+  // Pastikan activeSlide tidak melebihi jumlah slides
+  const safeActiveSlide = Math.min(activeSlide, heroSlides.length - 1)
+  const currentSlide = heroSlides[safeActiveSlide]
+  
+  // Tangani kemungkinan currentSlide undefined
+  const backgroundImageUrl = currentSlide && currentSlide.backgroundImage 
     ? urlForImage(currentSlide.backgroundImage).url() 
     : 'linear-gradient(180deg, #a6c1ee 0%, #fbc2eb 100%)'
   
-  const backgroundStyle = currentSlide.backgroundImage 
+  const backgroundStyle = currentSlide && currentSlide.backgroundImage 
     ? { backgroundImage: `url(${backgroundImageUrl})` }
     : { background: backgroundImageUrl }
   
@@ -90,7 +104,7 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
           <div 
             key={index}
             className={`w-full max-w-4xl px-4 sm:px-6 transition-all duration-500 absolute ${
-              index === activeSlide 
+              index === safeActiveSlide 
                 ? 'opacity-100 transform translate-y-0' 
                 : 'opacity-0 transform translate-y-8 pointer-events-none'
             } ${isFirstRender ? 'transition-none' : ''}`}
@@ -126,7 +140,7 @@ export function Hero({ title, subtitle, ctaText, backgroundImage, slides = [] }:
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === activeSlide 
+                  index === safeActiveSlide 
                     ? 'bg-white w-6' 
                     : 'bg-white/50 hover:bg-white/80'
                 }`}
