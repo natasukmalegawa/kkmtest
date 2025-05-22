@@ -17,7 +17,7 @@ export default async function Home() {
   const programs = await getPrograms()
   const upcomingPrograms = await getUpcomingPrograms()
   const teamMembers = await getTeamMembers()
-  const articles = await getArticles(4) // Limit to 4 articles
+  const articles = await getArticles(6) // Limit to 4 articles
   const galleries = await getGalleries()
   const contactCards = await getContactCards()
   const locationCard = await getLocationCard()
@@ -68,9 +68,9 @@ export default async function Home() {
       />
 
       <GallerySection
-        smallTitle="DOKUMENTASI"
-        title="Momen Berharga"
-        subtitle="Lihat dokumentasi kegiatan dan acara kami yang telah berlangsung"
+        smallTitle="DOKUMENTATION"
+        title="Precious Moments"
+        subtitle="View documentation of our ongoing activities and events."
         galleries={galleries}
       />
       <Contact
@@ -80,10 +80,10 @@ export default async function Home() {
         cards={contactCards || []}
       />
        <Location
-        smallTitle={siteSettings?.locationSmallTitle}
-        title={siteSettings?.locationTitle || "Find Us"}
-        subtitle={siteSettings?.locationSubtitle || "Visit our location or get directions to find us easily."}
-        card={locationCard}
+       smallTitle={siteSettings?.locationSmallTitle || "OUR LOCATION"}
+       title={siteSettings?.locationTitle || "Find Us"}
+       subtitle={siteSettings?.locationSubtitle || "Visit our location or get directions to find us easily."}
+       card={locationCard}
       />
     </>
   )
